@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'abdellah_shoping',
-    'abdellah_collections'
+    'abdellah_collections',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -76,8 +77,11 @@ WSGI_APPLICATION = 'abdellah_config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'Abdellah_Fashion',  # Database name
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017',  # MongoDB connection URL
+        }
     }
 }
 
