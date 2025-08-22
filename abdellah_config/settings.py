@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'abdellah_shoping',
     'abdellah_collections',
     'accounts',
+    'category',
     'products'
 ]
 
