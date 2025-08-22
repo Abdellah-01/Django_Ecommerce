@@ -1,0 +1,113 @@
+{% load static %}
+<footer class="footer footer_type_1 pt-5">
+    <div class="footer-middle container">
+      <div class="row row-cols-lg-5 row-cols-1">
+
+        <!-- Store Info -->
+        <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
+          <div class="logo mb-3">
+            <a href="index.html">
+              <img src="{% static 'abdellah_shoping/images/logo.png' %}" alt="Uomo" class="logo__image d-block" style="max-width:140px;">
+            </a>
+          </div>
+          <p class="footer-address">1418 River Drive, Suite 35 Cottonhall, CA 9622 United States</p>
+          <p class="m-0"><strong class="fw-medium">sale@uomo.com</strong></p>
+          <p><strong class="fw-medium">+1 246-345-0695</strong></p>
+
+          <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
+            <li><a href="#" class="footer__social-link d-block me-3"><i class="bi bi-facebook"></i></a></li>
+            <li><a href="#" class="footer__social-link d-block me-3"><i class="bi bi-twitter"></i></a></li>
+            <li><a href="#" class="footer__social-link d-block me-3"><i class="bi bi-instagram"></i></a></li>
+            <li><a href="#" class="footer__social-link d-block me-3"><i class="bi bi-youtube"></i></a></li>
+            <li><a href="#" class="footer__social-link d-block"><i class="bi bi-pinterest"></i></a></li>
+          </ul>
+        </div>
+        <!-- /.footer-column -->
+
+        <!-- Company -->
+        <div class="footer-column footer-menu mb-4 mb-lg-0">
+          <h6 class="sub-menu__title text-uppercase d-none d-lg-block">Company</h6>
+          <button class="accordion-button collapsed d-lg-none w-100 text-start" type="button" data-bs-toggle="collapse"
+            data-bs-target="#footer-company">
+            Company
+          </button>
+          <div class="collapse d-lg-block" id="footer-company">
+            <ul class="sub-menu__list list-unstyled">
+              <li><a href="about.html" class="menu-link">About Us</a></li>
+              <li><a href="about.html" class="menu-link">Careers</a></li>
+              <li><a href="about.html" class="menu-link">Affiliates</a></li>
+              <li><a href="blog_list1.html" class="menu-link">Blog</a></li>
+              <li><a href="contact.html" class="menu-link">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Shop -->
+        <div class="footer-column footer-menu mb-4 mb-lg-0">
+          <h6 class="sub-menu__title text-uppercase d-none d-lg-block">Shop</h6>
+          <button class="accordion-button collapsed d-lg-none w-100 text-start" type="button" data-bs-toggle="collapse"
+            data-bs-target="#footer-shop">
+            Shop
+          </button>
+          <div class="collapse d-lg-block" id="footer-shop">
+            <ul class="sub-menu__list list-unstyled">
+              <li><a href="shop2.html" class="menu-link">New Arrivals</a></li>
+              <li><a href="shop3.html" class="menu-link">Accessories</a></li>
+              <li><a href="shop4.html" class="menu-link">Men</a></li>
+              <li><a href="shop5.html" class="menu-link">Women</a></li>
+              <li><a href="shop1.html" class="menu-link">Shop All</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Help -->
+        <div class="footer-column footer-menu mb-4 mb-lg-0">
+          <h6 class="sub-menu__title text-uppercase d-none d-lg-block">Help</h6>
+          <button class="accordion-button collapsed d-lg-none w-100 text-start" type="button" data-bs-toggle="collapse"
+            data-bs-target="#footer-help">
+            Help
+          </button>
+          <div class="collapse d-lg-block" id="footer-help">
+            <ul class="sub-menu__list list-unstyled">
+              <li><a href="about.html" class="menu-link">Customer Service</a></li>
+              <li><a href="account_dashboard.html" class="menu-link">My Account</a></li>
+              <li><a href="store_location.html" class="menu-link">Find a Store</a></li>
+              <li><a href="about.html" class="menu-link">Legal & Privacy</a></li>
+              <li><a href="contact.html" class="menu-link">Contact</a></li>
+              <li><a href="about.html" class="menu-link">Gift Card</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Subscribe -->
+        <div class="footer-column footer-newsletter col-12 mb-4 mb-lg-0">
+          <h6 class="sub-menu__title text-uppercase d-none d-lg-block">Subscribe</h6>
+          <button class="accordion-button collapsed d-lg-none w-100 text-start" type="button" data-bs-toggle="collapse"
+            data-bs-target="#footer-subscribe">
+            Subscribe
+          </button>
+          <div class="collapse d-lg-block" id="footer-subscribe">
+            <p>Be the first to get the latest news about trends, promotions, and much more!</p>
+            <form class="footer-newsletter__form position-relative bg-body">
+              <input class="form-control border-white" type="email" name="email" placeholder="Your email address">
+              <input class="btn-link fw-medium bg-white position-absolute top-0 end-0 h-100 px-3" type="submit"
+                value="JOIN">
+            </form>
+            <div class="mt-4 pt-3">
+              <strong class="fw-medium">Secure payments</strong>
+              <p class="mt-2">
+                <img loading="lazy" src="{% static 'abdellah_shoping/images/payment-options.png' %}" alt="Payment Options">
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom container py-3 border-top border-secondary mt-4">
+      <div class="d-block d-md-flex align-items-center">
+        <span class="me-auto">©2024 Abdellah</span>
+      </div>
+    </div>
+  </footer>
