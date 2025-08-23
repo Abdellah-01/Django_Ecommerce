@@ -48,8 +48,8 @@
           <li class="navigation__item">
             <a href="{% url "abdellah_collections:collections_page" %}" class="navigation__link">Shop By Collection</a>
             <ul class="default-menu list-unstyled" style="left: 582px;">
-              {% if links %}
-                {% for collection in links %}
+              {% if clinks %}
+                {% for collection in clinks %}
                   <li class="sub-menu__item"><a href="{{collection.get_url}}" class="menu-link menu-link_us-s">{{collection.title}}</a></li>
                 {% endfor %}
               {% else %}
@@ -60,11 +60,11 @@
         </ul><!-- /.box-menu -->
         
         <li class="navigation__item">
-            <a href="collections.html" class="navigation__link">Shop By Category</a>
+            <a href="{% url "category_urls:category_page" %}" class="navigation__link">Shop By Category</a>
             <ul class="default-menu list-unstyled" style="left: 582px;">          
-              {% if all_category %}
-                {% for Category in all_category %}
-                  <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">{{Category.title}}</a></li>
+              {% if links %}
+                {% for category in links %}
+                  <li class="sub-menu__item"><a href="{{category.get_url}}" class="menu-link menu-link_us-s">{{category.title}}</a></li>
                 {% endfor %}
               {% else %}
                 <li class="sub-menu__item">No Categories!</li>

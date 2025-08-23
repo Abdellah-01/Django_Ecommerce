@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 class Category(models.Model):
@@ -6,6 +7,13 @@ class Category(models.Model):
     slug = models.SlugField(max_length=255, blank=True)  # no unique=True
     description = models.TextField(blank=True)
     category_image = models.ImageField(upload_to='images/categories/', blank=True)
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+    def get_url(self):
+        return reverse('category_urls:products_by_category_page', args=[self.slug])
 
     def __str__(self):
         return self.title

@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'abdellah_collections.context_processors.menu_links',  # Added context processor
+                'category.context_processors.menu_links',  # Added context processor
             ],
         },
     },

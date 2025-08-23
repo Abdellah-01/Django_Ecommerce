@@ -1,0 +1,63 @@
+{% extends "category/base.html" %}
+{% load static %}
+{% block content %}
+<main>
+  <div class="mb-4 pb-4"></div>
+
+  <!-- Page Title -->
+  <section class="lookbook container">
+    <h2 class="page-title text-center">All Categories</h2>
+  </section>
+
+  <!-- Category Collection -->
+  <section class="lookbook-collection">
+    <div class="container">
+      {% for row in chunks %}
+        <div class="row">
+
+          <!-- Left Big Item -->
+          <div class="col-lg-6">
+            {% if row.0 %}
+              <a href="{{ row.0.get_url }}"
+                 class="lookbook-collection__item size-lg position-relative mt-1 mb-4 effect border-plus">
+                <div class="lookbook-collection__item-image">
+                  {% if row.0.category_image %}
+                    <img loading="lazy" src="{{ row.0.category_image.url }}" alt="{{ row.0.title }}">
+                  {% else %}
+                    <img loading="lazy" src="{% static 'images/lookbook/default.jpg' %}" alt="No image">
+                  {% endif %}
+                </div>
+                <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
+                  <p class="text-uppercase mb-1">Starting At ₹499</p>
+                  <h3>{{ row.0.title }}</h3>
+                </div>
+              </a>
+            {% endif %}
+          </div>
+
+          <!-- Right Two Stacked Items -->
+          <div class="col-lg-6 d-flex flex-column">
+            {% for col in row|slice:"1:3" %}
+              <a href="{{ col.get_url }}"
+                 class="lookbook-collection__item position-relative flex-grow-1 mt-1 mb-4 effect border-plus">
+                <div class="lookbook-collection__item-image">
+                  {% if col.category_image %}
+                    <img loading="lazy" src="{{ col.category_image.url }}" alt="{{ col.title }}">
+                  {% else %}
+                    <img loading="lazy" src="{% static 'images/lookbook/default.jpg' %}" alt="No image">
+                  {% endif %}
+                </div>
+                <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
+                  <p class="text-uppercase mb-1">Starting At ₹499</p>
+                  <h3>{{ col.title }}</h3>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock content %}
