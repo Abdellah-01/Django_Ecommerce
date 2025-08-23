@@ -22277,3 +22277,20 @@ body.coming-soon-page .header {
 .footer select option {
   color: #000; /* so dropdown text visible */
 }
+/* Prices */
+.product-single__price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.current-price {
+  color: #6b2f4d; /* Matches your image purple */
+  font-size: 22px;
+}
+
+.compare-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 19px;
+}

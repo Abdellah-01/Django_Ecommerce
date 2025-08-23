@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from abdellah_collections.models import Collection
 from category.models import Category
@@ -18,6 +19,9 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    def get_url(self):
+        return reverse("products:product_details_page", args=[self.slug])
 
     def save(self, *args, **kwargs):
         if not self.slug:  # Only generate if slug is empty

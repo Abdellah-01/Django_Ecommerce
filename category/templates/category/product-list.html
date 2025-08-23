@@ -53,11 +53,11 @@
                     <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                       <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                          <a href="product-details.html"><img loading="lazy" src="{{product.product_image.url}}" width="330"
+                          <a href="{{product.get_url}}"><img loading="lazy" src="{{product.product_image.url}}" width="330"
                               height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                         </div><!-- /.pc__img-wrapper -->
                         <div class="swiper-slide">
-                          <a href="product-details.html"><img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330"
+                          <a href="{{product.get_url}}"><img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330"
                               height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
                         </div><!-- /.pc__img-wrapper -->
                       </div>
@@ -77,7 +77,7 @@
 
                   <div class="pc__info position-relative">
                     <p class="pc__category">{{product.collection}}</p>
-                    <h6 class="pc__title"><a href="product-details.html">{{product.product_name}}</a></h6>
+                    <h6 class="pc__title"><a href="{{product.get_url}}">{{product.product_name}}</a></h6>
                     
                     <div class="product-card__price d-flex gap-2">
                       <span class="money price price-sale">₹{{product.price}}</span>
