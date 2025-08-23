@@ -46,11 +46,11 @@
             <a href="{% url "products:products_page" %}" class="navigation__link">New Arrivals</a>
           </li>
           <li class="navigation__item">
-            <a href="collections.html" class="navigation__link">Shop By Collection</a>
+            <a href="{% url "abdellah_collections:collections_page" %}" class="navigation__link">Shop By Collection</a>
             <ul class="default-menu list-unstyled" style="left: 582px;">
-              {% if all_collections %}
-                {% for collection in all_collections %}
-                  <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">{{collection.title}}</a></li>
+              {% if links %}
+                {% for collection in links %}
+                  <li class="sub-menu__item"><a href="{{collection.get_url}}" class="menu-link menu-link_us-s">{{collection.title}}</a></li>
                 {% endfor %}
               {% else %}
                 <li class="sub-menu__item">No Collections!</li>

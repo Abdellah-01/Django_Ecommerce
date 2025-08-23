@@ -15,10 +15,10 @@
     </a>
 
     <div class="logo">
-      <a href="index.html">
+      <a href="{% url "abdellah_shoping:home_page" %}">
         <img
           src="{% static 'abdellah_shoping/images/logo.png' %}"
-          alt="Uomo"
+          alt="Abdellah"
           class="logo__image d-block"
         />
       </a>
@@ -134,9 +134,9 @@
                 >Shop By Collection</a
               >
               <div class="sub-menu__wrapper">
-                {% if all_collections %}
-                 {% for collection in all_collections %}
-                  <a href="#"
+                {% if links %}
+                 {% for collection in links %}
+                  <a href="{{collection.get_url}}"
                   class="navigation__link js-nav-right d-flex align-items-center"
                   >{{collection.title}}</a>
                  {% endfor %}

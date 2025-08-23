@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 class Collection(models.Model):
@@ -7,6 +8,13 @@ class Collection(models.Model):
     description = models.TextField(blank=True)
     collection_image = models.ImageField(upload_to='images/collections/', blank=True)
 
+    class Meta:
+        verbose_name = 'Collection'
+        verbose_name_plural = 'Collections'
+
+    def get_url(self):
+        return reverse('abdellah_collections:products_by_collection_page', args=[self.slug])  # changed from 'collection_slug
+        
     def __str__(self):
         return self.title
 
