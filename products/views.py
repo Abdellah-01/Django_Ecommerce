@@ -10,8 +10,10 @@ all_category = Category.objects.all()
 
 def product_list(request):
     all_products = Product.objects.filter(is_available__in=[True])
+    product_count = all_products.count()
     context = {
         "all_products": all_products,
+        "product_count": product_count,
         'all_collections':all_collections,
         'all_category':all_category,
     }
