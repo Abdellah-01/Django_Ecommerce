@@ -32,7 +32,7 @@
 
     <div class="header-desk header-desk_type_4">
       <div class="logo">
-        <a href="./index.html">
+        <a href="{% url "abdellah_shoping:home_page" %}">
           <img src="{% static 'abdellah_shoping/images/logo.png' %}" width="130px" alt="Uomo" class="logo__image d-block">
         </a>
       </div><!-- /.logo -->
@@ -40,26 +40,36 @@
       <nav class="navigation">
         <ul class="navigation__list list-unstyled d-flex">
           <li class="navigation__item">
-            <a href="#" class="navigation__link">Home</a>
+            <a href="{% url "abdellah_shoping:home_page" %}" class="navigation__link">Home</a>
           </li>
           <li class="navigation__item">
-            <a href="product-list.html" class="navigation__link">New Arrivals</a>
+            <a href="{% url "products:products_page" %}" class="navigation__link">New Arrivals</a>
           </li>
           <li class="navigation__item">
-            <a href="collections.html" class="navigation__link">Themed Collections</a>
+            <a href="collections.html" class="navigation__link">Shop By Collection</a>
             <ul class="default-menu list-unstyled" style="left: 582px;">
-              <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">Shirts</a></li>
-              <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">T-Shirts</a></li>
-              <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">Pants</a></li>
+              {% if all_collections %}
+                {% for collection in all_collections %}
+                  <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">{{collection.title}}</a></li>
+                {% endfor %}
+              {% else %}
+                <li class="sub-menu__item">No Collections!</li>
+              {% endif %}
           </li>
+          
         </ul><!-- /.box-menu -->
-        </li>
+        
         <li class="navigation__item">
-          <a href="faq.html" class="navigation__link">FAQ</a>
-        </li>
-        <li class="navigation__item">
-          <a href="contact.html" class="navigation__link">Contact</a>
-        </li>
+            <a href="collections.html" class="navigation__link">Shop By Category</a>
+            <ul class="default-menu list-unstyled" style="left: 582px;">          
+              {% if all_category %}
+                {% for Category in all_category %}
+                  <li class="sub-menu__item"><a href="product-list.html" class="menu-link menu-link_us-s">{{Category.title}}</a></li>
+                {% endfor %}
+              {% else %}
+                <li class="sub-menu__item">No Categories!</li>
+              {% endif %}          </li>
+        
         </ul><!-- /.navigation__list -->
       </nav><!-- /.navigation -->
 

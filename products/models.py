@@ -15,7 +15,7 @@ class Product(models.Model):
     product_image = models.ImageField(upload_to='images/products/')
     more_info = models.TextField(blank=True)
     tags = models.CharField(max_length=255, blank=True)
-    is_available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

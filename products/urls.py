@@ -1,4 +1,8 @@
 from django.urls import path
 from . import views
 
-urlpatterns = []
+app_name = "products"
+
+urlpatterns = [
+    path("", views.product_list, name="products_page"),
+]
