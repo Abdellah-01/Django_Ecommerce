@@ -3,8 +3,27 @@ from django.urls import reverse
 from django.utils.text import slugify
 from abdellah_collections.models import Collection
 from category.models import Category
+from multiselectfield import MultiSelectField
 
 class Product(models.Model):
+    SIZE_CHOICES = [
+        ('xs', 'xs'),
+        ('s', 's'),
+        ('m', 'm'),
+        ('l', 'l'),
+        ('xl', 'xl'),
+        ('xxl', 'xxl'),
+        ('xxxl', 'xxxl'),
+        ('28', '28'),
+        ('30', '30'),
+        ('32', '32'),
+        ('34', '34'),
+        ('36', '36'),
+        ('38', '38'),
+        ('40', '40'),
+        ('42', '42'),
+        ('44', '44'),
+    ]
     product_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)  # make slug unique & allow blank
     description = models.TextField(blank=True)
@@ -19,6 +38,8 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    sizes = MultiSelectField(choices=SIZE_CHOICES, blank=True)
 
     def get_url(self):
         return reverse("products:product_details_page", args=[self.slug])

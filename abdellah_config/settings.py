@@ -86,11 +86,12 @@ AUTH_USER_MODEL = 'accounts.Account' # Custom user model
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'Abdellah_Ecommerce',  # Database name
-        'CLIENT': {
-            'host': 'mongodb://localhost:27017',  # MongoDB connection URL
-        }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'abdellah_django',
+        'USER': 'root', 
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
