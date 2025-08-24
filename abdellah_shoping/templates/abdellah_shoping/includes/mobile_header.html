@@ -52,7 +52,7 @@
   >
     <div class="container">
       <form
-        action="https://uomo-html.flexkitux.com/Demo2/search.html"
+        action="{% url "abdellah_shoping:search_page" %}"
         method="GET"
         class="search-field position-relative mt-4 mb-3"
       >
@@ -134,8 +134,8 @@
                 >Shop By Collection</a
               >
               <div class="sub-menu__wrapper">
-                {% if links %}
-                 {% for collection in links %}
+                {% if clinks %}
+                 {% for collection in clinks %}
                   <a href="{{collection.get_url}}"
                   class="navigation__link js-nav-right d-flex align-items-center"
                   >{{collection.title}}</a>
@@ -179,9 +179,9 @@
                 >Shop By Category</a
               >
               <div class="sub-menu__wrapper">
-                {% if all_category %}
-                 {% for category in all_category %}
-                  <a href="#"
+                {% if links %}
+                 {% for category in links %}
+                  <a href="{{category.get_url}}"
                   class="navigation__link js-nav-right d-flex align-items-center"
                   >{{category.title}}</a>
                  {% endfor %}
