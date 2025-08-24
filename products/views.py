@@ -20,7 +20,7 @@ def product_list(request):
 def product_details(request, product_slug):
     try:
         single_product = Product.objects.get(slug=product_slug)
-        related_products = Product.objects.filter(collection=single_product.collection).exclude(id__in=[single_product.id])[:4]
+        related_products = Product.objects.filter(collection=single_product.collection).exclude(id__in=[single_product.id])[:10]
         in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
     except Exception as e:
         raise e
