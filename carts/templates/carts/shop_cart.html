@@ -51,14 +51,14 @@
                 <tr>
                   <td>
                     <div class="shopping-cart__product-item">
-                      <a href="product1_simple.html">
+                      <a href="{{cart_item.product.get_url}}">
                         <img loading="lazy" src="{{cart_item.product.product_image.url}}" width="120" height="120" alt="">
                       </a>
                     </div>
                   </td>
                   <td>
                     <div class="shopping-cart__product-item__detail">
-                      <h4><a href="product1_simple.html">{{cart_item.product.product_name}}</a></h4>
+                      <h4><a href="{{cart_item.product.get_url}}">{{cart_item.product.product_name}}</a></h4>
                       <ul class="shopping-cart__product-item__options">
                         <li>Color: Yellow</li>
                         <li>Size: L</li>
