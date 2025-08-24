@@ -157,10 +157,10 @@
                 <div class="qty-control__increase">+</div>
               </div><!-- .qty-control -->
               {% if single_product.stock <= 0 %}
-              <button type="submit" class="btn btn-primary btn-addtocart btn-outofstock" fdprocessedid="tj539u">Out of Stock</button>
+              <a class="btn btn-primary btn-addtocart btn-outofstock" fdprocessedid="tj539u">Out of Stock</a>
               {% else %}
-              <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to
-                Cart</button>
+              <a href='{% url "carts_urls:add_cart_page" product_id=single_product.id %}' class="btn btn-primary btn-addtocart">Add to
+                Cart</a>
               {% endif %}
               
                 
