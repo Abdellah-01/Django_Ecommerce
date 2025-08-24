@@ -46,7 +46,7 @@
     {% include "abdellah_shoping/includes/mobile_header.html" %}
 
     <!-- Desktop Header -->
-    {% include "abdellah_shoping/includes/desktop_header.html" %} 
+    {% include "abdellah_shoping/includes/desktop_header.html" %}
     {% block content %} {% endblock content %}
 
     <!-- Footer Type 2 Dark -->
@@ -56,8 +56,8 @@
     {% include "abdellah_shoping/includes/mobile_footer.html" %}
 
     <!-- Cart Drawer -->
-    {% include "abdellah_shoping/includes/cart.html" %}
-    
+    {% include "carts/includes/cart.html" %}
+
     <!-- Shop Filter -->
     {% include "products/includes/filter.html" %}
 
@@ -78,5 +78,4 @@
     <!-- Footer Scripts -->
     <script src="{% static 'collections/js/theme.js' %}"></script>
   </body>
-
 </html>

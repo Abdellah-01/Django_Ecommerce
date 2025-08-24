@@ -97,7 +97,10 @@
             {% if single_product.compare_at_price %}
               <span class="compare-price">₹{{single_product.compare_at_price}}</span>
             {% endif %}
-            <div class="btn btn-primary btn-lg" style="padding: 0 5px;">Save ₹299</div>
+            <div class="btn btn-primary btn-lg" style="padding: 0 5px;">
+                Save ₹{{ product.save_rs }}
+            </div>
+
 
           </div>
 
@@ -197,8 +200,8 @@
                 </div>
               </details>
             </share-button>
-            <script src="js/details-disclosure.js" defer="defer"></script>
-            <script src="js/share.js" defer="defer"></script>
+            <script src="{% static 'products/js/details-disclosure.js' %}" defer="defer"></script>
+            <script src="{% static 'products/js/share.js' %}" defer="defer"></script>
           </div>
           <div class="product-single__meta-info">
             <div class="meta-item">

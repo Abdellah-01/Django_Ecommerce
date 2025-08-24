@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from abdellah_collections.models import Collection
 from category.models import Category
+from decimal import Decimal
 
 class Product(models.Model):
     product_name = models.CharField(max_length=255)
@@ -22,6 +23,17 @@ class Product(models.Model):
 
     def get_url(self):
         return reverse("products:product_details_page", args=[self.slug])
+    
+    @property
+    def save_rs(self):
+        if self.compare_at_price and self.price:
+            price = Decimal(self.price)
+            compare_at_price = Decimal(self.compare_at_price)
+            if compare_at_price > price:
+                return compare_at_price - price
+        return Decimal(0)
+
+
 
     def save(self, *args, **kwargs):
         if not self.slug:  # Only generate if slug is empty
