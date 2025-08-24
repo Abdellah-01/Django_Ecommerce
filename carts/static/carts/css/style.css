@@ -22294,3 +22294,7 @@ body.coming-soon-page .header {
   color: #999;
   font-size: 19px;
 }
+
+.shopping-cart__product-item img {
+    width: 5.5rem !important;
+}

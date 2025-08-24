@@ -70,9 +70,17 @@
                           <use href="#icon_next_sm" />
                         </svg></span>
                     </div>
-                    <button
-                      class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                      data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                    {% if product.stock <= 0 %}
+                    <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                      <div class="pc-labels__right ms-auto">
+                        <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
+                      </div>
+                    </div>
+                    {% else %}
+                    <a href='{% url "carts_urls:add_cart_page" product_id=product.id %}'
+                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add To Cart</a>
+
+                  {% endif %}
                   </div>
 
                   <div class="pc__info position-relative">

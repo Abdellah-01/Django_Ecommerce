@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'abdellah_shoping',
     'products',
     'accounts',
@@ -69,6 +70,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'abdellah_collections.context_processors.menu_links',  # Added context processor
                 'category.context_processors.menu_links',  # Added context processor
+                'carts.context_processors.cart_context',
             ],
         },
     },

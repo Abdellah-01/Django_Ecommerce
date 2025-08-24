@@ -1,5 +1,7 @@
 from django.db import models
 from products.models import Product
+from decimal import Decimal
+from bson.decimal128 import Decimal128
 
 # Create your models here.
 class Cart(models.Model):
@@ -15,8 +17,16 @@ class CartItem(models.Model):
     quantity = models.IntegerField()
     is_active = models.BooleanField(default=True)
 
-    # def sub_total(self):
-    #     return self.product.selling_price * self.quantity
+    def to_decimal(self, value):
+        """Convert Decimal128 or other numeric values to Python Decimal."""
+        if isinstance(value, Decimal128):
+            return value.to_decimal()
+        return Decimal(str(value))
+    
+    @property
+    def sub_total(self):
+        qty = self.quantity or 0
+        return self.to_decimal(self.product.price) * qty
 
     def __str__(self):
-        return self.product
+        return f"{self.product.product_name} (x{self.quantity})"
