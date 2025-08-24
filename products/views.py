@@ -5,14 +5,21 @@ from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import Category
 from .models import Product
+from django.core.paginator import Paginator
 
 # Create your views here.
 
 def product_list(request):
     all_products = Product.objects.filter(is_available__in=[True])
     product_count = all_products.count()
+
+    # Paginator
+    page_number = request.GET.get('page', 1)  # Get the page number from query params, default 1
+    paginator = Paginator(all_products, 3)    # Show 8 products per page
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "all_products": all_products,
+        "all_products": page_obj,
         "product_count": product_count,
     }
     return render(request, "products/product-list.html", context)

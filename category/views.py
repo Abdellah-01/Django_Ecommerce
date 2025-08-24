@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category
 from products.models import Product
+from django.core.paginator import Paginator
 
 def category_list(request):
     all_category = list(Category.objects.all())
@@ -25,6 +26,10 @@ def category_products(request, category_slug=None):
     else:
         all_products = Product.objects.all().filter(is_available__in=[True])
         product_count = all_products.count()
+    
+    paginator = Paginator(all_products, 3)  # 8 products per page
+    page_number = request.GET.get('page')
+    all_products = paginator.get_page(page_number)
 
     context = {
         'all_products':all_products,

@@ -131,21 +131,41 @@
       </div><!-- /.products-grid row -->
 
       <nav class="shop-pages d-flex justify-content-between mt-3" aria-label="Page navigation">
-        <a href="#" class="btn-link d-inline-flex align-items-center">
-          <svg class="me-1" width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm"></use></svg>
-          <span class="fw-medium">PREV</span>
-        </a>
-        <ul class="pagination mb-0">
-          <li class="page-item"><a class="btn-link px-1 mx-2 btn-link_active" href="#">1</a></li>
-          <li class="page-item"><a class="btn-link px-1 mx-2" href="#">2</a></li>
-          <li class="page-item"><a class="btn-link px-1 mx-2" href="#">3</a></li>
-          <li class="page-item"><a class="btn-link px-1 mx-2" href="#">4</a></li>
-        </ul>
-        <a href="#" class="btn-link d-inline-flex align-items-center">
-          <span class="fw-medium me-1">NEXT</span>
-          <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm"></use></svg>
-        </a>
-      </nav>
+  {% if all_products.has_previous %}
+  <a href="?page={{ all_products.previous_page_number }}" class="btn-link d-inline-flex align-items-center">
+    <svg class="me-1" width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm"></use></svg>
+    <span class="fw-medium">PREV</span>
+  </a>
+  {% else %}
+  <span class="btn-link d-inline-flex align-items-center text-muted">
+    <svg class="me-1" width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm"></use></svg>
+    <span class="fw-medium">PREV</span>
+  </span>
+  {% endif %}
+
+  <ul class="pagination mb-0">
+    {% for num in all_products.paginator.page_range %}
+      {% if all_products.number == num %}
+        <li class="page-item"><a class="btn-link px-1 mx-2 btn-link_active" href="?page={{ num }}">{{ num }}</a></li>
+      {% else %}
+        <li class="page-item"><a class="btn-link px-1 mx-2" href="?page={{ num }}">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  {% if all_products.has_next %}
+  <a href="?page={{ all_products.next_page_number }}" class="btn-link d-inline-flex align-items-center">
+    <span class="fw-medium me-1">NEXT</span>
+    <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm"></use></svg>
+  </a>
+  {% else %}
+  <span class="btn-link d-inline-flex align-items-center text-muted">
+    <span class="fw-medium me-1">NEXT</span>
+    <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm"></use></svg>
+  </span>
+  {% endif %}
+</nav>
+
       <div class="mb-5 pb-xl-5"></div>
       
 
