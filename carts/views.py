@@ -15,35 +15,34 @@ def _cart_id(request):
     return cart
 
 def add_cart(request, product_id):
-    quantity = request.GET['quantity']
-    size = request.GET['size']
-    return HttpResponse(f"Quantity: {quantity}, Size: {size}")
-    exit()
-    product = Product.objects.get(id=product_id) # get The Product
-    try:
-        cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
+    product = Product.objects.get(id=product_id)
+    selected_size = request.POST.get('size')   # get size from form
+    quantity = int(request.POST.get('quantity', 1))
 
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(
-            cart_id = _cart_id(request)
-        )
-        cart.save()
-    
     try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
-        if cart_item.quantity < cart_item.product.stock:
-            cart_item.quantity += 1 # increase the cart item quantity
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+    except Cart.DoesNotExist:
+        cart = Cart.objects.create(cart_id=_cart_id(request))
+        cart.save()
+
+    try:
+        cart_item = CartItem.objects.get(product=product, cart=cart, size=selected_size)
+        if cart_item.quantity + quantity <= cart_item.product.stock:
+            cart_item.quantity += quantity
+        else:
+            cart_item.quantity = cart_item.product.stock
         cart_item.save()
     except CartItem.DoesNotExist:
         cart_item = CartItem.objects.create(
-            product = product,
-            quantity = 1,
-            cart = cart,
+            product=product,
+            quantity=quantity,
+            cart=cart,
+            size=selected_size,   # ✅ save size here
         )
         cart_item.save()
-    # return HttpResponse(cart_item.quantity)
-    # exit()
+
     return redirect('carts_urls:view_cart_page')
+
 
 def remove_cart(request, product_id):
     cart = Cart.objects.get(cart_id=_cart_id(request))

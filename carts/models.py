@@ -13,8 +13,10 @@ class Cart(models.Model):
     
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    variations = models.ManyToManyField(Product, blank=True, related_name="variation_items")
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+    size = models.CharField(max_length=20, blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
     def to_decimal(self, value):
@@ -28,5 +30,5 @@ class CartItem(models.Model):
         qty = self.quantity or 0
         return self.to_decimal(self.product.price) * qty
 
-    def __str__(self):
+    def __unicode__(self):
         return f"{self.product.product_name} (x{self.quantity})"
