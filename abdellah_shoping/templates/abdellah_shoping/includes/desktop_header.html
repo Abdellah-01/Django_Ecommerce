@@ -68,7 +68,7 @@
                 {% endfor %}
               {% else %}
                 <li class="sub-menu__item">No Categories!</li>
-              {% endif %}          </li>
+              {% endif %}        
         
         </ul><!-- /.navigation__list -->
       </nav><!-- /.navigation -->
@@ -104,13 +104,16 @@
                 <div class="sub-menu search-suggestion">
                   <h6 class="sub-menu__title fs-base">Quicklinks</h6>
                   <ul class="sub-menu__list list-unstyled">
-                    <li class="sub-menu__item"><a href="./shop2.html" class="menu-link menu-link_us-s">New Arrivals</a>
+                    
+                    {% if links %}
+                      {% for category in links %}
+                        <li class="sub-menu__item"><a href="{{category.get_url}}" class="menu-link menu-link_us-s">{{category.title}}</a>
                     </li>
-                    <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Dresses</a></li>
-                    <li class="sub-menu__item"><a href="./shop3.html" class="menu-link menu-link_us-s">Accessories</a>
-                    </li>
-                    <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Footwear</a></li>
-                    <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Sweatshirt</a></li>
+                      {% endfor %}
+                    {% else %}
+                      <li class="sub-menu__item">No Categories!</li>
+                    {% endif %}  
+                    
                   </ul>
                 </div>
 
