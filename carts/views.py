@@ -15,60 +15,65 @@ def _cart_id(request):
     return cart
 
 def add_cart(request, product_id):
-    product = Product.objects.get(id=product_id)
-    selected_size = request.POST.get('size')   # get size from form
+    product = get_object_or_404(Product, id=product_id)
+    selected_size = request.POST.get('size')   # ✅ size comes from form
     quantity = int(request.POST.get('quantity', 1))
 
+    # get or create cart
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
     except Cart.DoesNotExist:
         cart = Cart.objects.create(cart_id=_cart_id(request))
         cart.save()
 
+    # get or create cart item (match product + cart + size)
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart, size=selected_size)
-        if cart_item.quantity + quantity <= cart_item.product.stock:
+        # ✅ check stock before increasing
+        if cart_item.quantity + quantity <= product.stock:
             cart_item.quantity += quantity
         else:
-            cart_item.quantity = cart_item.product.stock
+            cart_item.quantity = product.stock
         cart_item.save()
     except CartItem.DoesNotExist:
+        if quantity > product.stock:
+            quantity = product.stock
         cart_item = CartItem.objects.create(
             product=product,
-            quantity=quantity,
             cart=cart,
-            size=selected_size,   # ✅ save size here
+            size=selected_size,
+            quantity=quantity
         )
         cart_item.save()
 
     return redirect('carts_urls:view_cart_page')
 
 
-def remove_cart(request, product_id):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Product, id=product_id)
+
+def remove_cart(request, cart_item_id):
     try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
+        cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
         if cart_item.quantity > 1:
             cart_item.quantity -= 1
             cart_item.save()
         else:
             cart_item.delete()
     except CartItem.DoesNotExist:
-        pass  # or redirect with a message
-    
+        pass
+
     return redirect('carts_urls:view_cart_page')
 
-def remove_cart_item(request, product_id):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Product, id=product_id)
+
+
+def remove_cart_item(request, cart_item_id):
     try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
+        cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
         cart_item.delete()
     except CartItem.DoesNotExist:
-        pass  # or redirect with a message
-    
+        pass
     return redirect('carts_urls:view_cart_page')
+
+
 
 def to_decimal(value):
     """Convert Decimal128 or other numeric values to Python Decimal."""
