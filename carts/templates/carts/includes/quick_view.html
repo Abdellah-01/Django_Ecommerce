@@ -1,0 +1,79 @@
+  <!-- Modal -->
+  <div class="shx-Cart-modal" id="shxCartModal">
+    <div class="shx-Cart-header">
+      <h3>Shopping Cart</h3>
+      <button class="shx-Cart-closeBtn" onclick="closeShxCart()">✕</button>
+    </div>
+    <div class="shx-Cart-body">
+      <div class="" style="padding: 10px 15px;">
+    
+      
+        <div class="cart-drawer-item d-flex position-relative">
+          <div class="position-relative">
+            <a href="product-details.html">
+              
+                <img loading="lazy" class="cart-drawer-item__img" src="/media/images/products/IMG_7755.JPG" alt="Beige Half Sleeve Shirt">
+              
+            </a>
+          </div>
+          <div class="cart-drawer-item__info flex-grow-1">
+            <h6 class="cart-drawer-item__title fw-normal">
+              <a href="product-details.html">Beige Half Sleeve Shirt</a>
+            </h6>
+            <p class="cart-drawer-item__option text-secondary">Size: s</p>
+            <div class="d-flex align-items-center justify-content-between mt-1">
+              
+              <span class="cart-drawer-item__price money price" style="font-size: 1rem;">
+                $1,299.00
+              </span>
+            </div>
+            <a class="btn-link btn-link_md default-underline text-uppercase fw-medium" style="font-size: 0.8rem;" href="./shop1.html">View Full Details</a>
+          </div>
+
+          <button class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
+        </div>
+        <hr>
+        <div class="product-single__swatches">
+                <div class="product-swatch text-swatches">
+                  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <label>Sizes</label>
+                  </div>
+                  <div class="swatch-list">
+                    
+                        <input type="radio" name="size" id="swatch-1" value="xs" checked="">
+                        <label class="swatch js-swatch" for="swatch-1">XS</label>
+                    
+                        <input type="radio" name="size" id="swatch-2" value="s">
+                        <label class="swatch js-swatch" for="swatch-2">S</label>
+                    
+                        <input type="radio" name="size" id="swatch-3" value="m">
+                        <label class="swatch js-swatch" for="swatch-3">M</label>
+                    
+                </div>
+              </div>
+        <div class="product-single__addtocart" style="flex-direction: column; align-items: flex-start;">
+          <label>Quantity</label>
+                <div class="qty-control position-relative qty-initialized">
+                  <input type="number" name="quantity" value="1" min="1" max="3" class="qty-control__number text-center">
+                  <div class="qty-control__reduce">-</div>
+                  <div class="qty-control__increase">+</div>
+                </div><!-- .qty-control -->              
+                  
+              </div>
+              <button type="submit" class="btn btn-primary btn-addtocart" style="width:100%">Add to
+                  Cart</button>
+                  <div class="text-center my-3">
+
+                    <a class="btn-link btn-link_md default-underline text-uppercase fw-medium" style="font-size: 0.8rem;" href="./shop1.html">View Full Details</a>
+                  </div>
+
+
+              </div>
+        <!-- /.cart-drawer-item -->
+
+        
+      
+    
+  </div>
+    </div>
+  </div>

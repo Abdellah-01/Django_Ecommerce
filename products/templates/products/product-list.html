@@ -77,8 +77,8 @@
                       </div>
                     </div>
                     {% else %}
-                    <a href='{% url "carts_urls:add_cart_page" product_id=product.id %}'
-                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add To Cart</a>
+                    <a
+                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium" onclick="openShxCart()">View Cart</a>
 
                   {% endif %}
                       
@@ -172,4 +172,7 @@
       
     </section><!-- /.shop-main container -->
   </main>
+
+    <!-- Overlay -->
+  <div class="shx-model-overlay" id="shxCartOverlay" onclick="closeShxCart()"></div>
 {% endblock content %}

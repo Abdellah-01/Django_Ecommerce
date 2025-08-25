@@ -1,0 +1,123 @@
+<!-- Size Guide Modal -->
+<div class="modal fade" id="sizeGuide" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg size-guide">
+    <div class="modal-content shadow-lg border-0 rounded-0">
+
+      <!-- Header -->
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-uppercase fw-bold">Size Guide</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs border-0 mb-4 justify-content-center" id="sizeGuideTab" role="tablist">
+          <li class="nav-item me-2">
+            <a class="nav-link active text-uppercase fw-semibold px-4 py-2 border rounded-0" 
+               id="size-chart-tab" data-bs-toggle="tab" data-bs-target="#sizeChart" role="tab">
+              Size Chart
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-uppercase fw-semibold px-4 py-2 border rounded-0"
+               id="measure-tab" data-bs-toggle="tab" data-bs-target="#measure" role="tab">
+              How to Measure
+            </a>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="sizeGuideTabContent">
+
+          <!-- Size Chart Tab -->
+          <div class="tab-pane fade show active" id="sizeChart" role="tabpanel" aria-labelledby="size-chart-tab">
+            <div class="row g-4">
+
+              <!-- Inch Table -->
+              <div class="col-12">
+                <h6 class="fw-bold text-uppercase mb-3 text-center">Measurements in Inches</h6>
+                <div class="table-responsive">
+                  <table class="size-table">
+                    <thead>
+                      <tr>
+                        <th>SIZE</th>
+                        {% for col in size_guide.table_data.columns %}
+                          <th>{{ col }}</th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in size_guide.table_data.rows %}
+                      <tr>
+                        <td class="fw-bold">{{ row.name }}</td>
+                        {% for val in row.values %}
+                          <td>{{ val }}</td>
+                        {% endfor %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- CM Table -->
+              <div class="col-12 mt-4">
+                <h6 class="fw-bold text-uppercase mb-3 text-center">Measurements in CM</h6>
+                <div class="table-responsive">
+                  <table class="size-table">
+                    <thead>
+                      <tr>
+                        <th>SIZE</th>
+                        {% for col in cm_table.columns %}
+                          <th>{{ col }}</th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in cm_table.rows %}
+                      <tr>
+                        <td class="fw-bold">{{ row.name }}</td>
+                        {% for val in row.values %}
+                          <td>{{ val }}</td>
+                        {% endfor %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- How to Measure Tab -->
+          <div class="tab-pane fade" id="measure" role="tabpanel" aria-labelledby="measure-tab">
+            <div class="row g-4 align-items-center">
+            <!-- Image -->
+            <div class="col-md-6 col-12 text-center">
+                <img loading="lazy" src="{{ size_guide.image.url }}" alt="How to Measure" 
+                    class="img-fluid rounded-0 shadow-sm border">
+            </div>
+
+            <!-- Text Content -->
+            <div class="col-md-6 col-12 text-start">
+                <h6 class="fw-bold text-uppercase mb-3">How to Measure</h6>
+                <ul class="list-unstyled">
+                <li><strong>Waist:</strong> Measure around your natural waistline, keeping the tape comfortably loose.</li>
+                <li><strong>Hip:</strong> Measure around the fullest part of your hips.</li>
+                <li><strong>Inseam:</strong> Measure from the crotch to the bottom of the ankle.</li>
+                <li><strong>Outseam:</strong> Measure from the top of the waistband to the ankle.</li>
+                </ul>
+            </div>
+            </div>
+
+          </div>
+
+        </div><!-- /.tab-content -->
+      </div><!-- /.modal-body -->
+
+    </div>
+  </div>
+</div>

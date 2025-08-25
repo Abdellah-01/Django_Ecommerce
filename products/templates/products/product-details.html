@@ -116,7 +116,9 @@
                 <div class="product-swatch text-swatches">
                   <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                     <label>Sizes</label>
+                    {% if single_product.size_guide %}
                     <a href="#" class="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
+                    {% endif %}
                   </div>
                   <div class="swatch-list">
                     {% for size in single_product.sizes %}

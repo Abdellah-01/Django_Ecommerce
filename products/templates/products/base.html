@@ -35,9 +35,50 @@
     />
     <link
       rel="stylesheet"
+      href="{% static 'products/css/quick_view.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
       href="{% static 'products/css/plugins/jquery.fancybox.css' %}"
       type="text/css"
     />
+
+    <style>
+  .size-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .size-table thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    padding: 12px;
+    border: 1px solid #ddd;
+  }
+
+  .size-table tbody td {
+    padding: 12px;
+    border: 1px solid #ddd;
+  }
+
+  .size-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  .size-table th:first-child,
+  .size-table td:first-child {
+    font-weight: 600;
+  }
+
+  .size-guide h6 {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+</style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -63,6 +104,9 @@
     <!-- Cart Drawer -->
     {% include "carts/includes/cart.html" %}
 
+    <!-- View Quick Drawer -->
+    {% include "carts/includes/quick_view.html" %}
+
     <!-- Shop Filter -->
     {% include "products/includes/filter.html" %}
 
@@ -72,26 +116,26 @@
     <div id="scrollTop" class="visually-hidden end-0"></div>
 
     <!-- Sizeguide -->
-<div class="modal fade" id="sizeGuide" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog size-guide">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Size Guide</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="size-guide__wrapper text-center">
-          <img loading="lazy" src="https://images.onlyandsons.com/media/hwhk4lix/os-sizeguide-en.jpg?v=030c40be-2fc0-4a52-95b5-4bbe4f028814&format=webp&width=2048&quality=80&key=1-1-3&bg-color=%23f5f5f5" alt="Size Guide" class="img-fluid rounded shadow">
-        </div>
-      </div>
-    </div>
-  </div><!-- /.modal-dialog -->
-</div><!-- /.size-guide -->
+{% include "products/includes/size_guide.html" %}
+
 
 
     <!-- Page Overlay -->
     <div class="page-overlay"></div>
     <!-- /.page-overlay -->
+
+      <script>
+        function openShxCart() {
+          document.getElementById("shxCartModal").classList.add("active");
+          document.getElementById("shxCartOverlay").classList.add("active");
+          document.body.classList.add("shx-model-open"); // lock body scroll
+        }
+        function closeShxCart() {
+          document.getElementById("shxCartModal").classList.remove("active");
+          document.getElementById("shxCartOverlay").classList.remove("active");
+          document.body.classList.remove("shx-model-open"); // unlock body scroll
+        }
+  </script>
 
     
     <script src="{% static 'products/js/plugins/jquery.min.js' %}"></script>

@@ -1,0 +1,102 @@
+    /* === Overlay === */
+    .shx-model-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease;
+      z-index: 999;
+    }
+
+    /* === Modal Base === */
+    .shx-Cart-modal {
+      position: fixed;
+      background: #fff;
+      width: 100%;              /* Mobile full width */
+      height: auto;             /* Height fits content */
+      bottom: 0;
+      right: 0;
+      transform: translateY(100%);
+      transition: transform .3s ease;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -2px 15px rgba(0,0,0,0.2);
+    }
+
+    /* === Header === */
+    .shx-Cart-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      background: #f9f9f9;
+    }
+    .shx-Cart-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .shx-Cart-closeBtn {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* === Body === */
+    .shx-Cart-body {
+      padding: 1rem;
+      max-height: 90vh; /* prevent huge overflow */
+      overflow-y: auto;
+    }
+
+    /* === Desktop: Slide from Right === */
+    @media (min-width: 768px) {
+      .shx-Cart-modal {
+        width: 440px;            /* Desktop fixed width */
+        height: 100%;            /* Full height */
+        border-radius: 0;
+        transform: translateX(100%);
+      }
+    }
+
+    /* === Active States === */
+    .shx-model-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .shx-Cart-modal.active {
+      transform: translateY(0);
+    }
+    @media (min-width: 768px) {
+      .shx-Cart-modal.active {
+        transform: translateX(0);
+      }
+    }
+
+    /* === Trigger Button === */
+    .shx-Cart-openBtn {
+      padding: 10px 20px;
+      border: none;
+      background: #111;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 2rem;
+    }
+
+    /* === Disable Body Scroll when modal active === */
+    body.shx-model-open {
+      overflow: hidden;
+    }
+
+    @media (max-width: 576px) {
+  /* mobile styles here */
+  .shx-Cart-body {
+      max-height: 65vh; 
+    }
+}

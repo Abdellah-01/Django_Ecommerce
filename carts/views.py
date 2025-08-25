@@ -105,7 +105,7 @@ def view_cart(request):
 
         tax = (Decimal('5') * total) / Decimal('100')   # 5% tax
         platform_fee = Decimal('12.00')
-        grand_total = total + tax + platform_fee
+        grand_total = total + platform_fee
 
     except ObjectDoesNotExist:
         cart_items = []

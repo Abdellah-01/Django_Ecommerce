@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Product
+from .models import Product, SizeGuide
+
+@admin.register(SizeGuide)
+class SizeGuideAdmin(admin.ModelAdmin):
+    list_display = ("title",)   # shows title in list view
+    search_fields = ("title",)  # makes it searchable
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'collection', 'category', 'price', 'stock', 'is_available', 'created_at', 'modified_at')
