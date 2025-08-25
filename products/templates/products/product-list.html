@@ -77,17 +77,23 @@
                       </div>
                     </div>
                     {% else %}
-                      <a
-                        class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
-                        onclick="openShxCart(this)"
-                        data-id="{{ product.id }}"
-                        data-name="{{ product.product_name }}"
-                        data-price="{{ product.price }}"
-                        data-image="{{ product.product_image.url }}"
-                        data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
-                        data-sizes="{{product.sizes}}">
-                        Quick View
-                      </a>
+<a
+  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+  onclick="openShxCart(this)"
+  data-id="{{ product.id }}"
+  data-name="{{ product.product_name }}"
+  data-price="{{ product.price }}"
+  data-image="{{ product.product_image.url }}"
+  data-stock="{{ product.stock }}"
+  data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+  data-sizes="{{ product.sizes }}">
+  Quick View
+</a>
+
+
+
+
+
 
                   {% endif %}
                       
