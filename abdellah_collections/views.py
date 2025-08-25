@@ -25,7 +25,7 @@ def all_products_collections(request, collection_slug=None):
         product_count = all_products.count()
 
     # ADD PAGINATOR
-    paginator = Paginator(all_products, 3)  # 8 products per page
+    paginator = Paginator(all_products, 20)  # 8 products per page
     page_number = request.GET.get('page')
     all_products = paginator.get_page(page_number)
 

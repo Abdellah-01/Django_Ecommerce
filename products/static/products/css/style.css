@@ -20554,13 +20554,13 @@ a.add-to-wishlist.active .flaticon.flaticon-heart {
     margin: 0;
   }
 }
-.shopping-cart .cart-table tbody td .remove-cart {
+.shopping-cart .cart-table tbody td .cart_item_removers {
   position: absolute;
   right: 0;
   top: 1rem;
 }
 @media (min-width: 768px) {
-  .shopping-cart .cart-table tbody td .remove-cart {
+  .shopping-cart .cart-table tbody td .cart_item_removers {
     position: static;
   }
 }
@@ -22293,4 +22293,10 @@ body.coming-soon-page .header {
   text-decoration: line-through;
   color: #999;
   font-size: 19px;
+}
+
+@media (max-width: 767px) {
+  .cart_item_removers {
+
+  }
 }

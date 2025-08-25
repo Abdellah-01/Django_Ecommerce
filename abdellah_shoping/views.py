@@ -15,6 +15,9 @@ def home(request):
     }
     return render(request, 'abdellah_shoping/index.html', context)
 
+def search_here(request):
+    return render(request, 'abdellah_shoping/search_here.html')
+
 def search(request):
     if 'search-keyword' in request.GET:
         keyword = request.GET['search-keyword']

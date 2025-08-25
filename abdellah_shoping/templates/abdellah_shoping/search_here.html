@@ -1,0 +1,44 @@
+{% extends "products/base.html" %}
+{% load static %}
+{% block content %}
+<main>
+  <div class="search-popup">
+            <form action="/search" method="GET" class="search-field container">
+              <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
+              <div class="position-relative">
+                <input class="search-field__input search-popup__input w-100 fw-medium" type="text" name="search-keyword" placeholder="Search products" fdprocessedid="kofy9">
+                <button class="btn-icon search-popup__submit" type="submit" fdprocessedid="muy3j3">
+                  <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_search"></use>
+                  </svg>
+                </button>
+                <button class="btn-icon btn-close-lg search-popup__reset" type="reset"></button>
+              </div>
+
+              <div class="search-popup__results">
+                <div class="sub-menu search-suggestion">
+                  <h6 class="sub-menu__title fs-base">Quicklinks</h6>
+                  <ul class="sub-menu__list list-unstyled">
+                    {% if links %}
+                      {% for category in links %}
+                        <li class="sub-menu__item"><a href="{{category.get_url}}" class="menu-link menu-link_us-s">{{category.title}}</a>
+                    </li>
+                      {% endfor %}
+                    {% else %}
+                      <li class="sub-menu__item">No Categories!</li>
+                    {% endif %}
+                      
+                      
+                    
+                  </ul>
+                </div>
+
+                <div class="search-result row row-cols-5"></div>
+              </div>
+            </form><!-- /.header-search -->
+          </div>
+</main>
+
+
+  <div class="mb-5 pb-xl-5"></div>
+{% endblock content %}

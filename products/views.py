@@ -10,12 +10,12 @@ from django.core.paginator import Paginator
 # Create your views here.
 
 def product_list(request):
-    all_products = Product.objects.filter(is_available__in=[True])
+    all_products = Product.objects.filter(is_available__in=[True]).order_by('-created_at')
     product_count = all_products.count()
 
     # Paginator
     page_number = request.GET.get('page', 1)  # Get the page number from query params, default 1
-    paginator = Paginator(all_products, 3)    # Show 8 products per page
+    paginator = Paginator(all_products, 20)    # Show 20 products per page
     page_obj = paginator.get_page(page_number)
 
     context = {
