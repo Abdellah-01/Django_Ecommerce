@@ -136,6 +136,37 @@
           document.body.classList.remove("shx-model-open"); // unlock body scroll
         }
   </script>
+<script>
+function openShxCart(el) {
+  if (!el) return;
+
+  // Extract product info
+  const name = el.getAttribute("data-name");
+  const price = el.getAttribute("data-price");
+  const image = el.getAttribute("data-image");
+  const url = el.getAttribute("data-url");
+
+  // Inject into modal
+  document.getElementById("modalProductName").innerText = name;
+  document.getElementById("modalProductTitle").innerText = name;
+  document.getElementById("modalProductTitle").href = url;
+  document.getElementById("modalProductUrl").href = url;
+  document.getElementById("modalViewDetails").href = url;
+  document.getElementById("modalViewDetailsBottom").href = url;
+  document.getElementById("modalProductImg").src = image;
+  document.getElementById("modalProductImg").alt = name;
+  document.getElementById("modalProductPrice").innerText = "₹" + price;
+
+  // Show modal + overlay
+  document.getElementById("shxCartModal").classList.add("active");
+  document.getElementById("shxCartOverlay").classList.add("active");
+}
+
+function closeShxCart() {
+  document.getElementById("shxCartModal").classList.remove("active");
+  document.getElementById("shxCartOverlay").classList.remove("active");
+}
+</script>
 
     
     <script src="{% static 'products/js/plugins/jquery.min.js' %}"></script>

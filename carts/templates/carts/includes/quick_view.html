@@ -1,79 +1,142 @@
-  <!-- Modal -->
-  <div class="shx-Cart-modal" id="shxCartModal">
-    <div class="shx-Cart-header">
-      <h3>Shopping Cart</h3>
-      <button class="shx-Cart-closeBtn" onclick="closeShxCart()">✕</button>
-    </div>
-    <div class="shx-Cart-body">
-      <div class="" style="padding: 10px 15px;">
-    
-      
+<!-- Quick View Modal -->
+<div class="shx-Cart-modal" id="shxCartModal">
+  <div class="shx-Cart-header">
+    <h3 id="modalProductName">Product</h3>
+    <button class="shx-Cart-closeBtn" onclick="closeShxCart()">✕</button>
+  </div>
+
+  <div class="shx-Cart-body">
+    <div style="padding: 10px 15px;">
+      <form action="" method="POST">
+        {% csrf_token %}
+
         <div class="cart-drawer-item d-flex position-relative">
           <div class="position-relative">
-            <a href="product-details.html">
-              
-                <img loading="lazy" class="cart-drawer-item__img" src="/media/images/products/IMG_7755.JPG" alt="Beige Half Sleeve Shirt">
-              
+            <a id="modalProductUrl" href="#">
+              <img loading="lazy" id="modalProductImg" class="cart-drawer-item__img" src="" alt="">
             </a>
           </div>
+
           <div class="cart-drawer-item__info flex-grow-1">
             <h6 class="cart-drawer-item__title fw-normal">
-              <a href="product-details.html">Beige Half Sleeve Shirt</a>
+              <a id="modalProductTitle" href="#"></a>
             </h6>
-            <p class="cart-drawer-item__option text-secondary">Size: s</p>
             <div class="d-flex align-items-center justify-content-between mt-1">
-              
-              <span class="cart-drawer-item__price money price" style="font-size: 1rem;">
-                $1,299.00
-              </span>
+              <span class="cart-drawer-item__price money price" id="modalProductPrice"></span>
             </div>
-            <a class="btn-link btn-link_md default-underline text-uppercase fw-medium" style="font-size: 0.8rem;" href="./shop1.html">View Full Details</a>
+            <a id="modalViewDetails" class="btn-link btn-link_md default-underline text-uppercase fw-medium" style="font-size: 0.8rem;" href="#">View Full Details</a>
           </div>
 
-          <button class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
+          <button type="button" class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove" onclick="closeShxCart()"></button>
         </div>
+
         <hr>
+
+        <!-- Sizes -->
         <div class="product-single__swatches">
-                <div class="product-swatch text-swatches">
-                  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                    <label>Sizes</label>
-                  </div>
-                  <div class="swatch-list">
-                    
-                        <input type="radio" name="size" id="swatch-1" value="xs" checked="">
-                        <label class="swatch js-swatch" for="swatch-1">XS</label>
-                    
-                        <input type="radio" name="size" id="swatch-2" value="s">
-                        <label class="swatch js-swatch" for="swatch-2">S</label>
-                    
-                        <input type="radio" name="size" id="swatch-3" value="m">
-                        <label class="swatch js-swatch" for="swatch-3">M</label>
-                    
-                </div>
-              </div>
-        <div class="product-single__addtocart" style="flex-direction: column; align-items: flex-start;">
+          <div class="product-swatch text-swatches">
+            <label>Sizes</label>
+            <div class="swatch-list" id="modalSwatches">
+              <!-- JS will inject sizes here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="product-single__addtocart" style="flex-direction: column; align-items: flex-start; margin-top:10px;">
           <label>Quantity</label>
-                <div class="qty-control position-relative qty-initialized">
-                  <input type="number" name="quantity" value="1" min="1" max="3" class="qty-control__number text-center">
-                  <div class="qty-control__reduce">-</div>
-                  <div class="qty-control__increase">+</div>
-                </div><!-- .qty-control -->              
-                  
-              </div>
-              <button type="submit" class="btn btn-primary btn-addtocart" style="width:100%">Add to
-                  Cart</button>
-                  <div class="text-center my-3">
+          <div class="qty-control position-relative qty-initialized">
+            <input type="number" name="quantity" id="modalQuantity" value="1" min="1" class="qty-control__number text-center">
+            <div class="qty-control__reduce" onclick="changeQty(-1)">-</div>
+            <div class="qty-control__increase" onclick="changeQty(1)">+</div>
+          </div>
+        </div>
 
-                    <a class="btn-link btn-link_md default-underline text-uppercase fw-medium" style="font-size: 0.8rem;" href="./shop1.html">View Full Details</a>
-                  </div>
-
-
-              </div>
-        <!-- /.cart-drawer-item -->
-
-        
-      
-    
-  </div>
+        <button type="submit" class="btn btn-primary btn-addtocart" id="modalAddToCartBtn" style="width:100%; margin-top:10px;">Add to Cart</button>
+      </form>
     </div>
   </div>
+</div>
+
+<!-- Overlay -->
+<div class="shx-model-overlay" id="shxCartOverlay" onclick="closeShxCart()"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  let currentStock = 1;
+
+  window.openShxCart = function(el){
+    const name = el.getAttribute("data-name");
+    const price = el.getAttribute("data-price");
+    const image = el.getAttribute("data-image");
+    const url = el.getAttribute("data-url");
+    const sizesStr = el.getAttribute("data-sizes") || "";
+    const sizes = sizesStr.split(',').filter(s => s);
+    currentStock = parseInt(el.getAttribute("data-stock") || '1');
+
+    // Populate modal info
+    document.getElementById("modalProductName").innerText = name;
+    document.getElementById("modalProductTitle").innerText = name;
+    document.getElementById("modalProductTitle").href = url;
+    document.getElementById("modalProductUrl").href = url;
+    document.getElementById("modalViewDetails").href = url;
+    document.getElementById("modalProductImg").src = image;
+    document.getElementById("modalProductImg").alt = name;
+    document.getElementById("modalProductPrice").innerText = "₹" + price;
+
+    // Populate sizes dynamically
+    const swatchList = document.getElementById("modalSwatches");
+    swatchList.innerHTML = "";
+    sizes.forEach((size, index) => {
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "size";
+      input.id = `swatch-${index+1}`;
+      input.value = size;
+      if(index === 0) input.checked = true;
+
+      const label = document.createElement("label");
+      label.className = "swatch js-swatch";
+      label.htmlFor = `swatch-${index+1}`;
+      label.innerText = size.toUpperCase();
+
+      swatchList.appendChild(input);
+      swatchList.appendChild(label);
+    });
+
+    // Reset quantity
+    const qtyInput = document.getElementById("modalQuantity");
+    qtyInput.value = 1;
+    qtyInput.max = currentStock;
+
+    // Disable Add to Cart if out of stock
+    const addToCartBtn = document.getElementById("modalAddToCartBtn");
+    if(currentStock <= 0){
+      addToCartBtn.disabled = true;
+      addToCartBtn.innerText = "Out of Stock";
+    } else {
+      addToCartBtn.disabled = false;
+      addToCartBtn.innerText = "Add to Cart";
+    }
+
+    // Show modal
+    document.getElementById("shxCartModal").classList.add("active");
+    document.getElementById("shxCartOverlay").classList.add("active");
+  }
+
+  window.closeShxCart = function(){
+    document.getElementById("shxCartModal").classList.remove("active");
+    document.getElementById("shxCartOverlay").classList.remove("active");
+  }
+
+  window.changeQty = function(delta){
+    const qtyInput = document.getElementById("modalQuantity");
+    let qty = parseInt(qtyInput.value) + delta;
+    if(qty < 1) qty = 1;
+    if(qty > currentStock) qty = currentStock;
+    qtyInput.value = qty;
+  }
+
+});
+</script>
