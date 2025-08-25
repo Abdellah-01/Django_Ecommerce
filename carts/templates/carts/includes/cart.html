@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <div class="aside aside_right overflow-hidden cart-drawer" id="cartDrawer">
   <div class="aside-header d-flex align-items-center">
     <h3 class="text-uppercase fs-6 mb-0">
@@ -35,8 +36,7 @@
             <h6 class="cart-drawer-item__title fw-normal">
               <a href="product-details.html">{{ cart_item.product.product_name }}</a>
             </h6>
-            <p class="cart-drawer-item__option text-secondary">Color: Yellow</p>
-            <p class="cart-drawer-item__option text-secondary">Size: L</p>
+            <p class="cart-drawer-item__option text-secondary">Size: {{cart_item.size}}</p>
             <div class="d-flex align-items-center justify-content-between mt-1">
               <div class="qty-control position-relative">
                 <input
@@ -51,7 +51,7 @@
               </div>
               <!-- .qty-control -->
               <span class="cart-drawer-item__price money price">
-                ${{ cart_item.product.price }}
+                ${{ cart_item.sub_total|floatformat:2|intcomma }}
               </span>
             </div>
           </div>
@@ -74,7 +74,7 @@
     <hr class="cart-drawer-divider" />
     <div class="d-flex justify-content-between">
       <h6 class="fs-base fw-medium">SUBTOTAL:</h6>
-      <span class="cart-subtotal fw-medium">${{ total }}</span>
+      <span class="cart-subtotal fw-medium">${{ total|floatformat:2|intcomma }}</span>
     </div>
     <!-- /.d-flex justify-content-between -->
     <a href="{% url 'carts_urls:view_cart_page' %}" class="btn btn-light mt-3 d-block">View Cart</a>
