@@ -14,7 +14,7 @@
       {% for cart_item in cart_items %}
         <div class="cart-drawer-item d-flex position-relative">
           <div class="position-relative">
-            <a href="product-details.html">
+            <a href="{{cart_item.product.get_url}}">
               {% if cart_item.product.product_image %}
                 <img
                   loading="lazy"
@@ -34,9 +34,9 @@
           </div>
           <div class="cart-drawer-item__info flex-grow-1">
             <h6 class="cart-drawer-item__title fw-normal">
-              <a href="product-details.html">{{ cart_item.product.product_name }}</a>
+              <a href="{{cart_item.product.get_url}}">{{ cart_item.product.product_name }}</a>
             </h6>
-            <p class="cart-drawer-item__option text-secondary">Size: {{cart_item.size}}</p>
+            <p class="cart-drawer-item__option text-secondary">Size: {{cart_item.size|upper}}</p>
             <div class="d-flex align-items-center justify-content-between mt-1">
               <div class="qty-control position-relative">
                 <input

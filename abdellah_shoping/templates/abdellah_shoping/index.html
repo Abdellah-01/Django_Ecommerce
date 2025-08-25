@@ -18,49 +18,33 @@
       }
     }'>
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <div class="overflow-hidden position-relative h-100">
-          <div class="slideshow-bg">
-            <!-- Desktop / Laptop / TV image -->
-            <img loading="lazy" src="{% static 'abdellah_shoping/images/home/demo2/slider1.jpg' %}" width="1903" height="896" alt="Pattern"
-              class="slideshow-bg__img slideshow-desktop object-fit-cover" style="object-position: 80% center;">
 
-            <!-- Mobile image -->
-            <img loading="lazy" src="https://www.zantum.in/cdn/shop/files/IMG_0754.jpg" width="500" height="800"
-              alt="Pattern" class="slideshow-bg__img slideshow-mobile object-fit-cover"
-              style="object-position: center;">
+      {% if banners %}
+        {% for banner in banners %}
+          <div class="swiper-slide">
+            <div class="overflow-hidden position-relative h-100">
+              <div class="slideshow-bg">
+                <!-- Desktop / Laptop / TV image -->
+                <a href="{% url "abdellah_collections:collections_page" %}{{banner.link}}">
+                  <img loading="lazy" src="{{banner.desktop_image.url}}" 
+                      width="1903" height="896" alt="Pattern"
+                      class="slideshow-bg__img slideshow-desktop object-fit-cover" 
+                      style="object-position: 80% center;">
+                </a>
+
+                <!-- Mobile image -->
+                <a href="{% url "abdellah_collections:collections_page" %}{{banner.link|default:"all"}}">
+                  <img loading="lazy" src="{{banner.mobile_image.url}}" 
+                      width="500" height="800" alt="Pattern" 
+                      class="slideshow-bg__img slideshow-mobile object-fit-cover"
+                      style="object-position: center;">
+                </a>
+              </div>
+            </div>
           </div>
+        {% endfor %}
+      {% endif %}
 
-        </div>
-      </div><!-- /.slideshow-item -->
-      <div class="swiper-slide">
-        <div class="overflow-hidden position-relative h-100">
-          <div class="slideshow-bg">
-            <!-- Desktop / Laptop / TV image -->
-            <img loading="lazy" src="{% static 'abdellah_shoping/images/home/demo2/slider1.jpg' %}" width="1903" height="896" alt="Pattern"
-              class="slideshow-bg__img slideshow-desktop object-fit-cover" style="object-position: 80% center;">
-
-            <!-- Mobile image -->
-            <img loading="lazy" src="https://www.zantum.in/cdn/shop/files/IMG_0754.jpg" width="500" height="800"
-              alt="Pattern" class="slideshow-bg__img slideshow-mobile object-fit-cover"
-              style="object-position: center;">
-          </div>
-        </div>
-      </div><!-- /.slideshow-item -->
-      <div class="swiper-slide">
-        <div class="overflow-hidden position-relative h-100">
-          <div class="slideshow-bg">
-            <!-- Desktop / Laptop / TV image -->
-            <img loading="lazy" src="{% static 'abdellah_shoping/images/home/demo2/slider1.jpg' %}" width="1903" height="896" alt="Pattern"
-              class="slideshow-bg__img slideshow-desktop object-fit-cover" style="object-position: 80% center;">
-
-            <!-- Mobile image -->
-            <img loading="lazy" src="https://www.zantum.in/cdn/shop/files/IMG_0754.jpg" width="500" height="800"
-              alt="Pattern" class="slideshow-bg__img slideshow-mobile object-fit-cover"
-              style="object-position: center;">
-          </div>
-        </div>
-      </div><!-- /.slideshow-item -->
     </div><!-- /.slideshow-wrapper js-swiper-slider -->
     <div class="slideshow-pagination position-left-center type2"></div>
     <a href="#section-grid-banner"

@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def collections_list(request):
-    all_collections = Collection.objects.all()
+    all_collections = Collection.objects.all().order_by('-id')
     context = {
         'all_collections':all_collections,
     }
