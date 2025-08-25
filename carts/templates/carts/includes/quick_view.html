@@ -7,9 +7,10 @@
 
   <div class="shx-Cart-body">
     <div style="padding: 10px 15px;">
-      <form action="" method="POST">
+      <form id="modalAddToCartForm" method="POST">
         {% csrf_token %}
 
+        <!-- Product Info -->
         <div class="cart-drawer-item d-flex position-relative">
           <div class="position-relative">
             <a id="modalProductUrl" href="#">
@@ -45,10 +46,10 @@
         <!-- Quantity -->
         <div class="product-single__addtocart" style="flex-direction: column; align-items: flex-start; margin-top:10px;">
           <label>Quantity</label>
-          <div class="qty-control position-relative qty-initialized">
-            <input type="number" name="quantity" id="modalQuantity" value="1" min="1" class="qty-control__number text-center">
-            <div class="qty-control__reduce" onclick="changeQty(-1)">-</div>
-            <div class="qty-control__increase" onclick="changeQty(1)">+</div>
+          <div class="qty-control position-relative qty-initialized" style="display:flex; align-items:center; gap:5px;">
+            <button type="button" class="qty-control__reduce btn" onclick="changeQty(-1)">-</button>
+            <input type="number" name="quantity" id="modalQuantity" value="1" min="1" class="qty-control__number text-center" style="width:50px;">
+            <button type="button" class="qty-control__increase btn" onclick="changeQty(1)">+</button>
           </div>
         </div>
 
@@ -71,11 +72,18 @@ document.addEventListener("DOMContentLoaded", function(){
     const price = el.getAttribute("data-price");
     const image = el.getAttribute("data-image");
     const url = el.getAttribute("data-url");
-    const sizesStr = el.getAttribute("data-sizes") || "";
-    const sizes = sizesStr.split(',').filter(s => s);
+    const addUrl = el.getAttribute("data-add-url");
+    
+    let sizesStr = el.getAttribute("data-sizes") || "";
+    sizesStr = sizesStr.replace(/[\[\]'"]/g, '');
+    const sizes = sizesStr.split(',').map(s => s.trim()).filter(s => s);
+
     currentStock = parseInt(el.getAttribute("data-stock") || '1');
 
-    // Populate modal info
+    const form = document.getElementById("modalAddToCartForm");
+    form.action = addUrl;
+
+    // Populate modal
     document.getElementById("modalProductName").innerText = name;
     document.getElementById("modalProductTitle").innerText = name;
     document.getElementById("modalProductTitle").href = url;
@@ -85,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("modalProductImg").alt = name;
     document.getElementById("modalProductPrice").innerText = "₹" + price;
 
-    // Populate sizes dynamically
+    // Sizes
     const swatchList = document.getElementById("modalSwatches");
     swatchList.innerHTML = "";
     sizes.forEach((size, index) => {
@@ -105,12 +113,12 @@ document.addEventListener("DOMContentLoaded", function(){
       swatchList.appendChild(label);
     });
 
-    // Reset quantity
+    // Quantity reset
     const qtyInput = document.getElementById("modalQuantity");
     qtyInput.value = 1;
     qtyInput.max = currentStock;
 
-    // Disable Add to Cart if out of stock
+    // Add to Cart button
     const addToCartBtn = document.getElementById("modalAddToCartBtn");
     if(currentStock <= 0){
       addToCartBtn.disabled = true;
@@ -132,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
   window.changeQty = function(delta){
     const qtyInput = document.getElementById("modalQuantity");
-    let qty = parseInt(qtyInput.value) + delta;
+    let qty = parseInt(qtyInput.value) || 1;
+    qty += delta;
     if(qty < 1) qty = 1;
     if(qty > currentStock) qty = currentStock;
     qtyInput.value = qty;
