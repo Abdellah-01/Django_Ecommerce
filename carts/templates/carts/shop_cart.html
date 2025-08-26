@@ -1,6 +1,7 @@
 {% extends "carts/base.html" %}
 {% load static %}
 {% load humanize %}
+{% block title %}<title>Cart ({{cart_items|length}})</title>{% endblock %}
 {% block content %}
   <main>
     <div class="mb-4 pb-4"></div>

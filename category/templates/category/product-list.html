@@ -1,5 +1,6 @@
 {% extends "products/base.html" %}
 {% load static %}
+{% block title %}<title>{{ categories.title|default:"All Products" }}</title>{% endblock %}
 {% block content %}
   <main>
     <div class="mb-4 pb-lg-3"></div>
@@ -78,17 +79,18 @@
                     </div>
                     {% else %}
                     <a
-  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
-  onclick="openShxCart(this)"
-  data-id="{{ product.id }}"
-  data-name="{{ product.product_name }}"
-  data-price="{{ product.price }}"
-  data-image="{{ product.product_image.url }}"
-  data-stock="{{ product.stock }}"
-  data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
-  data-sizes="{{ product.sizes }}">
-  Quick View
-</a>
+                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                    onclick="openShxCart(this)"
+                    data-id="{{ product.id }}"
+                    data-name="{{ product.product_name }}"
+                    data-price="{{ product.price }}"
+                    data-image="{{ product.product_image.url }}"
+                    data-stock="{{ product.stock }}"
+                    data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                    data-sizes="{{ product.sizes }}"
+                    data-url="{{ product.get_url }}">
+                    Quick View
+                  </a>
 
                   {% endif %}
                   </div>
