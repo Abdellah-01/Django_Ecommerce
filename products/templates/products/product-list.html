@@ -78,19 +78,41 @@
                       </div>
                     </div>
                     {% else %}
-                    <a
-                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
-                    onclick="openShxCart(this)"
-                    data-id="{{ product.id }}"
-                    data-name="{{ product.product_name }}"
-                    data-price="{{ product.price }}"
-                    data-image="{{ product.product_image.url }}"
-                    data-stock="{{ product.stock }}"
-                    data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
-                    data-sizes="{{ product.sizes }}"
-                    data-url="{{ product.get_url }}">
-                    Quick View
-                  </a>
+                      <!-- Desktop & Tablet only (hidden on Mobile) -->
+                      <a
+                        class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium d-none d-sm-inline-block"
+                        onclick="openShxCart(this)"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.product_name }}"
+                        data-price="{{ product.price }}"
+                        data-image="{{ product.product_image.url }}"
+                        data-stock="{{ product.stock }}"
+                        data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                        data-sizes="{{ product.sizes }}"
+                        data-url="{{ product.get_url }}">
+                        Quick View
+                      </a>
+                      <!-- Mobile Devices Only -->
+                      <a style="width:fit-content; padding: 5px;"
+                        class="pc__atc btn position-absolute border-0 text-uppercase fw-medium d-inline-flex d-sm-none mobile-visible"
+                        onclick="openShxCart(this)"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.product_name }}"
+                        data-price="{{ product.price }}"
+                        data-image="{{ product.product_image.url }}"
+                        data-stock="{{ product.stock }}"
+                        data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                        data-sizes="{{ product.sizes }}"
+                        data-url="{{ product.get_url }}">
+                        <span>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="black" stroke-width="1" stroke-linecap="round"></path>
+                          </svg>
+                        </span>
+                      </a>
+
+
+
 
 
 

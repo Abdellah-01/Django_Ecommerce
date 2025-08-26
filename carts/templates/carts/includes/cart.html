@@ -51,7 +51,7 @@
               </div>
               <!-- .qty-control -->
               <span class="cart-drawer-item__price money price">
-                ${{ cart_item.sub_total|floatformat:2|intcomma }}
+                ₹{{ cart_item.sub_total|floatformat:2|intcomma }}
               </span>
             </div>
           </div>
@@ -78,7 +78,7 @@
       <hr class="cart-drawer-divider" />
       <div class="d-flex justify-content-between">
         <h6 class="fs-base fw-medium">SUBTOTAL:</h6>
-        <span class="cart-subtotal fw-medium">${{ total|floatformat:2|intcomma }}</span>
+        <span class="cart-subtotal fw-medium">₹{{ total|floatformat:2|intcomma }}</span>
       </div>
       <!-- /.d-flex justify-content-between -->
       <a href="{% url 'carts_urls:view_cart_page' %}" class="btn btn-light mt-3 d-block">View Cart</a>

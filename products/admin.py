@@ -6,6 +6,29 @@ from django.shortcuts import redirect
 from .models import Product, SizeGuide
 
 
+# Custom Filter for Stock Status
+class StockStatusFilter(admin.SimpleListFilter):
+    title = 'Stock Status'
+    parameter_name = 'stock_status'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('in_stock', 'In Stock'),
+            ('out_of_stock', 'Out of Stock'),
+            ('low_stock', 'Low Stock (< 5)'),  # optional
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'in_stock':
+            return queryset.filter(stock__gt=0)
+        if self.value() == 'out_of_stock':
+            return queryset.filter(stock__lte=0)
+        if self.value() == 'low_stock':
+            return queryset.filter(stock__gt=0, stock__lt=5)
+        return queryset
+
+
+
 # Custom Filter for MultiSelectField (sizes)
 class SizeFilter(admin.SimpleListFilter):
     title = 'Sizes'
@@ -73,7 +96,7 @@ class ProductAdmin(admin.ModelAdmin):
     )
     list_editable = ("price", "compare_at_price", "stock", "is_available")
     search_fields = ("product_name", "description", "tags")
-    list_filter = ("is_available", "collection", "category", "created_at", SizeFilter)
+    list_filter = ("is_available", "collection", "category", "created_at", SizeFilter, StockStatusFilter)
     autocomplete_fields = ("collection", "category", "size_guide")
     readonly_fields = ("slug", "thumbnail_preview", "created_at", "modified_at")
 

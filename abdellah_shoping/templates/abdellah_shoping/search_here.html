@@ -20,9 +20,9 @@
                 <div class="sub-menu search-suggestion">
                   <h6 class="sub-menu__title fs-base">Quicklinks</h6>
                   <ul class="sub-menu__list list-unstyled">
-                    {% if links %}
-                      {% for category in links %}
-                        <li class="sub-menu__item"><a href="{{category.get_url}}" class="menu-link menu-link_us-s">{{category.title}}</a>
+                    {% if all_products %}
+                      {% for product in all_products %}
+                        <li class="sub-menu__item"><a href="{{product.get_url}}" class="menu-link menu-link_us-s">{{product.product_name}}</a>
                     </li>
                       {% endfor %}
                     {% else %}
@@ -38,6 +38,28 @@
               </div>
             </form><!-- /.header-search -->
           </div>
+
+          <div class="mb-3 mb-xl-5 pt-1 pb-2"></div>
+
+      <section class="grid-banner container mb-3">
+        <h2 class="d-none">Banner</h2>
+        <div class="row">
+          {% if clinks %}
+          {% for collection in clinks %}
+          <div class="col-lg-4">
+            <div class="grid-banner__item position-relative mb-3">
+              <img loading="lazy" class="w-100 h-auto" src="{{collection.collection_image.url}}" width="450" height="450" alt="">
+              <div class="content_abs bottom-0 text-center mx-3 mx-xl-4 mb-3 mb-xl-4 pb-2 px-2">
+                <a href="{{collection.get_url}}" class="btn btn-outline-primary border-0 fs-base fw-normal btn-45 d-inline-flex align-items-center py-1">
+                  <span>{{collection.title}}</span>
+                </a>
+              </div><!-- /.content_abs .content_center -->
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div><!-- /.row -->
+      </section>
 </main>
 
 

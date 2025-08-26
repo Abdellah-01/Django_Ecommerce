@@ -2,9 +2,11 @@ from django.shortcuts import redirect, render
 from abdellah_collections.models import Collection
 from category.models import Category
 from products.models import Product
-from .models import ImageBanner
+from .models import ImageBanner, FAQ
 from django.core.paginator import Paginator
 from django.db.models import Q
+from itertools import groupby
+from operator import attrgetter
 
 # Create your views here.
 def home(request):
@@ -19,7 +21,12 @@ def home(request):
     return render(request, 'abdellah_shoping/index.html', context)
 
 def search_here(request):
-    return render(request, 'abdellah_shoping/search_here.html')
+    all_products = Product.objects.filter(is_available=True).order_by('-created_at')[:6]
+
+    context ={
+        'all_products':all_products
+    }
+    return render(request, 'abdellah_shoping/search_here.html', context)
 
 def search(request):
     if 'search-keyword' in request.GET:
@@ -42,3 +49,16 @@ def search(request):
 
     return redirect('abdellah_shoping:search_here_page')  # fallback if no keyword param
 
+def faq(request):
+
+    faqs = FAQ.objects.all().order_by("heading", "order")
+
+    grouped_faqs = {}
+
+    for heading, items in groupby(faqs, key=attrgetter("heading")):
+        grouped_faqs[heading] = list(items)
+
+    context = {
+            "grouped_faqs": grouped_faqs
+    }
+    return render(request, 'abdellah_shoping/faq.html', context)
