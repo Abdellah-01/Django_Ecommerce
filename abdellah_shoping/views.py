@@ -62,3 +62,7 @@ def faq(request):
             "grouped_faqs": grouped_faqs
     }
     return render(request, 'abdellah_shoping/faq.html', context)
+
+def contact(request):
+    context = {}
+    return render(request, 'abdellah_shoping/contact.html', context)
