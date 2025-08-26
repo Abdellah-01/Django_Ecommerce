@@ -15,7 +15,7 @@ def product_list(request):
 
     # Paginator
     page_number = request.GET.get('page', 1)  # Get the page number from query params, default 1
-    paginator = Paginator(all_products, 20)    # Show 20 products per page
+    paginator = Paginator(all_products, 12)    # Show 20 products per page
     page_obj = paginator.get_page(page_number)
 
     context = {

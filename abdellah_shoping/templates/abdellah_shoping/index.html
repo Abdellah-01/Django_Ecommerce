@@ -26,7 +26,7 @@
             <div class="overflow-hidden position-relative h-100">
               <div class="slideshow-bg">
                 <!-- Desktop / Laptop / TV image -->
-                <a href="{% url "abdellah_collections:collections_page" %}{{banner.link}}">
+                <a href="{% url "abdellah_collections:collections_page" %}{{banner.link|default:"all"}}">
                   <img loading="lazy" src="{{banner.desktop_image.url}}" 
                       width="1903" height="896" alt="Pattern"
                       class="slideshow-bg__img slideshow-desktop object-fit-cover" 

@@ -1,51 +1,56 @@
 {% extends "abdellah_shoping/base.html" %}
 {% load static %}
-{% block title %}<title>Contact Us</title>{% endblock %}
+{% block title %}<title>Enquiries</title>{% endblock %}
 {% block content %}
-  <main>
-    <div class="mb-4 pb-4"></div>
-    <section class="contact-us container">
-      <div class="mw-930">
-        <h3 class="mb-5">Get In Touch</h3>
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="enquiries container">
+    <div class="mw-930">
+      <h3 class="mb-5">Get In Touch</h3>
+    </div>
+  </section>
+
+  <section class="enquiries container">
+    <div class="mw-930">
+      <div class="enquiries__form">
+          {% if messages %}
+  <div class="mw-930">
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    </section>
-
-    <section class="contact-us container">
-      <div class="mw-930">
-        <div class="contact-us__form">
-          <form name="contact-us-form" class="needs-validation" novalidate>
-            <div class="form-floating my-4">
-              <input type="text" class="form-control" id="contact_us_name" placeholder="Name *" required>
-              <label for="contact_us_name">Name *</label>
-            </div>
-            <div class="form-floating my-4">
-              <input type="email" class="form-control" id="contact_us_email" placeholder="Email address *" required>
-              <label for="contact_us_name">Email address *</label>
-            </div>
-            <div class="my-4">
-              <textarea class="form-control form-control_gray" placeholder="Your Message" cols="30" rows="8"
-                required></textarea>
-            </div>
-            <div class="my-4">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
-        </div>
+    {% endfor %}
+  </div>
+{% endif %}
+        <form name="enquiry-form" class="needs-validation" novalidate method="POST">
+          {% csrf_token %}
+          <div class="form-floating my-4">
+            {{ form.name }}
+            <label for="enquiry_name">Name *</label>
+          </div>
+          <div class="form-floating my-4">
+            {{ form.email }}
+            <label for="enquiry_email">Email address *</label>
+          </div>
+          <div class="my-4">
+            {{ form.message }}
+          </div>
+          <div class="my-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 
-  <div class="mb-5 pb-xl-5"></div>
+<div class="mb-5 pb-xl-5"></div>
 
-
-  <script>
-    (function () {
+<script>
+(function () {
   'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
   var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
   Array.prototype.slice.call(forms)
     .forEach(function (form) {
       form.addEventListener('submit', function (event) {
@@ -53,42 +58,9 @@
           event.preventDefault();
           event.stopPropagation();
         }
-
-        form.querySelectorAll("input[data-cf-pwd]").forEach(function (el) {
-          if(form.querySelector(el.getAttribute("data-cf-pwd")).value != el.value) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-        });
-
         form.classList.add('was-validated')
       }, false);
-
-      form.querySelectorAll("input[data-cf-pwd]").forEach(function (el) {
-        el.addEventListener('keyup', function (event) {
-          if (!el.value || form.querySelector(el.getAttribute("data-cf-pwd")).value != el.value) {
-            el.classList.add("is-invalid");
-            el.classList.remove("is-valid");
-            el.setCustomValidity("Invalid field.");
-          } else {
-            el.classList.remove("is-invalid");
-            el.classList.add("is-valid");
-            el.setCustomValidity("");
-          }
-        });
-        form.querySelector(el.getAttribute("data-cf-pwd")).addEventListener('keyup', function (event) {
-          if (!el.value || form.querySelector(el.getAttribute("data-cf-pwd")).value != el.value) {
-            el.classList.add("is-invalid");
-            el.classList.remove("is-valid");
-            el.setCustomValidity("Invalid field.");
-          } else {
-            el.classList.remove("is-invalid");
-            el.classList.add("is-valid");
-            el.setCustomValidity("");
-          }
-        });
-      });
     });
 })();
-  </script>
+</script>
 {% endblock %}

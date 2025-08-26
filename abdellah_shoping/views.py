@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from itertools import groupby
 from operator import attrgetter
+from .forms import EnquiryForm
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -64,5 +66,12 @@ def faq(request):
     return render(request, 'abdellah_shoping/faq.html', context)
 
 def contact(request):
-    context = {}
-    return render(request, 'abdellah_shoping/contact.html', context)
+    if request.method == 'POST':
+        form = EnquiryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your enquiry has been submitted successfully!")
+            return redirect('abdellah_shoping:contact_page')  # Redirect back to the same page
+    else:
+        form = EnquiryForm()
+    return render(request, 'abdellah_shoping/contact.html', {'form': form})

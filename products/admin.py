@@ -75,7 +75,7 @@ class SizeGuideAdmin(admin.ModelAdmin):
         html = "<table style='border-collapse:collapse; border:1px solid #ddd;'>"
         html += "<tr><th style='border:1px solid #ddd;padding:4px;'>Metric</th>"
         for col in columns:
-            html += f"<th style='border:1px solid #ddd;padding:4px;'>{col}</th>"
+            html += f"<th style='border:1px solid #ddd;padding:4px;text-align:center''>{col}</th>"
         html += "</tr>"
         for row in rows:
             html += f"<tr><td style='border:1px solid #ddd;padding:4px;'>{row.get('name')}</td>"

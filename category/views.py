@@ -20,11 +20,11 @@ def category_products(request, category_slug=None):
 
     if category_slug != None:
         categories = get_object_or_404(Category, slug=category_slug)
-        all_products = Product.objects.filter(category=categories, is_available__in=[True])
+        all_products = Product.objects.filter(category=categories, is_available__in=[True]).order_by('-created_at')
         product_count = all_products.count()
 
     else:
-        all_products = Product.objects.all().filter(is_available__in=[True])
+        all_products = Product.objects.all().filter(is_available__in=[True]).order_by('-created_at')
         product_count = all_products.count()
     
     paginator = Paginator(all_products, 20)  # 8 products per page

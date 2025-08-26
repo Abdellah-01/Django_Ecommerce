@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import ImageBanner, FAQ
+from .models import ImageBanner, FAQ, Enquiry
 
 
 @admin.register(ImageBanner)
@@ -58,3 +58,31 @@ class FAQAdmin(admin.ModelAdmin):
     def short_answer(self, obj):
         return obj.answer[:70] + "..." if len(obj.answer) > 70 else obj.answer
     short_answer.short_description = "Answer Preview"
+
+@admin.register(Enquiry)
+class EnquiryAdmin(admin.ModelAdmin):
+    # Fields to display in the list view
+    list_display = ('name', 'email', 'created_at', 'short_message')
+    
+    # Fields that are clickable links
+    list_display_links = ('name', 'email')
+    
+    # Add search functionality
+    search_fields = ('name', 'email', 'message')
+    
+    # Filter by date created
+    list_filter = ('created_at',)
+    
+    # Ordering in admin
+    ordering = ('-created_at',)
+    
+    # Make created_at read-only
+    readonly_fields = ('created_at',)
+    
+    # Pagination (optional)
+    list_per_page = 20
+    
+    # Optional: show first 50 chars of message
+    def short_message(self, obj):
+        return obj.message[:50] + ('...' if len(obj.message) > 50 else '')
+    short_message.short_description = 'Message Preview'

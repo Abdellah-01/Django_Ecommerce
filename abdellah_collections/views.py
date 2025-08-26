@@ -17,11 +17,11 @@ def all_products_collections(request, collection_slug=None):
 
     if collection_slug != None:
         collections = get_object_or_404(Collection, slug=collection_slug)
-        all_products = Product.objects.filter(collection=collections, is_available__in=[True])
+        all_products = Product.objects.filter(collection=collections, is_available__in=[True]).order_by('-created_at')
         product_count = all_products.count()
         
     else:
-        all_products = Product.objects.all().filter(is_available__in=[True])
+        all_products = Product.objects.all().filter(is_available__in=[True]).order_by('-created_at')
         product_count = all_products.count()
 
     # ADD PAGINATOR
