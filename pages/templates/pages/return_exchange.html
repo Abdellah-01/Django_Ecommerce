@@ -1,0 +1,99 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% block title %}<title>Return & Exchange</title>{% endblock %}
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="shop-checkout container">
+      <div class="return-exchange">
+        <form name="return-exchange-form" class="needs-validation" novalidate style="max-width: 600px; margin: auto;">
+          <h2 class="page-title">Return & Exchange</h2>
+          <p>
+            Please fill in the details below to request a return or exchange.  
+            Ensure you provide accurate information to help us process your request faster.
+          </p>
+
+          <!-- Order ID -->
+          <div class="form-floating my-3">
+            <input type="text" class="form-control" id="order_id" placeholder="Order ID *" required>
+            <label for="order_id">Order ID *</label>
+          </div>
+
+          <!-- Billing Email -->
+          <div class="form-floating my-3">
+            <input type="email" class="form-control" id="billing_email" placeholder="Billing Email *" required>
+            <label for="billing_email">Billing Email *</label>
+          </div>
+
+          <!-- Ordered Products (Custom Dropdown with Image + Name) -->
+          <div class="my-3">
+            <label class="form-label fw-bold">Select Product *</label>
+            <div class="dropdown">
+              <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Choose product...
+              </button>
+              <ul class="dropdown-menu w-100" aria-labelledby="productDropdown" id="productList">
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="#" data-value="product1">
+                    <img src="{% static 'images/product1.jpg' %}" width="40" height="40" class="me-2 rounded">
+                    Product 1 - T-shirt
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="#" data-value="product2">
+                    <img src="{% static 'images/product2.jpg' %}" width="40" height="40" class="me-2 rounded">
+                    Product 2 - Jeans
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="#" data-value="product3">
+                    <img src="{% static 'images/product3.jpg' %}" width="40" height="40" class="me-2 rounded">
+                    Product 3 - Shoes
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <input type="hidden" id="ordered_product" name="ordered_product" required>
+          </div>
+
+          <!-- Reason -->
+          <div class="form-floating my-3">
+            <select class="form-select" id="reason" required>
+              <option selected disabled value="">Select Reason *</option>
+              <option value="wrong_size">Wrong Size</option>
+              <option value="damaged">Damaged Item</option>
+              <option value="wrong_item">Wrong Item Sent</option>
+              <option value="not_satisfied">Not Satisfied</option>
+              <option value="other">Other</option>
+            </select>
+            <label for="reason">Reason for Return/Exchange *</label>
+          </div>
+
+          <!-- Additional Details -->
+          <div class="form-floating my-3">
+            <textarea class="form-control" placeholder="Provide additional details" id="details" style="height: 120px"></textarea>
+            <label for="details">Additional Details</label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+
+  <script>
+    // Custom dropdown logic
+    document.querySelectorAll("#productList .dropdown-item").forEach(item => {
+      item.addEventListener("click", function(e) {
+        e.preventDefault();
+        const selectedText = this.innerHTML;
+        const selectedValue = this.getAttribute("data-value");
+        document.getElementById("productDropdown").innerHTML = selectedText;
+        document.getElementById("ordered_product").value = selectedValue;
+      });
+    });
+  </script>
+{% endblock %}

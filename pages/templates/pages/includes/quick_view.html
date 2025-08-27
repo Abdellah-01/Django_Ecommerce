@@ -1,0 +1,151 @@
+<!-- Quick View Modal -->
+<div class="shx-Cart-modal" id="shxCartModal">
+  <div class="shx-Cart-header">
+    <h3 id="modalProductName">Product</h3>
+    <button class="shx-Cart-closeBtn" onclick="closeShxCart()">✕</button>
+  </div>
+
+  <div class="shx-Cart-body">
+    <div style="padding: 10px 15px;">
+      <form id="modalAddToCartForm" method="POST">
+        {% csrf_token %}
+
+        <!-- Product Info -->
+        <div class="cart-drawer-item d-flex position-relative">
+          <div class="position-relative">
+            <a id="modalProductUrl" href="#">
+              <img loading="lazy" id="modalProductImg" class="cart-drawer-item__img" src="" alt="">
+            </a>
+          </div>
+
+          <div class="cart-drawer-item__info flex-grow-1">
+            <h6 class="cart-drawer-item__title fw-normal">
+              <a id="modalProductTitle" href="#"></a>
+            </h6>
+            <div class="d-flex align-items-center justify-content-between mt-1">
+              <span class="cart-drawer-item__price money price" id="modalProductPrice"></span>
+            </div>
+            <a id="modalViewDetails" class="btn-link btn-link_md default-underline text-uppercase fw-medium" style="font-size: 0.8rem;" href="#">View Full Details</a>
+          </div>
+
+          <button type="button" class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove" onclick="closeShxCart()"></button>
+        </div>
+
+        <hr>
+
+        <!-- Sizes -->
+        <div class="product-single__swatches">
+          <div class="product-swatch text-swatches">
+            <label>Sizes</label>
+            <div class="swatch-list" id="modalSwatches">
+              <!-- JS will inject sizes here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="product-single__addtocart" style="flex-direction: column; align-items: flex-start; margin-top:10px;">
+          <label>Quantity</label>
+          <div class="qty-control position-relative qty-initialized" style="display:flex; align-items:center; gap:5px;">
+            <button type="button" class="qty-control__reduce btn" onclick="changeQty(-1)">-</button>
+            <input type="number" name="quantity" id="modalQuantity" value="1" min="1" class="qty-control__number text-center" style="width:50px;">
+            <button type="button" class="qty-control__increase btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-addtocart" id="modalAddToCartBtn" style="width:100%; margin-top:10px;">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div class="shx-model-overlay" id="shxCartOverlay" onclick="closeShxCart()"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  let currentStock = 1;
+
+  window.openShxCart = function(el){
+    const name = el.getAttribute("data-name");
+    const price = el.getAttribute("data-price");
+    const image = el.getAttribute("data-image");
+    const url = el.getAttribute("data-url");
+    const addUrl = el.getAttribute("data-add-url");
+    
+    let sizesStr = el.getAttribute("data-sizes") || "";
+    sizesStr = sizesStr.replace(/[\[\]'"]/g, '');
+    const sizes = sizesStr.split(',').map(s => s.trim()).filter(s => s);
+
+    currentStock = parseInt(el.getAttribute("data-stock") || '1');
+
+    const form = document.getElementById("modalAddToCartForm");
+    form.action = addUrl;
+
+    // Populate modal
+    document.getElementById("modalProductName").innerText = name;
+    document.getElementById("modalProductTitle").innerText = name;
+    document.getElementById("modalProductTitle").href = url;
+    document.getElementById("modalProductUrl").href = url;
+    document.getElementById("modalViewDetails").href = url;
+    document.getElementById("modalProductImg").src = image;
+    document.getElementById("modalProductImg").alt = name;
+    document.getElementById("modalProductPrice").innerText = "₹" + price;
+
+    // Sizes
+    const swatchList = document.getElementById("modalSwatches");
+    swatchList.innerHTML = "";
+    sizes.forEach((size, index) => {
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "size";
+      input.id = `swatch-${index+1}`;
+      input.value = size;
+      if(index === 0) input.checked = true;
+
+      const label = document.createElement("label");
+      label.className = "swatch js-swatch";
+      label.htmlFor = `swatch-${index+1}`;
+      label.innerText = size.toUpperCase();
+
+      swatchList.appendChild(input);
+      swatchList.appendChild(label);
+    });
+
+    // Quantity reset
+    const qtyInput = document.getElementById("modalQuantity");
+    qtyInput.value = 1;
+    qtyInput.max = currentStock;
+
+    // Add to Cart button
+    const addToCartBtn = document.getElementById("modalAddToCartBtn");
+    if(currentStock <= 0){
+      addToCartBtn.disabled = true;
+      addToCartBtn.innerText = "Out of Stock";
+    } else {
+      addToCartBtn.disabled = false;
+      addToCartBtn.innerText = "Add to Cart";
+    }
+
+    // Show modal
+    document.getElementById("shxCartModal").classList.add("active");
+    document.getElementById("shxCartOverlay").classList.add("active");
+  }
+
+  window.closeShxCart = function(){
+    document.getElementById("shxCartModal").classList.remove("active");
+    document.getElementById("shxCartOverlay").classList.remove("active");
+  }
+
+  window.changeQty = function(delta){
+    const qtyInput = document.getElementById("modalQuantity");
+    let qty = parseInt(qtyInput.value) || 1;
+    qty += delta;
+    if(qty < 1) qty = 1;
+    if(qty > currentStock) qty = currentStock;
+    qtyInput.value = qty;
+  }
+
+});
+</script>

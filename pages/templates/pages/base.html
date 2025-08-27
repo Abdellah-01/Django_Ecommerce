@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="flexkit" />
+
+    <link
+      rel="shortcut icon"
+      href="https://uomo-html.flexkitux.com/images/fcon.ico"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Stylesheets -->
+    <link
+      rel="stylesheet"
+      href="{% static 'pages/css/plugins/swiper.min.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'pages/css/style.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'pages/css/quick_view.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'pages/css/plugins/jquery.fancybox.css' %}"
+      type="text/css"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% block title %} {% endblock %}
+  </head>
+
+  <body>
+    {% include "abdellah_shoping/includes/svg.html" %}
+
+    <!-- Mobile Header -->
+    {% include "abdellah_shoping/includes/mobile_header.html" %}
+
+    <!-- Desktop Header -->
+    {% include "abdellah_shoping/includes/desktop_header.html" %}
+    {% block content %} {% endblock content %}
+
+    <!-- Footer Type 2 Dark -->
+    {% include "abdellah_shoping/includes/desktop_footer.html" %}
+
+    <!-- Mobile Fixed Footer -->
+    {% include "abdellah_shoping/includes/mobile_footer.html" %}
+
+    <!-- Cart Drawer -->
+    {% include "carts/includes/cart.html" %}
+
+    <!-- Shop Filter -->
+    {% include "products/includes/filter.html" %}
+
+    <!-- Go To Top -->
+    <div id="scrollTop" class="visually-hidden end-0"></div>
+
+    <!-- Page Overlay -->
+    <div class="page-overlay"></div>
+    <!-- /.page-overlay -->
+
+    <script src="{% static 'products/js/plugins/jquery.min.js' %}"></script>
+    <script src="{% static 'products/js/plugins/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'products/js/plugins/bootstrap-slider.min.js' %}"></script>
+
+    <script src="{% static 'products/js/plugins/swiper.min.js' %}"></script>
+    <script src="{% static 'products/js/plugins/countdown.js' %}"></script>
+    <script src="{% static 'products/js/plugins/jquery.fancybox.js' %}"></script>
+
+    <!-- Footer Scripts -->
+    <script src="{% static 'products/js/theme.js' %}"></script>
+  </body>
+</html>

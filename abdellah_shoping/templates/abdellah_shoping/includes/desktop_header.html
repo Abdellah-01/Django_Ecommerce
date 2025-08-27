@@ -2,8 +2,8 @@
 <header id="header" class="header header_sticky header-fullwidth {{header_type|default:''}} header_sticky-active">
     <div class="header-top d-flex bg-black color-white align-items-center">
       <ul class="list-unstyled d-flex flex-1 gap-3 m-0">
-        <li><a href="#" class="menu-link menu-link_us-s color-white">Track Order</a></li>
-        <li><a href="#" class="menu-link menu-link_us-s color-white">Return & Exchange</a></li>
+        <li><a href="{% url "pages:track_order_page" %}" class="menu-link menu-link_us-s color-white">Track Order</a></li>
+        <li><a href="{% url "pages:return_exchange_page" %}" class="menu-link menu-link_us-s color-white">Return & Exchange</a></li>
       </ul>
 
       <!-- Carousel starts here -->
