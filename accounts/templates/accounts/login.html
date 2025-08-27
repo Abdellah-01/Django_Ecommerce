@@ -2,7 +2,27 @@
 {% load static %}
 {% block title %}<title>Welcome Back!</title>{% endblock %}
 {% block content %}
+
   <main>
+{% if request.GET.command == 'verification' %}
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card border-0 rounded-4 p-5" style="max-width: 500px; width: 100%;">
+    <div class="text-center mb-4">
+    </div>
+    <h3 class="text-center mb-3 fw-bold" style="color: #333;">Activate Your Account!</h3>
+    <p class="text-center text-secondary mb-4">
+      Thank you. A verification email has been sent to <strong>{{ request.GET.email }}</strong>. Please check your inbox and click the link to activate your account.
+    </p>
+    <div class="d-grid gap-3">
+      <a href="{% url 'accounts:login_page' %}" class="btn btn-primary btn-lg">
+        Login Now
+      </a>
+      <span class="text-center text-muted">Already Verified? You can proceed to login anytime.</span>
+    </div>
+  </div>
+</div>
+{% else %}
+
     <div class="mb-4 pb-4"></div>
     <section class="login-register container">
       <ul class="nav nav-tabs mb-5" id="login_register" role="tablist">
@@ -14,64 +34,54 @@
         <div class="tab-pane fade show active" id="tab-item-login" role="tabpanel" aria-labelledby="login-tab">
           <div class="login-form">
             {% for message in messages %}
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             {% endfor %}
-            <form action="account_dashboard.html" class="needs-validation" novalidate>
+
+            <form action="{% url 'accounts:login_page' %}" method="POST" class="needs-validation" novalidate>
+              {% csrf_token %}
+
+              <!-- Email -->
               <div class="form-floating mb-3">
-                <input name="login_email" type="email" class="form-control form-control_gray"
-                  id="customerNameEmailInput1" placeholder="Email address *" required>
+                <input name="email" type="email" class="form-control form-control_gray {% if messages %}{% for message in messages %}{% if 'email' in message.tags %}is-invalid{% endif %}{% endfor %}{% endif %}"
+                  id="customerNameEmailInput1" placeholder="Email address *"
+                  value="{{ request.POST.email|default_if_none:'' }}" required>
                 <label for="customerNameEmailInput1">Email address *</label>
               </div>
 
-              <div class="pb-3"></div>
-
+              <!-- Password -->
               <div class="form-floating mb-3">
-                <input name="login_password" type="password" class="form-control form-control_gray"
-                  id="customerPasswodInput" placeholder="Password *" required>
+                <input name="password" type="password" class="form-control form-control_gray {% if messages %}{% for message in messages %}{% if 'password' in message.tags %}is-invalid{% endif %}{% endfor %}{% endif %}"
+                  id="customerPasswodInput" placeholder="Password *"
+                  value="{{ request.POST.password|default_if_none:'' }}" required>
                 <label for="customerPasswodInput">Password *</label>
               </div>
 
               <div class="d-flex align-items-center mb-3 pb-2">
                 <div class="form-check mb-0">
-                  <input name="remember" class="form-check-input form-check-input_fill" type="checkbox" value=""
-                    id="flexCheckDefault1">
+                  <input name="remember" class="form-check-input form-check-input_fill" type="checkbox" value="1"
+                    id="flexCheckDefault1" {% if request.POST.remember %}checked{% endif %}>
                   <label class="form-check-label text-secondary" for="flexCheckDefault1">Remember me</label>
                 </div>
-                <a href="reset_password.html" class="btn-text ms-auto">Lost password?</a>
-              </div>
-              <div class="text-center my-4">
-                <div class="d-flex align-items-center mb-3">
-                  <hr class="flex-grow-1">
-                  <span class="px-3 text-secondary">Or continue with social account</span>
-                  <hr class="flex-grow-1">
-                </div>
-                <div class="d-flex gap-3 justify-content-center">
-                  <button type="button" class="btn social-btn">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20" class="me-2" />
-                    Sign in with Google
-                  </button>
-                  <button type="button" class="btn social-btn">
-                    <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" width="20" class="me-2" />
-                    Sign in with Facebook
-                  </button>
-                </div>
+                <a href="" class="btn-text ms-auto">Lost password?</a>
               </div>
 
               <button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button>
 
               <div class="customer-option mt-4 text-center">
                 <span class="text-secondary">No account yet?</span>
-                <a href="{% url "accounts:register_page" %}" class="btn-text js-show-register">Create Account</a>
+                <a href="{% url 'accounts:register_page' %}" class="btn-text js-show-register">Create Account</a>
               </div>
             </form>
+
           </div>
         </div>
 
       </div>
     </section>
+  {% endif %}
   </main>
 
   <div class="mb-5 pb-xl-5"></div>

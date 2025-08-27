@@ -141,3 +141,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'mail.abdellah.in'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False          # Don't use TLS on port 465
+EMAIL_USE_SSL = True           # Correct for port 465 (SMTPS)
+
+EMAIL_HOST_USER = 'no-reply@abdellah.in'
+EMAIL_HOST_PASSWORD = 'no-reply@abdellah.in'   # Replace with the real password
+
+DEFAULT_FROM_EMAIL = 'Activate Your Account <no-reply@abdellah.in>'
