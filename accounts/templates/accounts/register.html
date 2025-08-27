@@ -1,0 +1,131 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}<title>Create Account</title>{% endblock %}
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="login-register container">
+      <h2 class="d-none">Register</h2>
+      <ul class="nav nav-tabs mb-5" id="login_register" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link nav-link_underscore active">Register</a>
+        </li>
+      </ul>
+      <div class="tab-content pt-2" id="login_register_tab_content">
+        <div class="tab-pane fade show active" id="tab-item-login" role="tabpanel" aria-labelledby="login-tab">
+          <div class="login-form">
+            {% if form.non_field_errors %}
+  <div class="alert alert-danger small">
+    {{ form.non_field_errors|join:", " }}
+  </div>
+{% endif %}
+
+           <form action="{% url 'accounts:register_page' %}" method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            <!-- First Name -->
+            <div class="form-floating mb-3">
+              <input type="text" 
+                    name="first_name" 
+                    class="form-control form-control_gray {% if form.first_name.errors %}is-invalid{% endif %}" 
+                    id="customerFirstNameRegisterInput" 
+                    placeholder="First Name" 
+                    value="{{ form.first_name.value|default_if_none:'' }}">
+              <label for="customerFirstNameRegisterInput">First Name</label>
+              {% if form.first_name.errors %}
+                <div class="invalid-feedback">{{ form.first_name.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-floating mb-3">
+              <input type="text" 
+                    name="last_name" 
+                    class="form-control form-control_gray {% if form.last_name.errors %}is-invalid{% endif %}" 
+                    id="customerLastNameRegisterInput" 
+                    placeholder="Last Name" 
+                    value="{{ form.last_name.value|default_if_none:'' }}">
+              <label for="customerLastNameRegisterInput">Last Name</label>
+              {% if form.last_name.errors %}
+                <div class="invalid-feedback">{{ form.last_name.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-floating mb-3">
+              <input type="email" 
+                    name="email" 
+                    class="form-control form-control_gray {% if form.email.errors %}is-invalid{% endif %}" 
+                    id="customerEmailRegisterInput" 
+                    placeholder="Email Address *" 
+                    value="{{ form.email.value|default_if_none:'' }}">
+              <label for="customerEmailRegisterInput">Email Address *</label>
+              {% if form.email.errors %}
+                <div class="invalid-feedback">{{ form.email.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-floating mb-3">
+              <input type="password" 
+                    name="password" 
+                    class="form-control form-control_gray {% if form.password.errors %}is-invalid{% endif %}" 
+                    id="customerPasswordRegisterInput" 
+                    placeholder="Password *"
+                    value="{{ form.password.value|default_if_none:'' }}">
+              <label for="customerPasswordRegisterInput">Password *</label>
+              {% if form.password.errors %}
+                <div class="invalid-feedback">{{ form.password.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-floating mb-3">
+              <input type="password" 
+                    name="confirm_password" 
+                    class="form-control form-control_gray {% if form.confirm_password.errors %}is-invalid{% endif %}" 
+                    id="customerConfirmPasswordRegisterInput" 
+                    placeholder="Re-Enter Password *"
+                    value="{{ form.confirm_password.value|default_if_none:'' }}">
+              <label for="customerConfirmPasswordRegisterInput">Confirm Password *</label>
+              {% if form.confirm_password.errors %}
+                <div class="invalid-feedback">{{ form.confirm_password.errors|join:", " }}</div>
+              {% endif %}
+            </div>
+
+
+            <!-- Submit -->
+            <button class="btn btn-primary w-100 text-uppercase" type="submit">Register</button>
+          </form>
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+
+  <script>
+  // Bootstrap validation
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
+
+{% endblock %}
