@@ -56,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'abdellah_config.middleware.RedirectAuthenticatedUserMiddleware',
+    'abdellah_config.middleware.RestrictUnauthenticatedUserMiddleware'
 ]
 
 ROOT_URLCONF = 'abdellah_config.urls'

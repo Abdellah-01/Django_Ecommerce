@@ -73,16 +73,16 @@ def login(request):
         if user is not None:
             auth_login(request, user)
             messages.success(request, "You are now logged in.")
-            return redirect("abdellah_shoping:home_page")  # change this
+            return redirect("accounts:dashboard_page") 
         else:
             messages.error(request, "Invalid email or password.")
-            return render(request, "accounts/login.html")  # keep form data
+            return render(request, "accounts/login.html")
     return render(request, "accounts/login.html")
 
 @login_required(login_url='accounts:login_page')
 def logout(request):
     auth_logout(request)
-    return redirect('products:products_page')
+    return redirect("abdellah_shoping:home_page")
 
 def activate(request, uidb64, token):
     try:
@@ -100,3 +100,11 @@ def activate(request, uidb64, token):
         messages.error(request, 'Invalid Activation Link!')
         return redirect('accounts:register_page')
 
+@login_required(login_url='accounts:login_page')
+# User SHopping Accounts
+def dashboard(request):
+    active = "menu-link_active"
+    context = {
+        'active':active
+    }
+    return render(request, 'accounts/account_dashboard.html', context)
