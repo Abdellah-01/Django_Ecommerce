@@ -1,0 +1,8 @@
+{% autoescape off %}
+Hii {{user.first_name}}
+
+As Per Requested, Click Below Link to Reset Your Password.
+http://{{domain}}{% url "accounts:reset_password_validate_page" uidb64=uid token=token %}
+
+if You Think It's Not You, Please Ignore This Email
+{% endautoescape %}

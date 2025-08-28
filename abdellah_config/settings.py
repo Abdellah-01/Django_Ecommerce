@@ -154,4 +154,4 @@ EMAIL_USE_SSL = True           # Correct for port 465 (SMTPS)
 EMAIL_HOST_USER = 'no-reply@abdellah.in'
 EMAIL_HOST_PASSWORD = 'no-reply@abdellah.in'   # Replace with the real password
 
-DEFAULT_FROM_EMAIL = 'Activate Your Account <no-reply@abdellah.in>'
+DEFAULT_FROM_EMAIL = 'Team Abdellah <no-reply@abdellah.in>'
