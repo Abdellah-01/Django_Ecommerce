@@ -17,62 +17,103 @@ def _cart_id(request):
 
 def add_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    selected_size = request.POST.get('size')   # ✅ size comes from form
+    selected_size = request.POST.get('size')
     quantity = int(request.POST.get('quantity', 1))
 
-    # get or create cart
-    try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(cart_id=_cart_id(request))
-        cart.save()
+    if request.user.is_authenticated:
+        # ✅ Logged-in user cart
+        try:
+            cart_item = CartItem.objects.get(
+                product=product, 
+                user=request.user, 
+                size=selected_size
+            )
+            if cart_item.quantity + quantity <= product.stock:
+                cart_item.quantity += quantity
+            else:
+                cart_item.quantity = product.stock
+            cart_item.save()
+        except CartItem.DoesNotExist:
+            if quantity > product.stock:
+                quantity = product.stock
+            cart_item = CartItem.objects.create(
+                product=product,
+                user=request.user,   # ✅ tie to logged-in user
+                size=selected_size,
+                quantity=quantity
+            )
+            cart_item.save()
 
-    # get or create cart item (match product + cart + size)
-    try:
-        cart_item = CartItem.objects.get(product=product, cart=cart, size=selected_size)
-        # ✅ check stock before increasing
-        if cart_item.quantity + quantity <= product.stock:
-            cart_item.quantity += quantity
-        else:
-            cart_item.quantity = product.stock
-        cart_item.save()
-    except CartItem.DoesNotExist:
-        if quantity > product.stock:
-            quantity = product.stock
-        cart_item = CartItem.objects.create(
-            product=product,
-            cart=cart,
-            size=selected_size,
-            quantity=quantity
-        )
-        cart_item.save()
+    else:
+        # ✅ Guest cart (session based)
+        try:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+        except Cart.DoesNotExist:
+            cart = Cart.objects.create(cart_id=_cart_id(request))
+            cart.save()
+
+        try:
+            cart_item = CartItem.objects.get(
+                product=product, 
+                cart=cart, 
+                size=selected_size
+            )
+            if cart_item.quantity + quantity <= product.stock:
+                cart_item.quantity += quantity
+            else:
+                cart_item.quantity = product.stock
+            cart_item.save()
+        except CartItem.DoesNotExist:
+            if quantity > product.stock:
+                quantity = product.stock
+            cart_item = CartItem.objects.create(
+                product=product,
+                cart=cart,   # ✅ tie to guest cart
+                size=selected_size,
+                quantity=quantity
+            )
+            cart_item.save()
 
     return redirect('carts_urls:view_cart_page')
+
 
 
 
 def remove_cart(request, cart_item_id):
     try:
-        cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
+        if request.user.is_authenticated:
+            cart_item = CartItem.objects.get(id=cart_item_id, user=request.user)
+        else:
+            cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
+
         if cart_item.quantity > 1:
             cart_item.quantity -= 1
             cart_item.save()
         else:
             cart_item.delete()
+
     except CartItem.DoesNotExist:
         pass
 
     return redirect('carts_urls:view_cart_page')
+
 
 
 
 def remove_cart_item(request, cart_item_id):
     try:
-        cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
+        if request.user.is_authenticated:
+            cart_item = CartItem.objects.get(id=cart_item_id, user=request.user)
+        else:
+            cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
+
         cart_item.delete()
+
     except CartItem.DoesNotExist:
         pass
+
     return redirect('carts_urls:view_cart_page')
+
 
 
 
@@ -88,28 +129,25 @@ def view_cart(request):
     tax = Decimal('0.00')
     platform_fee = Decimal('0.00')
     grand_total = Decimal('0.00')
-    cart_items = []
 
-    try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, is_active__in=[True])
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(user=request.user, is_active=True)
+    else:
+        try:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        except ObjectDoesNotExist:
+            cart_items = []
 
-        for cart_item in cart_items:
-            # Convert price to Decimal safely
-            price = to_decimal(cart_item.product.price)
-            
-            # Ensure quantity is never None
-            qty = cart_item.quantity or 0
+    for cart_item in cart_items:
+        price = to_decimal(cart_item.product.price)
+        qty = cart_item.quantity or 0
+        total += price * qty
+        quantity += qty
 
-            total += price * qty
-            quantity += qty
-
-        tax = (Decimal('5') * total) / Decimal('100')   # 5% tax
-        platform_fee = Decimal('12.00')
-        grand_total = total + platform_fee
-
-    except ObjectDoesNotExist:
-        cart_items = []
+    tax = (Decimal('5') * total) / Decimal('100')
+    platform_fee = Decimal('12.00')
+    grand_total = total + platform_fee
 
     context = {
         'total': total,
@@ -122,6 +160,7 @@ def view_cart(request):
 
     return render(request, 'carts/shop_cart.html', context)
 
+
 @login_required(login_url='accounts:login_page')
 def checkout(request):
     total = Decimal('0.00')
@@ -129,28 +168,27 @@ def checkout(request):
     tax = Decimal('0.00')
     platform_fee = Decimal('0.00')
     grand_total = Decimal('0.00')
-    cart_items = []
 
-    try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, is_active__in=[True])
+    # 🔑 Fetch cart items for user OR guest
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(user=request.user, is_active=True)
+    else:
+        try:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        except ObjectDoesNotExist:
+            cart_items = []
 
-        for cart_item in cart_items:
-            # Convert price to Decimal safely
-            price = to_decimal(cart_item.product.price)
-            
-            # Ensure quantity is never None
-            qty = cart_item.quantity or 0
+    # calculate totals
+    for cart_item in cart_items:
+        price = to_decimal(cart_item.product.price)
+        qty = cart_item.quantity or 0
+        total += price * qty
+        quantity += qty
 
-            total += price * qty
-            quantity += qty
-
-        tax = (Decimal('5') * total) / Decimal('100')   # 5% tax
-        platform_fee = Decimal('12.00')
-        grand_total = total + platform_fee
-
-    except ObjectDoesNotExist:
-        cart_items = []
+    tax = (Decimal('5') * total) / Decimal('100')   # 5% tax
+    platform_fee = Decimal('12.00')
+    grand_total = total + platform_fee
 
     context = {
         'total': total,

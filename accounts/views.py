@@ -99,8 +99,8 @@ def login(request):
                             item.cart = None   # 🔑 detach from guest cart
                             item.save()
 
-                # delete guest cart after merging
-                cart.delete()
+                # # delete guest cart after merging
+                # cart.delete()
 
                 # remove session cart_id
                 if "cart_id" in request.session:
