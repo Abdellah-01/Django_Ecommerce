@@ -120,3 +120,6 @@ def view_cart(request):
     }
 
     return render(request, 'carts/shop_cart.html', context)
+
+def checkout(request):
+    return render(request, 'carts/shop_checkout.html')

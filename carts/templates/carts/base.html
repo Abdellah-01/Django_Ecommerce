@@ -44,6 +44,29 @@
       type="text/css"
     />
 
+<style>
+  .filters-container {
+    display: none; /* hidden by default */
+    border: 1px solid #ddd;
+    background: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+  }
+  .filters-container.show {
+    display: block;
+  }
+  .search-suggestion__item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .search-suggestion__item:hover {
+    background-color: #f1f1f1;
+  }
+</style>
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     {% block title %} {% endblock %}
@@ -77,6 +100,48 @@
     <!-- Page Overlay -->
     <div class="page-overlay"></div>
     <!-- /.page-overlay -->
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dropdownInput = document.getElementById("search-dropdown");
+  const dropdownContainer = document.querySelector(".filters-container");
+  const searchInput = dropdownContainer.querySelector(".search-field__input");
+  const suggestionItems = dropdownContainer.querySelectorAll(".js-search-select");
+
+  // Toggle dropdown
+  dropdownInput.addEventListener("click", function () {
+    dropdownContainer.classList.toggle("show");
+    searchInput.value = "";
+    searchInput.focus();
+    suggestionItems.forEach(item => item.style.display = "block"); // reset list
+  });
+
+  // Filter suggestions
+  searchInput.addEventListener("keyup", function () {
+    const filter = searchInput.value.toLowerCase();
+    suggestionItems.forEach(function (item) {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(filter) ? "" : "none";
+    });
+  });
+
+  // Select suggestion
+  suggestionItems.forEach(function (item) {
+    item.addEventListener("click", function () {
+      dropdownInput.value = item.textContent;
+      dropdownContainer.classList.remove("show");
+    });
+  });
+
+  // Close if click outside
+  document.addEventListener("click", function (event) {
+    if (!event.target.closest(".hover-container")) {
+      dropdownContainer.classList.remove("show");
+    }
+  });
+});
+</script>
+
 
     <script src="{% static 'products/js/plugins/jquery.min.js' %}"></script>
     <script src="{% static 'products/js/plugins/bootstrap.bundle.min.js' %}"></script>
