@@ -6,6 +6,7 @@ from .models import Cart, CartItem
 from decimal import Decimal
 from bson.decimal128 import Decimal128
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def _cart_id(request):
@@ -121,5 +122,43 @@ def view_cart(request):
 
     return render(request, 'carts/shop_cart.html', context)
 
+@login_required(login_url='accounts:login_page')
 def checkout(request):
-    return render(request, 'carts/shop_checkout.html')
+    total = Decimal('0.00')
+    quantity = 0
+    tax = Decimal('0.00')
+    platform_fee = Decimal('0.00')
+    grand_total = Decimal('0.00')
+    cart_items = []
+
+    try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_items = CartItem.objects.filter(cart=cart, is_active__in=[True])
+
+        for cart_item in cart_items:
+            # Convert price to Decimal safely
+            price = to_decimal(cart_item.product.price)
+            
+            # Ensure quantity is never None
+            qty = cart_item.quantity or 0
+
+            total += price * qty
+            quantity += qty
+
+        tax = (Decimal('5') * total) / Decimal('100')   # 5% tax
+        platform_fee = Decimal('12.00')
+        grand_total = total + platform_fee
+
+    except ObjectDoesNotExist:
+        cart_items = []
+
+    context = {
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
+        'tax': tax,
+        'platform_fee': platform_fee,
+        'grand_total': grand_total,
+    }
+
+    return render(request, 'carts/shop_checkout.html', context)

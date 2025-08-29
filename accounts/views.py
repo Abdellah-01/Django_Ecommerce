@@ -2,11 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.conf import settings
 from django.urls import reverse
+from carts.models import Cart, CartItem
+from carts.views import _cart_id
 from .forms import RegistrationForm
 from .models import Account
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.sessions.models import Session
 
 # Email
 from django.contrib.sites.shortcuts import get_current_site
@@ -71,6 +74,41 @@ def login(request):
         user = authenticate(request, email=email, password=password)
 
         if user is not None:
+            try:
+                # Find guest cart
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+                cart_items = CartItem.objects.filter(cart=cart)
+
+                if cart_items.exists():
+                    for item in cart_items:
+                        # Look for same product+size in user cart
+                        existing_item = CartItem.objects.filter(
+                            user=user,
+                            product=item.product,
+                            size=item.size
+                        ).first()
+
+                        if existing_item:
+                            # Merge quantities
+                            existing_item.quantity += item.quantity
+                            existing_item.save()
+                            item.delete()
+                        else:
+                            # Assign item to logged-in user
+                            item.user = user
+                            item.cart = None   # 🔑 detach from guest cart
+                            item.save()
+
+                # delete guest cart after merging
+                cart.delete()
+
+                # remove session cart_id
+                if "cart_id" in request.session:
+                    del request.session["cart_id"]
+
+            except Cart.DoesNotExist:
+                pass
+
             auth_login(request, user)
             messages.success(request, "You are now logged in.")
             return redirect("accounts:dashboard_page") 

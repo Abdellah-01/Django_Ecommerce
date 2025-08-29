@@ -5,6 +5,7 @@
 {% block content %}
   <main>
     <div class="mb-4 pb-4"></div>
+    {% if cart_items %}
     <section class="shop-checkout container">
       <h2 class="page-title">Shipping and Checkout</h2>
       <div class="checkout-steps">
@@ -30,7 +31,8 @@
           </span>
         </a>
       </div>
-      <form name="checkout-form" action="">
+      <form method='POST' action="">
+        {% csrf_token %}
         <div class="checkout-form">
           <div class="billing-info__wrapper">
             <h4>BILLING DETAILS</h4>
@@ -38,120 +40,178 @@
               <div class="col-md-12">
                 <div class="search-field my-3">
                   <div class="form-label-fixed hover-container" style="position: relative;">
-                    <label for="search-dropdown" class="form-label">Country / Region*</label>
+                    <label for="search-dropdown-1" class="form-label">Country / Region*</label>
                     <div class="js-hover__open">
-                      <input type="text"
-                        class="form-control form-control-lg search-field__actor search-field__arrow-down"
-                        id="search-dropdown" name="country" readonly placeholder="Choose a location...">
+                      <input type="text" 
+                            class="form-control form-control-lg search-field__actor search-field__arrow-down" 
+                            id="search-dropdown-1" 
+                            name="country" 
+                            readonly 
+                            placeholder="Choose a location...">
                     </div>
-                    <div class="filters-container mt-2">
+                    <div class="filters-container js-hidden-content mt-2" id="filters-1">
                       <div class="search-field__input-wrapper">
-                        <input type="text"
-                          class="search-field__input form-control form-control-sm bg-lighter border-lighter"
-                          placeholder="Search">
+                        <input type="text" id="search-input-1"
+                              class="search-field__input form-control form-control-sm bg-lighter border-lighter" 
+                              placeholder="Search">
                       </div>
-                      <ul class="search-suggestion list-unstyled mb-0">
-                        <li class="search-suggestion__item js-search-select">India</li>
+                      <ul class="search-suggestion list-unstyled">
+                        <li class="search-suggestion__item">India</li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
+
+
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_first_name" placeholder="First Name">
+                  <input type="text" class="form-control" id="checkout_first_name" name='first_name' placeholder="First Name">
                   <label for="checkout_first_name">First Name</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_last_name" placeholder="Last Name">
+                  <input type="text" class="form-control" id="checkout_last_name" name='last_name' placeholder="Last Name">
                   <label for="checkout_last_name">Last Name</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_company_name"
+                  <input type="text" class="form-control" id="checkout_company_name" name='company_name'
                     placeholder="Company Name (optional)">
                   <label for="checkout_company_name">Company Name (optional)</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" id="checkout_street_address" placeholder="Street Address *">
+                  <input type="text" class="form-control" id="checkout_street_address" name='address1' placeholder="Street Address *">
                   <label for="checkout_company_name">Address Line 1 *</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" id="checkout_street_address" placeholder="Street Address *">
+                  <input type="text" class="form-control" id="checkout_street_address" name='address2' placeholder="Street Address *">
                   <label for="checkout_company_name">Address Line 2 *</label>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_city" placeholder="Town / City *">
-                  <label for="checkout_city">Town / City *</label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_zipcode" placeholder="Postcode / ZIP *">
-                  <label for="checkout_zipcode">Postcode / ZIP *</label>
-                </div>
-              </div>
+              <!-- STATE DROPDOWN -->
               <div class="col-md-4">
                 <div class="search-field my-3">
                   <div class="form-label-fixed hover-container" style="position: relative;">
-                    <label for="search-dropdown" class="form-label">Country / Region*</label>
+                    <label for="search-dropdown-2" class="form-label">State / Province*</label>
                     <div class="js-hover__open">
-                      <input type="text"
-                        class="form-control form-control-lg search-field__actor search-field__arrow-down"
-                        id="search-dropdown" name="country" readonly placeholder="Choose a location...">
+                      <input type="text" 
+                            class="form-control form-control-lg search-field__actor search-field__arrow-down" 
+                            id="search-dropdown-2" 
+                            name="state" 
+                            readonly 
+                            placeholder="Choose a state...">
                     </div>
-                    <div class="filters-container mt-2">
+                    <div class="filters-container js-hidden-content mt-2" id="filters-2">
                       <div class="search-field__input-wrapper">
-                        <input type="text"
-                          class="search-field__input form-control form-control-sm bg-lighter border-lighter"
-                          placeholder="Search">
+                        <input type="text" id="search-input-2"
+                              class="search-field__input form-control form-control-sm bg-lighter border-lighter" 
+                              placeholder="Search">
                       </div>
-                      <ul class="search-suggestion list-unstyled mb-0">
-                        <li class="search-suggestion__item js-search-select">India</li>
+                      <ul class="search-suggestion list-unstyled" id="state-list">
+                        <li class="search-suggestion__item">Andhra Pradesh</li>
+                        <li class="search-suggestion__item">Arunachal Pradesh</li>
+                        <li class="search-suggestion__item">Assam</li>
+                        <li class="search-suggestion__item">Bihar</li>
+                        <li class="search-suggestion__item">Chhattisgarh</li>
+                        <li class="search-suggestion__item">Goa</li>
+                        <li class="search-suggestion__item">Gujarat</li>
+                        <li class="search-suggestion__item">Haryana</li>
+                        <li class="search-suggestion__item">Himachal Pradesh</li>
+                        <li class="search-suggestion__item">Jharkhand</li>
+                        <li class="search-suggestion__item">Karnataka</li>
+                        <li class="search-suggestion__item">Kerala</li>
+                        <li class="search-suggestion__item">Madhya Pradesh</li>
+                        <li class="search-suggestion__item">Maharashtra</li>
+                        <li class="search-suggestion__item">Manipur</li>
+                        <li class="search-suggestion__item">Meghalaya</li>
+                        <li class="search-suggestion__item">Mizoram</li>
+                        <li class="search-suggestion__item">Nagaland</li>
+                        <li class="search-suggestion__item">Odisha</li>
+                        <li class="search-suggestion__item">Punjab</li>
+                        <li class="search-suggestion__item">Rajasthan</li>
+                        <li class="search-suggestion__item">Sikkim</li>
+                        <li class="search-suggestion__item">Tamil Nadu</li>
+                        <li class="search-suggestion__item">Telangana</li>
+                        <li class="search-suggestion__item">Tripura</li>
+                        <li class="search-suggestion__item">Uttar Pradesh</li>
+                        <li class="search-suggestion__item">Uttarakhand</li>
+                        <li class="search-suggestion__item">West Bengal</li>
+                        <!-- UTs -->
+                        <li class="search-suggestion__item">Andaman and Nicobar Islands</li>
+                        <li class="search-suggestion__item">Chandigarh</li>
+                        <li class="search-suggestion__item">Dadra and Nagar Haveli and Daman and Diu</li>
+                        <li class="search-suggestion__item">Delhi</li>
+                        <li class="search-suggestion__item">Jammu and Kashmir</li>
+                        <li class="search-suggestion__item">Ladakh</li>
+                        <li class="search-suggestion__item">Lakshadweep</li>
+                        <li class="search-suggestion__item">Puducherry</li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-12">
-                <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_phone" placeholder="Phone *">
-                  <label for="checkout_phone">Phone *</label>
+
+              <!-- CITY DROPDOWN -->
+              <div class="col-md-4">
+                <div class="search-field my-3">
+                  <div class="form-label-fixed hover-container" style="position: relative;">
+                    <label for="search-dropdown-3" class="form-label">City / Town*</label>
+                    <div class="js-hover__open">
+                      <input type="text" 
+                            class="form-control form-control-lg search-field__actor search-field__arrow-down" 
+                            id="search-dropdown-3" 
+                            name="city" 
+                            readonly 
+                            placeholder="Choose a city...">
+                    </div>
+                    <div class="filters-container js-hidden-content mt-2" id="filters-3">
+                      <div class="search-field__input-wrapper">
+                        <input type="text" id="search-input-3"
+                              class="search-field__input form-control form-control-sm bg-lighter border-lighter" 
+                              placeholder="Search">
+                      </div>
+                      <ul class="search-suggestion list-unstyled" id="city-list">
+                        <!-- Cities will load dynamically -->
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-12">
+
+              <div class="col-md-4">
                 <div class="form-floating my-3">
-                  <input type="email" class="form-control" id="checkout_email" placeholder="Your Mail *">
+                  <input type="text" class="form-control" id="checkout_zipcode" name='pincode' placeholder="Postcode / ZIP *">
+                  <label for="checkout_zipcode">Postcode / ZIP *</label>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-floating my-3">
+                  <input type="text" class="form-control" id="checkout_phone" name='mobile_number' placeholder="Phone *">
+                  <label for="checkout_phone">Mobile Number *</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating my-3">
+                  <input type="email" class="form-control" id="checkout_email" name='email' placeholder="Your Mail *">
                   <label for="checkout_email">Your Mail *</label>
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="form-check mt-3">
-                  <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="create_account">
-                  <label class="form-check-label" for="create_account">CREATE AN ACCOUNT?</label>
-                </div>
-                <div class="form-check mb-3">
-                  <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                    id="ship_different_address">
-                  <label class="form-check-label" for="ship_different_address">SHIP TO A DIFFERENT ADDRESS?</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12">
               <div class="mt-3">
-                <textarea class="form-control form-control_gray" placeholder="Order Notes (optional)" cols="30"
+                <textarea class="form-control form-control_gray" name='order_note' placeholder="Order Notes (optional)" cols="30"
                   rows="8"></textarea>
               </div>
             </div>
+            </div>
+            
           </div>
           <div class="checkout__totals-wrapper">
             <div class="sticky-content">
@@ -165,105 +225,116 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% if cart_items %}
+                    {% for cart_item in cart_items %}
                     <tr>
                       <td>
-                        Zessi Dresses x 2<br>Size: M
+                        {{cart_item.product.product_name}} x {{cart_item.quantity}}<br>Size: {{cart_item.size|upper}}
                       </td>
                       <td>
-                        $32.50
+                        ₹{{cart_item.sub_total|floatformat:2|intcomma}}
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        Kirby T-Shirt
-                      </td>
-                      <td>
-                        $29.90
-                      </td>
-                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <p>There are No products to Checkout</p>
+                    {% endif %}
                   </tbody>
                 </table>
                 <table class="checkout-totals">
                   <tbody>
                     <tr>
-                      <th>SUBTOTAL</th>
-                      <td>$62.40</td>
+                      <th>TOTAL PRICE</th>
+                      <td>₹{{total|floatformat:2|intcomma}}</td>
                     </tr>
+                    <tr>
+                    <th>CGST & SGST <br><span style="font-size: 12px; font-style: italic; opacity: 0.7;">(included)</span></th>
+                    <td>₹{{tax|floatformat:2|intcomma}}</td>
+                  </tr>
+                  <tr>
+                    <th>Platform Fee</th>
+                    <td>₹{{platform_fee}}</td>
+                  </tr>
                     <tr>
                       <th>SHIPPING</th>
                       <td>Free shipping</td>
                     </tr>
                     <tr>
-                      <th>VAT</th>
-                      <td>$19</td>
-                    </tr>
-                    <tr>
                       <th>TOTAL</th>
-                      <td>$81.40</td>
+                      <td>₹{{grand_total|floatformat:2|intcomma}}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="checkout__payment-methods">
-                <div class="form-check">
-                  <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_1" checked>
-                  <label class="form-check-label" for="checkout_payment_method_1">
-                    Direct bank transfer
-                    <span class="option-detail d-block">
-                      Make your payment directly into our bank account. Please use your Order ID as the payment
-                      reference.Your order will not be shipped until the funds have cleared in our account.
-                    </span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_2">
-                  <label class="form-check-label" for="checkout_payment_method_2">
-                    Check payments
-                    <span class="option-detail d-block">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
-                    </span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_3">
-                  <label class="form-check-label" for="checkout_payment_method_3">
-                    Cash on delivery
-                    <span class="option-detail d-block">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
-                    </span>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input form-check-input_fill" type="radio" name="checkout_payment_method"
-                    id="checkout_payment_method_4">
-                  <label class="form-check-label" for="checkout_payment_method_4">
-                    Paypal
-                    <span class="option-detail d-block">
-                      Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec dui. Aenean
-                      aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc, ut aliquet
-                      magna posuere eget.
-                    </span>
-                  </label>
-                </div>
+                <!-- Payment Option 1 -->
+                <label class="payment-card">
+                  <input type="radio" name="checkout_payment_method" checked>
+                  <div class="payment-card-body">
+                    <div class="payment-title">
+                      <span>PhonePe Payment Gateway (UPI, Cards & NetBanking)</span>
+                      <div class="payment-icons">
+                        <img src="{% static 'accounts/images/payments/upi.svg' %}" alt="UPI">
+                        <img src="{% static 'accounts/images/payments/visa.svg' %}" alt="Visa">
+                        <img src="{% static 'accounts/images/payments/master.svg' %}" alt="MasterCard">
+                        <img src="{% static 'accounts/images/payments/rupay.png' %}" alt="RuPay">
+                        <span class="extra">+3</span>
+                      </div>
+                    </div>
+                    <div class="payment-description">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-270.8 371 102 52" class="zjrzY"><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-182 404v16.8c0 .7-.4 1.2-1 1.2h-75.7c-.7 0-1.2-.6-1.2-1.2v-47.6c0-.7.6-1.2 1.2-1.2h75.7c.7 0 1 .6 1 1.2V395m-78-14h78m-17 18h27m-3.9-4.6 4.5 4.6-4.5 4.6"></path><circle cx="-255.5" cy="376.5" r="1.5" fill="currentColor"></circle><circle cx="-250.5" cy="376.5" r="1.5" fill="currentColor"></circle><circle cx="-245.5" cy="376.5" r="1.5" fill="currentColor"></circle></svg>
+                      <p>
+                        After clicking “Pay now”, you will be redirected to PhonePe Payment Gateway 
+                        (UPI, Cards & NetBanking) to complete your purchase securely.
+                      </p>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Payment Option 2 -->
+                <label class="payment-card">
+                  <input type="radio" name="checkout_payment_method">
+                  <div class="payment-card-body">
+                    <div class="payment-title">
+                      <span>Razorpay Gateway (UPI, Cards & NetBanking)</span>
+                      <div class="payment-icons">
+                        <img src="{% static 'accounts/images/payments/upi.svg' %}" alt="UPI">
+                        <img src="{% static 'accounts/images/payments/visa.svg' %}" alt="Visa">
+                        <img src="{% static 'accounts/images/payments/master.svg' %}" alt="MasterCard">
+                        <img src="{% static 'accounts/images/payments/rupay.png' %}" alt="RuPay">
+                        <span class="extra">+12</span>
+                      </div>
+                    </div>
+                    <div class="payment-description">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-270.8 371 102 52" class="zjrzY"><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-182 404v16.8c0 .7-.4 1.2-1 1.2h-75.7c-.7 0-1.2-.6-1.2-1.2v-47.6c0-.7.6-1.2 1.2-1.2h75.7c.7 0 1 .6 1 1.2V395m-78-14h78m-17 18h27m-3.9-4.6 4.5 4.6-4.5 4.6"></path><circle cx="-255.5" cy="376.5" r="1.5" fill="currentColor"></circle><circle cx="-250.5" cy="376.5" r="1.5" fill="currentColor"></circle><circle cx="-245.5" cy="376.5" r="1.5" fill="currentColor"></circle></svg>
+                      <p>
+                        After clicking “Pay now”, you will be redirected to PhonePe Payment Gateway 
+                        (UPI, Cards & NetBanking) to complete your purchase securely.
+                      </p>
+                    </div>
+                  </div>
+                </label>
+
                 <div class="policy-text">
-                  Your personal data will be used to process your order, support your experience throughout this
-                  website, and for other purposes described in our <a href="terms.html" target="_blank">privacy
-                    policy</a>.
+                  Your personal data will be used to process your order, support your experience
+                  throughout this website, and for other purposes described in our 
+                  <a href="terms.html" target="_blank">privacy policy</a>.
                 </div>
               </div>
-              <button class="btn btn-primary btn-checkout">PLACE ORDER</button>
+
+              <button type='submit' class="btn btn-primary btn-checkout">PLACE ORDER</button>
             </div>
           </div>
         </div>
       </form>
     </section>
+    {% else %}
+    <section class="shop-checkout container text-center py-5">
+      <h2>Your Have No Products to Checkout!</h2>
+      <p class="text-muted">Add some products to Place Order.</p>
+      <a href="{% url "products:products_page" %}" class="btn btn-primary mt-3">Go to Shop</a>
+    </section>
+    {% endif %}
   </main>
 
   <div class="mb-5 pb-xl-5"></div>

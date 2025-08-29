@@ -43,10 +43,9 @@
       href="{% static 'products/css/plugins/jquery.fancybox.css' %}"
       type="text/css"
     />
-
 <style>
   .filters-container {
-    display: none; /* hidden by default */
+    display: none;
     border: 1px solid #ddd;
     background: #fff;
     max-height: 200px;
@@ -65,7 +64,92 @@
   .search-suggestion__item:hover {
     background-color: #f1f1f1;
   }
+  {% comment %} Payment {% endcomment %}
+  .checkout__payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 !important;
+  border: none !important;
+
+}
+
+.payment-card {
+  display: block;
+  border: 1px solid #e4e4e4;
+  cursor: pointer;
+  transition: 0.3s;
+  overflow: hidden; /* fix icons going outside */
+}
+
+.payment-card input {
+  display: none;
+}
+
+.payment-card-body {
+  padding: 15px;
+}
+
+.payment-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+  flex-wrap: wrap; /* icons won’t overflow */
+}
+
+.payment-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap; /* wrap icons if too many */
+  max-width: 200px; /* keeps them inside */
+}
+
+.payment-icons img {
+  height: 22px;
+}
+
+.payment-icons .extra {
+  background: #f1f1f1;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+.payment-description {
+  display: none; /* hidden by default */
+  align-items: center;
+  margin-top: 12px;
+  gap: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.payment-description svg {
+  height: 3.7142857142857144em;
+  color: #666;
+}
+
+.payment-card input:checked + .payment-card-body {
+  border: 2px solid #000;
+  background: #f9fbff;
+}
+
+/* ✅ Show description only when selected */
+.payment-card input:checked + .payment-card-body .payment-description {
+  display: flex;
+  flex-direction: column;
+}
+
+.policy-text {
+  font-size: 13px;
+  color: #666;
+}
+
 </style>
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -102,45 +186,123 @@
     <!-- /.page-overlay -->
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const dropdownInput = document.getElementById("search-dropdown");
-  const dropdownContainer = document.querySelector(".filters-container");
-  const searchInput = dropdownContainer.querySelector(".search-field__input");
-  const suggestionItems = dropdownContainer.querySelectorAll(".js-search-select");
+    function initDropdown(inputId, filterId, searchId) {
+      const dropdownInput = document.getElementById(inputId);
+      const dropdownContainer = document.getElementById(filterId);
+      const searchInput = document.getElementById(searchId);
+      const suggestionItems = dropdownContainer.querySelectorAll(".search-suggestion__item");
 
-  // Toggle dropdown
-  dropdownInput.addEventListener("click", function () {
-    dropdownContainer.classList.toggle("show");
-    searchInput.value = "";
-    searchInput.focus();
-    suggestionItems.forEach(item => item.style.display = "block"); // reset list
-  });
+      // Toggle dropdown
+      dropdownInput.addEventListener("click", function () {
+        // Close all open dropdowns first
+        document.querySelectorAll(".filters-container").forEach(dc => dc.classList.remove("show"));
 
-  // Filter suggestions
-  searchInput.addEventListener("keyup", function () {
-    const filter = searchInput.value.toLowerCase();
-    suggestionItems.forEach(function (item) {
-      const text = item.textContent.toLowerCase();
-      item.style.display = text.includes(filter) ? "" : "none";
-    });
-  });
+        dropdownContainer.classList.toggle("show");
+        searchInput.value = "";
+        suggestionItems.forEach(item => item.style.display = "block");
+        searchInput.focus();
+      });
 
-  // Select suggestion
-  suggestionItems.forEach(function (item) {
-    item.addEventListener("click", function () {
-      dropdownInput.value = item.textContent;
-      dropdownContainer.classList.remove("show");
-    });
-  });
+      // Filter suggestions
+      searchInput.addEventListener("keyup", function () {
+        const filter = searchInput.value.toLowerCase();
+        suggestionItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          item.style.display = text.includes(filter) ? "" : "none";
+        });
+      });
 
-  // Close if click outside
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".hover-container")) {
-      dropdownContainer.classList.remove("show");
+      // Select suggestion
+      suggestionItems.forEach(item => {
+        item.addEventListener("click", function () {
+          dropdownInput.value = item.textContent;
+          dropdownContainer.classList.remove("show");
+        });
+      });
+
+      // Close if clicking outside
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest(`#${filterId}`) && event.target !== dropdownInput) {
+          dropdownContainer.classList.remove("show");
+        }
+      });
     }
-  });
-});
-</script>
+
+    // Initialize dropdowns with IDs
+    document.addEventListener("DOMContentLoaded", function () {
+      initDropdown("search-dropdown-1", "filters-1", "search-input-1");
+      initDropdown("search-dropdown-2", "filters-2", "search-input-2");
+      initDropdown("search-dropdown-3", "filters-3", "search-input-3"); // NEW
+    });
+    </script>
+
+    <script>
+    // ✅ Full District Data for All States & UTs
+    const districts = {
+      "Andhra Pradesh": ["Alluri Sitharama Raju","Anakapalli","Anantapuramu","Annamayya","Bapatla","Chittoor","East Godavari","Eluru","Guntur","Kakinada","Konaseema","Krishna","Kurnool","Nandyal","Nellore (Sri Potti Sriramulu Nellore)","NTR","Palnadu","Parvathipuram Manyam","Prakasam","Srikakulam","Sri Sathya Sai","Tirupati","Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"],
+      "Arunachal Pradesh": ["Tawang","West Kameng","East Kameng","Papum Pare","Kurung Kumey","Kra Daadi","Lower Subansiri","Upper Subansiri","West Siang","East Siang","Upper Siang","Lower Siang","Changlang","Tirap","Longding","Anjaw","Lohit","Namsai","Dibang Valley","Lower Dibang Valley"],
+      "Assam": ["Baksa","Barpeta","Biswanath","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat","Kamrup","Kamrup Metropolitan","Karbi Anglong","Karimganj","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Sivasagar","Sonitpur","South Salmara","Tinsukia","Udalguri","West Karbi Anglong"],
+      "Bihar": ["Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar","Darbhanga","East Champaran","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur","Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan","Supaul","Vaishali","West Champaran"],
+      "Chhattisgarh": ["Balod","Baloda Bazar","Balrampur","Bastar","Bemetara","Bijapur","Bilaspur","Dantewada","Dhamtari","Durg","Gariaband","Gaurela-Pendra-Marwahi","Janjgir-Champa","Jashpur","Kabirdham","Kanker","Kondagaon","Korba","Koriya","Mahasamund","Mungeli","Narayanpur","Raigarh","Raipur","Rajnandgaon","Sukma","Surajpur","Surguja"],
+      "Goa": ["North Goa","South Goa"],
+      "Gujarat": ["Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur","Dahod","Dang","Devbhoomi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch","Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot","Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad"],
+      "Haryana": ["Ambala","Bhiwani","Charkhi Dadri","Faridabad","Fatehabad","Gurugram","Hisar","Jhajjar","Jind","Kaithal","Karnal","Kurukshetra","Mahendragarh","Nuh","Palwal","Panchkula","Panipat","Rewari","Rohtak","Sirsa","Sonipat","Yamunanagar"],
+      "Himachal Pradesh": ["Bilaspur","Chamba","Hamirpur","Kangra","Kinnaur","Kullu","Lahaul and Spiti","Mandi","Shimla","Sirmaur","Solan","Una"],
+      "Jharkhand": ["Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum","Garhwa","Giridih","Godda","Gumla","Hazaribagh","Jamtara","Khunti","Koderma","Latehar","Lohardaga","Pakur","Palamu","Ramgarh","Ranchi","Sahibganj","Seraikela Kharsawan","Simdega","West Singhbhum"],
+      "Karnataka": ["Bagalkot","Bangalore Rural","Bangalore Urban","Belagavi","Ballari","Bidar","Chamarajanagar","Chikkaballapur","Chikkamagaluru","Chitradurga","Dakshina Kannada","Davanagere","Dharwad","Gadag","Hassan","Haveri","Kalaburagi","Kodagu","Kolar","Koppal","Mandya","Mysuru","Raichur","Ramanagara","Shivamogga","Tumakuru","Udupi","Uttara Kannada","Vijayapura","Yadgir"],
+      "Kerala": ["Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod","Kollam","Kottayam","Kozhikode","Malappuram","Palakkad","Pathanamthitta","Thiruvananthapuram","Thrissur","Wayanad"],
+      "Madhya Pradesh": ["Agar Malwa","Alirajpur","Anuppur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umaria","Vidisha"],
+      "Maharashtra": ["Ahmednagar","Akola","Amravati","Aurangabad","Beed","Bhandara","Buldhana","Chandrapur","Dhule","Gadchiroli","Gondia","Hingoli","Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban","Nagpur","Nanded","Nandurbar","Nashik","Osmanabad","Palghar","Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara","Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"],
+      "Manipur": ["Bishnupur","Chandel","Churachandpur","Imphal East","Imphal West","Jiribam","Kakching","Kamjong","Kangpokpi","Noney","Pherzawl","Senapati","Tamenglong","Tengnoupal","Thoubal","Ukhrul"],
+      "Meghalaya": ["East Garo Hills","East Jaintia Hills","East Khasi Hills","North Garo Hills","Ri Bhoi","South Garo Hills","South West Garo Hills","South West Khasi Hills","West Garo Hills","West Jaintia Hills","West Khasi Hills"],
+      "Mizoram": ["Aizawl","Champhai","Hnahthial","Khawzawl","Kolasib","Lawngtlai","Lunglei","Mamit","Saiha","Saitual","Serchhip"],
+      "Nagaland": ["Chümoukedima","Dimapur","Kiphire","Kohima","Longleng","Mokokchung","Mon","Niuland","Noklak","Peren","Phek","Shamator","Tuensang","Tseminyu","Wokha","Zunheboto"],
+      "Odisha": ["Angul","Balangir","Balasore","Bargarh","Bhadrak","Boudh","Cuttack","Debagarh","Dhenkanal","Gajapati","Ganjam","Jagatsinghpur","Jajpur","Jharsuguda","Kalahandi","Kandhamal","Kendrapara","Kendujhar","Khordha","Koraput","Malkangiri","Mayurbhanj","Nabarangpur","Nayagarh","Nuapada","Puri","Rayagada","Sambalpur","Subarnapur","Sundargarh"],
+      "Punjab": ["Amritsar","Barnala","Bathinda","Faridkot","Fatehgarh Sahib","Fazilka","Ferozepur","Gurdaspur","Hoshiarpur","Jalandhar","Kapurthala","Ludhiana","Malerkotla","Mansa","Moga","Mohali","Muktsar","Pathankot","Patiala","Rupnagar","Sangrur","SAS Nagar","Shaheed Bhagat Singh Nagar","Sri Muktsar Sahib","Tarn Taran"],
+      "Rajasthan": ["Ajmer","Alwar","Banswara","Baran","Barmer","Bharatpur","Bhilwara","Bikaner","Bundi","Chittorgarh","Churu","Dausa","Dholpur","Dungarpur","Hanumangarh","Jaipur","Jaisalmer","Jalore","Jhalawar","Jhunjhunu","Jodhpur","Karauli","Kota","Nagaur","Pali","Pratapgarh","Rajsamand","Sawai Madhopur","Sikar","Sirohi","Sri Ganganagar","Tonk","Udaipur"],
+      "Sikkim": ["East Sikkim","North Sikkim","South Sikkim","West Sikkim","Pakyong","Soreng"],
+      "Tamil Nadu": ["Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kallakurichi","Kanchipuram","Kanyakumari","Karur","Krishnagiri","Madurai","Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai","Ramanathapuram","Ranipet","Salem","Sivagangai","Tenkasi","Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tirupathur","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"],
+      "Telangana": ["Adilabad","Bhadradri Kothagudem","Hyderabad","Jagtial","Jangaon","Jayashankar Bhupalpally","Jogulamba Gadwal","Kamareddy","Karimnagar","Khammam","Komaram Bheem Asifabad","Mahabubabad","Mahbubnagar","Mancherial","Medak","Medchal–Malkajgiri","Mulugu","Nagarkurnool","Nalgonda","Narayanpet","Nirmal","Nizamabad","Peddapalli","Rajanna Sircilla","Rangareddy","Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy","Warangal Rural","Warangal Urban","Yadadri Bhuvanagiri"],
+      "Tripura": ["Dhalai","Gomati","Khowai","North Tripura","Sepahijala","South Tripura","Unakoti","West Tripura"],
+      "Uttar Pradesh": ["Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha","Auraiya","Ayodhya","Azamgarh","Baghpat","Bahraich","Ballia","Balrampur","Banda","Barabanki","Bareilly","Basti","Bhadohi","Bijnor","Budaun","Bulandshahr","Chandauli","Chitrakoot","Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad","Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hamirpur","Hapur","Hardoi","Hathras","Jalaun","Jaunpur","Jhansi","Kannauj","Kanpur Dehat","Kanpur Nagar","Kasganj","Kaushambi","Kheri","Kushinagar","Lalitpur","Lucknow","Maharajganj","Mahoba","Mainpuri","Mathura","Mau","Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit","Pratapgarh","Prayagraj","Raebareli","Rampur","Saharanpur","Sambhal","Sant Kabir Nagar","Shahjahanpur","Shamli","Shravasti","Siddharthnagar","Sitapur","Sonbhadra","Sultanpur","Unnao","Varanasi"],
+      "Uttarakhand": ["Almora","Bageshwar","Chamoli","Champawat","Dehradun","Haridwar","Nainital","Pauri Garhwal","Pithoragarh","Rudraprayag","Tehri Garhwal","Udham Singh Nagar","Uttarkashi"],
+      "West Bengal": ["Alipurduar","Bankura","Birbhum","Cooch Behar","Dakshin Dinajpur","Darjeeling","Hooghly","Howrah","Jalpaiguri","Jhargram","Kalimpong","Kolkata","Malda","Murshidabad","Nadia","North 24 Parganas","Paschim Bardhaman","Paschim Medinipur","Purba Bardhaman","Purba Medinipur","Purulia","South 24 Parganas","Uttar Dinajpur"],
+      
+      // Union Territories
+      "Andaman and Nicobar Islands": ["Nicobar","North and Middle Andaman","South Andaman"],
+      "Chandigarh": ["Chandigarh"],
+      "Dadra and Nagar Haveli and Daman and Diu": ["Dadra and Nagar Haveli","Daman","Diu"],
+      "Delhi": ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"],
+      "Jammu and Kashmir": ["Anantnag","Bandipora","Baramulla","Budgam","Doda","Ganderbal","Jammu","Kathua","Kishtwar","Kulgam","Kupwara","Poonch","Pulwama","Rajouri","Ramban","Reasi","Samba","Shopian","Srinagar","Udhampur"],
+      "Ladakh": ["Kargil","Leh"],
+      "Lakshadweep": ["Agatti","Amini","Andrott","Bitra","Chetlat","Kadmat","Kalpeni","Kavaratti","Kiltan","Minicoy"],
+      "Puducherry": ["Karaikal","Mahe","Puducherry","Yanam"]
+    };
+
+
+    // Handle State Selection
+    document.querySelectorAll("#state-list .search-suggestion__item").forEach(item => {
+      item.addEventListener("click", function() {
+        const selectedState = this.textContent;
+        document.getElementById("search-dropdown-2").value = selectedState;
+
+        // Populate city list
+        const cityList = document.getElementById("city-list");
+        cityList.innerHTML = "";
+        if (districts[selectedState]) {
+          districts[selectedState].forEach(city => {
+            const li = document.createElement("li");
+            li.classList.add("search-suggestion__item");
+            li.textContent = city;
+            li.addEventListener("click", function() {
+              document.getElementById("search-dropdown-3").value = this.textContent;
+            });
+            cityList.appendChild(li);
+          });
+        }
+      });
+    });
+    </script>
 
 
     <script src="{% static 'products/js/plugins/jquery.min.js' %}"></script>
