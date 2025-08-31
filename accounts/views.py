@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sessions.models import Session
+import requests
 
 # Email
 from django.contrib.sites.shortcuts import get_current_site
@@ -111,7 +112,20 @@ def login(request):
 
             auth_login(request, user)
             messages.success(request, "You are now logged in.")
-            return redirect("accounts:dashboard_page") 
+            # Dynamic Login Page
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                # next=/cart/checkout
+                params = dict(x.split('=') for x in query.split('&'))
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+                
+            except:
+                return redirect("accounts:dashboard_page") 
+            
+            
         else:
             messages.error(request, "Invalid email or password.")
             return render(request, "accounts/login.html")
