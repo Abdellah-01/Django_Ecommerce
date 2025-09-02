@@ -82,7 +82,7 @@
       </div>
       <!-- /.d-flex justify-content-between -->
       <a href="{% url 'carts_urls:view_cart_page' %}" class="btn btn-light mt-3 d-block">View Cart</a>
-      <a href="shop_checkout.html" class="btn btn-primary mt-3 d-block">Checkout</a>
+      <a href="{% url "carts_urls:checkout_page" %}" class="btn btn-primary mt-3 d-block">Checkout</a>
     </div>
   {% endif %}
   <!-- /.aside-content -->
