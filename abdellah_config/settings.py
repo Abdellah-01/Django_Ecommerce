@@ -157,3 +157,4 @@ EMAIL_HOST_USER = 'no-reply@abdellah.in'
 EMAIL_HOST_PASSWORD = 'no-reply@abdellah.in'   # Replace with the real password
 
 DEFAULT_FROM_EMAIL = 'Team Abdellah <no-reply@abdellah.in>'
+
