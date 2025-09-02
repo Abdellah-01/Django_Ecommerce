@@ -78,6 +78,14 @@ class Product(models.Model):
 
     def get_url(self):
         return reverse("products:product_details_page", args=[self.slug])
+    
+    @property
+    def savings(self):
+        """Return savings as compare_at_price - price"""
+        if self.compare_at_price and self.price:
+            return max(self.compare_at_price - self.price, 0)
+        return 0
+
 
 
     def save(self, *args, **kwargs):

@@ -91,6 +91,32 @@
     right: 12px;
   }
 }
+.pc__img-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.pc__img {
+  transition: opacity 0.4s ease-in-out;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pc__img.hover-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.pc__img-wrapper:hover .hover-img {
+  opacity: 1;
+}
+
+.pc__img-wrapper:hover .main-img {
+  opacity: 0;
+}
 
 </style>
 

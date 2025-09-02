@@ -19588,7 +19588,7 @@ textarea.form-control.is-invalid {
   margin-bottom: 2rem;
 }
 .product-single__addtolinks > a,
-.product-single__addtolinks > .share-button > button {
+.product-single__addtolinks > .share-button > a {
   display: flex;
   align-items: center;
   gap: 0.625rem;
@@ -19599,11 +19599,11 @@ textarea.form-control.is-invalid {
   font-weight: 500;
 }
 .product-single__addtolinks > a:hover:after,
-.product-single__addtolinks > .share-button > button:hover:after {
+.product-single__addtolinks > .share-button > a:hover:after {
   width: 50%;
 }
 .product-single__addtolinks > a .flaticon,
-.product-single__addtolinks > .share-button > button .flaticon {
+.product-single__addtolinks > .share-button > a .flaticon {
   font-size: 1rem;
 }
 .product-single__addtolinks > .add-to-wishlist.active svg {

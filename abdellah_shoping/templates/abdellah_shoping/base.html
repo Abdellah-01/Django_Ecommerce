@@ -33,6 +33,33 @@
       href="{% static 'abdellah_shoping/css/style.css' %}"
       type="text/css"
     />
+    <style>
+      .pc__img-wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pc__img {
+        display: block;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .hover-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+
+      .pc__img-wrapper:hover .hover-img {
+        opacity: 1;
+      }
+
+      .pc__img-wrapper:hover .main-img {
+        opacity: 0;
+      }
+
+    </style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
