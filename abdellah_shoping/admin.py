@@ -5,6 +5,8 @@ from django.contrib import admin
 from django import forms
 from sortedm2m_filter_horizontal_widget.forms import SortedFilteredSelectMultiple
 from .models import FeaturedCollection
+from django.utils.html import format_html
+from django.urls import reverse  # ✅ import reverse!
 
 
 class FeaturedCollectionForm(forms.ModelForm):
@@ -12,9 +14,8 @@ class FeaturedCollectionForm(forms.ModelForm):
         model = FeaturedCollection
         fields = "__all__"
         widgets = {
-            "products": SortedFilteredSelectMultiple(),  # ✅ fixed
+            "products": SortedFilteredSelectMultiple(),
         }
-
 
 
 @admin.register(FeaturedCollection)
@@ -27,8 +28,37 @@ class FeaturedCollectionAdmin(admin.ModelAdmin):
     ordering = ("collection_order",)
 
     def ordered_products(self, obj):
-        return " → ".join(p.product_name for p in obj.products.all())
-    ordered_products.short_description = "Products Order"
+        products = obj.products.all()
+        display_count = 5
+        html = ""
+
+        for p in products[:display_count]:
+            url = reverse(
+                "admin:%s_%s_change" % (p._meta.app_label, p._meta.model_name),
+                args=[p.id]
+            )
+            html += format_html(
+                '<a href="{}" style="display:inline-block; margin:2px; padding:2px 6px; '
+                'background:#f0f0f0; text-decoration:none; color:#333;">'
+                '<img src="{}" style="height:20px; width:20px; object-fit:cover; '
+                'vertical-align:middle; margin-right:4px;">{}'
+                '</a>',
+                url,
+                p.product_image.url if p.product_image else "https://via.placeholder.com/20",
+                p.product_name
+            )
+
+        remaining = len(products) - display_count
+        if remaining > 0:
+            html += format_html(
+                '<span style="display:inline-block; margin:2px; padding:4px 8px; '
+                'background:#fff; color:#000;">+{} More</span>', remaining
+            )
+
+        return format_html(html)
+
+    ordered_products.short_description = "Featured Products"
+
 
 
 @admin.register(ImageBanner)
