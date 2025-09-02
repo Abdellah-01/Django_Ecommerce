@@ -31,7 +31,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'adminsortable2',  
+    'adminsortable2', 
+    'sortedm2m',
+    'sortedm2m_filter_horizontal_widget',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

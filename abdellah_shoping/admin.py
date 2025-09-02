@@ -1,6 +1,34 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import ImageBanner, FAQ, Enquiry
+from django.contrib import admin
+from django import forms
+from sortedm2m_filter_horizontal_widget.forms import SortedFilteredSelectMultiple
+from .models import FeaturedCollection
+
+
+class FeaturedCollectionForm(forms.ModelForm):
+    class Meta:
+        model = FeaturedCollection
+        fields = "__all__"
+        widgets = {
+            "products": SortedFilteredSelectMultiple(),  # ✅ fixed
+        }
+
+
+
+@admin.register(FeaturedCollection)
+class FeaturedCollectionAdmin(admin.ModelAdmin):
+    form = FeaturedCollectionForm
+    list_display = ("title", "view_all_link", "collection_order", "ordered_products")
+    list_editable = ("collection_order",)
+    search_fields = ("title", "view_all_link__name", "products__name")
+    list_filter = ("view_all_link",)
+    ordering = ("collection_order",)
+
+    def ordered_products(self, obj):
+        return " → ".join(p.product_name for p in obj.products.all())
+    ordered_products.short_description = "Products Order"
 
 
 @admin.register(ImageBanner)

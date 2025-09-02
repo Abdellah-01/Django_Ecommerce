@@ -30,6 +30,11 @@
     />
     <link
       rel="stylesheet"
+      href="{% static 'products/css/quick_view.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
       href="{% static 'abdellah_shoping/css/style.css' %}"
       type="text/css"
     />
@@ -58,6 +63,19 @@
       .pc__img-wrapper:hover .main-img {
         opacity: 0;
       }
+      /* Show button always on mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  .mobile-visible {
+    display: inline-flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    z-index: 1000;
+    bottom: 12px;
+    right: 12px;
+  }
+}
 
     </style>
 
@@ -85,6 +103,9 @@
 
     <!-- Cart Drawer -->
     {% include "carts/includes/cart.html" %}
+
+    <!-- View Quick Drawer -->
+    {% include "carts/includes/quick_view.html" %}
 
     <!-- Go To Top -->
     <div id="scrollTop" class="visually-hidden end-0"></div>

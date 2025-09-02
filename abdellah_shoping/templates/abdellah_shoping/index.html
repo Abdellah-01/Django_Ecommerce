@@ -1970,12 +1970,12 @@
   </section>
   <div class="mb-4 pb-4 mb-xl-4 mt-xl-3 pt-xl-3 pb-xl-4"></div>
 
-
+  {% for collection  in  collections%}
   <section class="shop-main container scrollbar-gray mb-100">
     <!-- Section Header -->
     <div class="section-header d-flex justify-content-between align-items-center flex-wrap">
-      <h2 class="section-title fw-normal mb-3 pb-2">Oversized T-Shirt</h2>
-      <a href="#" class="view-all-link mb-3">
+      <h2 class="section-title fw-normal mb-3 pb-2">{{collection.title}}</h2>
+      <a href="{% url "abdellah_collections:collections_page" %}{{collection.view_all_link|default:"all"}}" class="view-all-link mb-3">
         View all
         <span class="arrow-wrapper">
           <span class="arrow">&rsaquo;</span>
@@ -1987,737 +1987,88 @@
     <div class="products-grid overflow-auto">
       <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4 flex-nowrap" id="products-grid">
 
-        <!-- Product 1 -->
+        {% for product in collection.products.all %}
         <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_1-1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$29</span></div>
-              <div class="product-card__review d-sm-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
+              <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                <div class="pc__img-wrapper position-relative">
+                  <a href="{{ product.get_url }}">
+                    <!-- Default Image -->
+                    <img loading="lazy" src="{{ product.product_image.url }}" width="330" height="400" 
+                        alt="{{ product.product_name }}" class="pc__img main-img">
+
+                    <!-- Hover Image -->
+                    <img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330" height="400" 
+                        alt="{{ product.product_name }}" class="pc__img hover-img">
+                  </a>
+
+                  {% if product.stock <= 0 %}
+                    <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                      <div class="pc-labels__right ms-auto">
+                        <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
+                      </div>
+                    </div>
+                  {% else %}
+                    <!-- Desktop & Tablet only -->
+                    <a class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium d-none d-sm-inline-block"
+                      onclick="openShxCart(this)"
+                      data-id="{{ product.id }}"
+                      data-name="{{ product.product_name }}"
+                      data-price="{{ product.price }}"
+                      data-image="{{ product.product_image.url }}"
+                      data-stock="{{ product.stock }}"
+                      data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                      data-sizes="{{ product.sizes }}"
+                      data-url="{{ product.get_url }}">
+                      Quick View
+                    </a>
+
+                    <!-- Mobile Devices Only -->
+                    <a style="width:fit-content; padding: 5px;"
+                      class="pc__atc btn position-absolute border-0 text-uppercase fw-medium d-inline-flex d-sm-none mobile-visible"
+                      onclick="openShxCart(this)"
+                      data-id="{{ product.id }}"
+                      data-name="{{ product.product_name }}"
+                      data-price="{{ product.price }}"
+                      data-image="{{ product.product_image.url }}"
+                      data-stock="{{ product.stock }}"
+                      data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                      data-sizes="{{ product.sizes }}"
+                      data-url="{{ product.get_url }}">
+                      <span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 5V19M5 12H19" stroke="black" stroke-width="1" stroke-linecap="round"></path>
+                        </svg>
+                      </span>
+                    </a>
+                  {% endif %}
                 </div>
-                <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
 
-        <!-- Product 2 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_2.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_2-1.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Calvin Shorts</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$62</span></div>
-              <div class="d-flex align-items-center mt-1">
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #222222"></a>
-                <a href="#" class="swatch-color swatch_active pc__swatch-color" style="color: #b9a16b"></a>
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #f5e6e0"></a>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
+                <div class="pc__info position-relative">
+                  <p class="pc__category">{{ product.collection }}</p>
+                  <h6 class="pc__title"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h6>
 
-        <!-- Product 3 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_3.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_3-1.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Printed T-Shirt</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$39</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
+                  <div class="product-card__price d-flex gap-2">
+                    <span class="money price price-sale">₹{{ product.price }}</span>
+                    <span class="money price price-old">₹{{ product.compare_at_price }}</span>
+                  </div>
 
-        <!-- Product 4 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_4.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_4-1.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Oversized Hoodie</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$54</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 1 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_1-1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$29</span></div>
-              <div class="product-card__review d-sm-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
+                  <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <use href="#icon_heart" />
+                    </svg>
+                  </button>
                 </div>
-                <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
               </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
             </div>
-          </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_2.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_2-1.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Calvin Shorts</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$62</span></div>
-              <div class="d-flex align-items-center mt-1">
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #222222"></a>
-                <a href="#" class="swatch-color swatch_active pc__swatch-color" style="color: #b9a16b"></a>
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #f5e6e0"></a>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_3.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_3-1.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Printed T-Shirt</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$39</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_4.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_4-1.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Oversized Hoodie</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$54</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
+        {% endfor %}
+        
       </div>
     </div>
   </section>
-
   <div class="mb-4 pb-4 mb-xl-4 mt-xl-3 pt-xl-3 pb-xl-4"></div>
+  {% endfor %}
 
-  <!-- Scrollable Carrousel -->
-  <section class="shop-main container scrollbar-gray mb-100">
-    <div class="section-header d-flex justify-content-between align-items-center flex-wrap">
-      <h2 class="section-title fw-normal mb-3 pb-2">Oversized T-Shirt</h2>
-      <a href="#" class="view-all-link mb-3">
-        View all
-        <span class="arrow-wrapper">
-          <span class="arrow">&rsaquo;</span>
-        </span>
-      </a>
-    </div>
-    <div class="products-grid overflow-auto">
-      <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4 flex-nowrap" id="products-grid">
-        <!-- Product 1 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_1-1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$29</span></div>
-              <div class="product-card__review d-sm-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                </div>
-                <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
 
-        <!-- Product 2 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_2.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_2-1.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Calvin Shorts</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$62</span></div>
-              <div class="d-flex align-items-center mt-1">
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #222222"></a>
-                <a href="#" class="swatch-color swatch_active pc__swatch-color" style="color: #b9a16b"></a>
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #f5e6e0"></a>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_3.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_3-1.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Printed T-Shirt</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$39</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_4.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_4-1.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Oversized Hoodie</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$54</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 1 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_1-1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$29</span></div>
-              <div class="product-card__review d-sm-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                </div>
-                <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_2.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_2-1.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Calvin Shorts</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$62</span></div>
-              <div class="d-flex align-items-center mt-1">
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #222222"></a>
-                <a href="#" class="swatch-color swatch_active pc__swatch-color" style="color: #b9a16b"></a>
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #f5e6e0"></a>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_3.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_3-1.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Printed T-Shirt</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$39</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_4.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_4-1.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Oversized Hoodie</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$54</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section><!-- /.shop-main container -->
-  <div class="mb-4 pb-4 mb-xl-4 mt-xl-3 pt-xl-3 pb-xl-4"></div>
-
-  <!-- Scrollable Carrousel -->
-  <section class="shop-main container scrollbar-gray mb-100">
-    <div class="section-header d-flex justify-content-between align-items-center flex-wrap">
-      <h2 class="section-title fw-normal mb-3 pb-2">Oversized T-Shirt</h2>
-      <a href="#" class="view-all-link mb-3">
-        View all
-        <span class="arrow-wrapper">
-          <span class="arrow">&rsaquo;</span>
-        </span>
-      </a>
-    </div>
-    <div class="products-grid overflow-auto">
-      <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4 flex-nowrap" id="products-grid">
-        <!-- Product 1 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_1-1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$29</span></div>
-              <div class="product-card__review d-sm-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                </div>
-                <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_2.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_2-1.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Calvin Shorts</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$62</span></div>
-              <div class="d-flex align-items-center mt-1">
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #222222"></a>
-                <a href="#" class="swatch-color swatch_active pc__swatch-color" style="color: #b9a16b"></a>
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #f5e6e0"></a>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_3.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_3-1.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Printed T-Shirt</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$39</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_4.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_4-1.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Oversized Hoodie</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$54</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 1 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_1-1.jpg' %}" 
-                    alt="Cropped Faux Leather Jacket" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Cropped Faux Leather Jacket</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$29</span></div>
-              <div class="product-card__review d-sm-flex align-items-center">
-                <div class="reviews-group d-flex">
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                  <svg class="review-star"><use href="#icon_star" /></svg>
-                </div>
-                <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_2.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_2-1.jpg' %}" 
-                    alt="Calvin Shorts" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Calvin Shorts</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$62</span></div>
-              <div class="d-flex align-items-center mt-1">
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #222222"></a>
-                <a href="#" class="swatch-color swatch_active pc__swatch-color" style="color: #b9a16b"></a>
-                <a href="#" class="swatch-color pc__swatch-color" style="color: #f5e6e0"></a>
-              </div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_3.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_3-1.jpg' %}" 
-                    alt="Printed T-Shirt" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Printed T-Shirt</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$39</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card-wrapper">
-          <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-            <div class="pc__img-wrapper position-relative">
-              <a href="product-details.html">
-                <img src="{% static 'abdellah_shoping/images/products/product_4.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img main-img" width="330" height="400">
-                <img src="{% static 'abdellah_shoping/images/products/product_4-1.jpg' %}" 
-                    alt="Oversized Hoodie" 
-                    class="pc__img hover-img" width="330" height="400">
-              </a>
-              <button class="pc__atc btn anim_appear-bottom position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
-            </div>
-            <div class="pc__info position-relative">
-              <h6 class="pc__title"><a href="product-details.html">Oversized Hoodie</a></h6>
-              <div class="product-card__price d-flex"><span class="money price">$54</span></div>
-              <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
-                <svg width="16" height="16"><use href="#icon_heart" /></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section><!-- /.shop-main container -->
-  <div class="mb-4 pb-4 mb-xl-4 mt-xl-3 pt-xl-3 pb-xl-4"></div>
 
 </main>
 {% endblock content %}

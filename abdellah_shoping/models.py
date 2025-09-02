@@ -1,6 +1,7 @@
 from django.db import models
 from abdellah_collections.models import Collection
-
+from products.models import Product
+from sortedm2m.fields import SortedManyToManyField
 # Create your models here.
 class ImageBanner(models.Model):
     title = models.CharField(max_length=150)
@@ -45,3 +46,16 @@ class Enquiry(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
+
+
+class FeaturedCollection(models.Model):
+    title = models.CharField(max_length=255)
+    products = SortedManyToManyField(Product, related_name="featured_in", blank=True)
+    view_all_link = models.ForeignKey(Collection, on_delete=models.CASCADE, related_name="featured_collections")
+    collection_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["collection_order"]
+
+    def __str__(self):
+        return self.title

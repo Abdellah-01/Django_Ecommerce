@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from abdellah_collections.models import Collection
 from category.models import Category
 from products.models import Product
-from .models import ImageBanner, FAQ
+from .models import ImageBanner, FAQ, FeaturedCollection
 from django.core.paginator import Paginator
 from django.db.models import Q
 from itertools import groupby
@@ -10,14 +10,17 @@ from operator import attrgetter
 from .forms import EnquiryForm
 from django.contrib import messages
 
+
 # Create your views here.
 def home(request):
     header_type = 'header-transparent-bg'
     banners = ImageBanner.objects.all()
+    collections = FeaturedCollection.objects.prefetch_related("products").all()
 
     context = {
         'header_type':header_type,
         'banners':banners,
+        'collections':collections,
 
     }
     return render(request, 'abdellah_shoping/index.html', context)
@@ -75,3 +78,7 @@ def contact(request):
     else:
         form = EnquiryForm()
     return render(request, 'abdellah_shoping/contact.html', {'form': form})
+
+def featured_collections_view(request):
+    collections = FeaturedCollection.objects.prefetch_related("products").all()
+    return render(request, "shop/featured_collections.html", {"collections": collections})
