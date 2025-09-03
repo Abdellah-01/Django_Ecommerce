@@ -1,48 +1,62 @@
+from django import forms
 from django.contrib import admin, messages
 from django.utils.html import format_html
-from django.utils.text import slugify
 from django.urls import reverse
 from django.shortcuts import redirect
 from .models import Product, SizeGuide
 
 
-# Custom Filter for Stock Status
-class StockStatusFilter(admin.SimpleListFilter):
-    title = 'Stock Status'
-    parameter_name = 'stock_status'
+# -----------------------------
+# Product Form (no JS)
+# -----------------------------
+class ProductAdminForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = "__all__"
 
-    def lookups(self, request, model_admin):
-        return [
-            ('in_stock', 'In Stock'),
-            ('out_of_stock', 'Out of Stock'),
-            ('low_stock', 'Low Stock (< 5)'),  # optional
-        ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    def queryset(self, request, queryset):
-        if self.value() == 'in_stock':
-            return queryset.filter(stock__gt=0)
-        if self.value() == 'out_of_stock':
-            return queryset.filter(stock__lte=0)
-        if self.value() == 'low_stock':
-            return queryset.filter(stock__gt=0, stock__lt=5)
-        return queryset
+        # size -> model field mapping
+        size_map = {
+            "xs": "stock_xs",
+            "s": "stock_s",
+            "m": "stock_m",
+            "l": "stock_l",
+            "xl": "stock_xl",
+            "xxl": "stock_xxl",
+            "xxxl": "stock_xxxl",
+            "28": "stock_28",
+            "30": "stock_30",
+            "32": "stock_32",
+            "34": "stock_34",
+            "36": "stock_36",
+            "38": "stock_38",
+            "40": "stock_40",
+            "42": "stock_42",
+            "44": "stock_44",
+        }
+
+        # Hide all stock fields by default
+        for field in size_map.values():
+            self.fields[field].widget = forms.HiddenInput()
+
+        # Only show stock fields for selected sizes
+        selected_sizes = []
+        if self.data:  # POST
+            selected_sizes = self.data.getlist("sizes")
+        elif self.instance and self.instance.pk:  # Editing existing
+            selected_sizes = self.instance.sizes or []
+
+        for size in selected_sizes:
+            field = size_map.get(size)
+            if field:
+                self.fields[field].widget = forms.NumberInput(attrs={"min": "0"})
 
 
-
-# Custom Filter for MultiSelectField (sizes)
-class SizeFilter(admin.SimpleListFilter):
-    title = 'Sizes'
-    parameter_name = 'sizes'
-
-    def lookups(self, request, model_admin):
-        return Product.SIZE_CHOICES
-
-    def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(sizes__icontains=self.value())
-        return queryset
-
-
+# -----------------------------
+# SizeGuide Admin
+# -----------------------------
 @admin.register(SizeGuide)
 class SizeGuideAdmin(admin.ModelAdmin):
     list_display = ("title", "preview_image", "table_preview")
@@ -51,18 +65,19 @@ class SizeGuideAdmin(admin.ModelAdmin):
     readonly_fields = ("table_preview",)
 
     fieldsets = (
-        ("Basic Info", {
-            "fields": ("title", "image"),
-        }),
+        ("Basic Info", {"fields": ("title", "image")}),
         ("Size Table Data (JSON)", {
             "fields": ("table_data", "table_preview"),
-            "description": "You can copy-paste JSON structure here to manage rows and columns."
+            "description": "Enter JSON structure to manage rows and columns."
         }),
     )
 
     def preview_image(self, obj):
         if obj.image:
-            return format_html('<img src="{}" width="80" height="80" style="object-fit:cover;border-radius:5px;" />', obj.image.url)
+            return format_html(
+                '<img src="{}" width="80" height="80" style="object-fit:cover;border-radius:5px;" />',
+                obj.image.url
+            )
         return "No Image"
     preview_image.short_description = "Image"
 
@@ -71,11 +86,10 @@ class SizeGuideAdmin(admin.ModelAdmin):
             return "No table data"
         columns = obj.table_data.get("columns", [])
         rows = obj.table_data.get("rows", [])
-
         html = "<table style='border-collapse:collapse; border:1px solid #ddd;'>"
         html += "<tr><th style='border:1px solid #ddd;padding:4px;'>Metric</th>"
         for col in columns:
-            html += f"<th style='border:1px solid #ddd;padding:4px;text-align:center''>{col}</th>"
+            html += f"<th style='border:1px solid #ddd;padding:4px;text-align:center'>{col}</th>"
         html += "</tr>"
         for row in rows:
             html += f"<tr><td style='border:1px solid #ddd;padding:4px;'>{row.get('name')}</td>"
@@ -84,76 +98,48 @@ class SizeGuideAdmin(admin.ModelAdmin):
             html += "</tr>"
         html += "</table>"
         return format_html(html)
-
     table_preview.short_description = "Table Preview"
 
 
+# -----------------------------
+# Product Admin
+# -----------------------------
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    form = ProductAdminForm
+
     list_display = (
-        "product_name", "price", "compare_at_price", "stock",
+        "product_name", "price", "compare_at_price", "total_stock",
         "is_available", "collection", "category", "thumbnail", "created_at"
     )
-    list_editable = ("price", "compare_at_price", "stock", "is_available")
+    list_editable = ("price", "compare_at_price", "is_available")
     search_fields = ("product_name", "description", "tags")
-    list_filter = ("is_available", "collection", "category", "created_at", SizeFilter, StockStatusFilter)
+    list_filter = ("is_available", "collection", "category", "created_at")
     autocomplete_fields = ("collection", "category", "size_guide")
     readonly_fields = ("slug", "thumbnail_preview", "created_at", "modified_at")
 
     fieldsets = (
-        ("Product Info", {
-            "fields": ("product_name", "slug", "description", "more_info", "tags"),
+        ("Product Info", {"fields": ("product_name", "slug", "description", "more_info", "tags")}),
+        ("Categorization", {"fields": ("collection", "category")}),
+        ("Pricing & Availability", {"fields": ("price", "compare_at_price", "is_available")}),
+        ("Sizes and Stocks", {
+            "fields": (
+                "sizes", "size_guide",
+                "stock_xs","stock_s","stock_m","stock_l","stock_xl","stock_xxl","stock_xxxl",
+                "stock_28","stock_30","stock_32","stock_34","stock_36","stock_38","stock_40","stock_42","stock_44"
+            )
         }),
-        ("Categorization", {
-            "fields": ("collection", "category"),
-        }),
-        ("Pricing & Stock", {
-            "fields": ("price", "compare_at_price", "stock", "is_available"),
-        }),
-        ("Images", {
-            "fields": ("product_image", "thumbnail_preview"),
-        }),
-        ("Sizes & Size Guide", {
-            "fields": ("sizes", "size_guide"),
-        }),
-        ("Timestamps", {
-            "fields": ("created_at", "modified_at"),
-        }),
+        ("Images", {"fields": ("product_image", "thumbnail_preview")}),
+        ("Timestamps", {"fields": ("created_at", "modified_at")}),
     )
 
-    # ✅ Admin Action to duplicate selected products
-    actions = ["duplicate_products"]
-
-    def duplicate_products(self, request, queryset):
-        for obj in queryset:
-            obj.pk = None  # Reset primary key
-            original_slug = obj.slug
-            obj.slug = None  # Force slug regeneration
-            obj.product_name = f"{obj.product_name} (Copy)"
-            obj.save()
-            self.message_user(request, f"Duplicated product: {original_slug} → {obj.slug}", messages.SUCCESS)
-    duplicate_products.short_description = "Duplicate selected products"
-
-    # ✅ Add a "Duplicate" button in change form
-    def response_change(self, request, obj):
-        if "_duplicate" in request.POST:
-            obj.pk = None
-            obj.slug = None
-            obj.product_name = f"{obj.product_name} (Copy)"
-            obj.save()
-            self.message_user(request, f"Product duplicated successfully!", messages.SUCCESS)
-            return redirect(
-                reverse("admin:app_product_change", args=[obj.pk])
-            )
-        return super().response_change(request, obj)
-
-    def render_change_form(self, request, context, *args, **kwargs):
-        context["adminform"].form.buttons = True
-        return super().render_change_form(request, context, *args, **kwargs)
-
+    # Thumbnail for list view
     def thumbnail(self, obj):
         if obj.product_image:
-            return format_html('<img src="{}" width="60" height="60" style="object-fit:cover;border-radius:5px;" />', obj.product_image.url)
+            return format_html(
+                '<img src="{}" width="60" height="60" style="object-fit:cover;border-radius:5px;" />',
+                obj.product_image.url
+            )
         return "No Image"
     thumbnail.short_description = "Preview"
 
@@ -162,3 +148,33 @@ class ProductAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="150" style="border-radius:8px;" />', obj.product_image.url)
         return "No Image"
     thumbnail_preview.short_description = "Image Preview"
+
+    def total_stock(self, obj):
+        fields = [
+            "stock_xs","stock_s","stock_m","stock_l","stock_xl","stock_xxl","stock_xxxl",
+            "stock_28","stock_30","stock_32","stock_34","stock_36","stock_38","stock_40","stock_42","stock_44"
+        ]
+        return sum(getattr(obj, f, 0) for f in fields)
+    total_stock.short_description = "Stock"
+
+    # Duplicate product action
+    actions = ["duplicate_products"]
+
+    def duplicate_products(self, request, queryset):
+        for obj in queryset:
+            obj.pk = None
+            obj.slug = None
+            obj.product_name = f"{obj.product_name} (Copy)"
+            obj.save()
+            self.message_user(request, f"Duplicated product: {obj.product_name}", messages.SUCCESS)
+    duplicate_products.short_description = "Duplicate selected products"
+
+    def response_change(self, request, obj):
+        if "_duplicate" in request.POST:
+            obj.pk = None
+            obj.slug = None
+            obj.product_name = f"{obj.product_name} (Copy)"
+            obj.save()
+            self.message_user(request, "Product duplicated successfully!", messages.SUCCESS)
+            return redirect(reverse("admin:products_product_change", args=[obj.pk]))
+        return super().response_change(request, obj)

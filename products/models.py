@@ -41,13 +41,13 @@ class SizeGuide(models.Model):
 
 class Product(models.Model):
     SIZE_CHOICES = [
-        ('xs', 'xs'),
-        ('s', 's'),
-        ('m', 'm'),
-        ('l', 'l'),
-        ('xl', 'xl'),
-        ('xxl', 'xxl'),
-        ('xxxl', 'xxxl'),
+        ('xs', 'XS'),
+        ('s', 'S'),
+        ('m', 'M'),
+        ('l', 'L'),
+        ('xl', 'XL'),
+        ('xxl', 'XXL'),
+        ('xxxl', 'XXXL'),
         ('28', '28'),
         ('30', '30'),
         ('32', '32'),
@@ -58,38 +58,53 @@ class Product(models.Model):
         ('42', '42'),
         ('44', '44'),
     ]
+    
     product_name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)  # make slug unique & allow blank
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     description = models.TextField(blank=True)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     compare_at_price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField()
     product_image = models.ImageField(upload_to='images/products/')
     more_info = models.TextField(blank=True)
     tags = models.CharField(max_length=255, blank=True)
-    is_available = models.BooleanField(default=True, null=False)
+    is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-
     sizes = MultiSelectField(choices=SIZE_CHOICES, blank=True)
     size_guide = models.ForeignKey(SizeGuide, on_delete=models.SET_NULL, null=True, blank=True)
+
+
+    # Stock per size
+    stock_xs = models.PositiveIntegerField(default=0)
+    stock_s = models.PositiveIntegerField(default=0)
+    stock_m = models.PositiveIntegerField(default=0)
+    stock_l = models.PositiveIntegerField(default=0)
+    stock_xl = models.PositiveIntegerField(default=0)
+    stock_xxl = models.PositiveIntegerField(default=0)
+    stock_xxxl = models.PositiveIntegerField(default=0)
+    stock_28 = models.PositiveIntegerField(default=0)
+    stock_30 = models.PositiveIntegerField(default=0)
+    stock_32 = models.PositiveIntegerField(default=0)
+    stock_34 = models.PositiveIntegerField(default=0)
+    stock_36 = models.PositiveIntegerField(default=0)
+    stock_38 = models.PositiveIntegerField(default=0)
+    stock_40 = models.PositiveIntegerField(default=0)
+    stock_42 = models.PositiveIntegerField(default=0)
+    stock_44 = models.PositiveIntegerField(default=0)
 
     def get_url(self):
         return reverse("products:product_details_page", args=[self.slug])
     
     @property
     def savings(self):
-        """Return savings as compare_at_price - price"""
         if self.compare_at_price and self.price:
             return max(self.compare_at_price - self.price, 0)
         return 0
 
-
-
     def save(self, *args, **kwargs):
-        if not self.slug:  # Only generate if slug is empty
+        if not self.slug:
             base_slug = slugify(self.product_name)
             slug = base_slug
             counter = 1
@@ -101,3 +116,24 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+    
+    @property
+    def total_stock(self):
+        """Return the sum of all size-specific stock fields."""
+        size_fields = [
+            "stock_xs", "stock_s", "stock_m", "stock_l", "stock_xl",
+            "stock_xxl", "stock_xxxl", "stock_28", "stock_30", "stock_32",
+            "stock_34", "stock_36", "stock_38", "stock_40", "stock_42", "stock_44",
+        ]
+        return sum(getattr(self, field, 0) for field in size_fields)
+
+    
+    def stock_for_size(self, size):
+        """Return stock for a given size (case-insensitive)."""
+        return getattr(self, f"stock_{str(size).lower()}", 0)
+
+    def get_stock_for(self, size):
+        """Safe wrapper for templates (avoids template limitations)."""
+        return self.stock_for_size(size)
+    
+    

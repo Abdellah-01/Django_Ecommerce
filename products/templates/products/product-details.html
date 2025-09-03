@@ -92,8 +92,7 @@
             {% csrf_token %}
             <h1 class="product-single__name">{{single_product.product_name}}</h1>
             <div class="product-single__rating">
-              <div class="reviews-group d-flex">
-              </div>
+              <div class="reviews-group d-flex"></div>
             </div>
             <div class="product-single__price">
               <span class="current-price">₹{{single_product.price}}</span>
@@ -101,10 +100,8 @@
                 <span class="compare-price">₹{{single_product.compare_at_price}}</span>
               {% endif %}
               <div class="btn btn-primary btn-lg" style="padding: 0 5px;">
-                  Save ₹{{ single_product.savings }}
+                Save ₹{{ single_product.savings }}
               </div>
-
-
             </div>
 
             <hr>
@@ -112,72 +109,73 @@
             <div class="product-single__short-desc">
               <p>{{single_product.description}}</p>
             </div>
-          
-              <div class="product-single__swatches">
-                <div class="product-swatch text-swatches">
-                  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                    <label>Sizes</label>
-                    {% if single_product.size_guide %}
+
+            <div class="product-single__swatches">
+              <div class="product-swatch text-swatches">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                  <label>Sizes</label>
+                  {% if single_product.size_guide %}
                     <a href="#" class="sizeguide-link" data-bs-toggle="modal" data-bs-target="#sizeGuide">Size Guide</a>
-                    {% endif %}
-                  </div>
-                  <div class="swatch-list">
-                    {% for size in single_product.sizes %}
-                        <input type="radio" 
-                              name="size" 
-                              id="swatch-{{ forloop.counter }}" 
-                              value="{{ size }}" 
-                              {% if forloop.first %}checked{% endif %}>
-                        <label class="swatch js-swatch" for="swatch-{{ forloop.counter }}">{{ size|upper }}</label>
-                    {% endfor %}
+                  {% endif %}
                 </div>
+                <div class="swatch-list">
+                  {% for size, stock in size_stock.items %}
+                  <input type="radio"
+                        name="size"
+                        id="swatch-{{ forloop.counter }}"
+                        value="{{ size }}"
+                        {% if stock == 0 %}disabled{% endif %}
+                        {% if forloop.first and stock > 0 %}checked{% endif %}>
+                  <label class="swatch js-swatch {% if stock == 0 %}disabled{% endif %}"
+                        for="swatch-{{ forloop.counter }}">
+                    {{ size|upper }}
+                  </label>
+                {% endfor %}
+
               </div>
 
               </div>
-              <div class="product-single__addtocart">
-                <div class="qty-control position-relative">
-                  <input type="number" name="quantity" value="1" min="1" max="{{single_product.stock}}" class="qty-control__number text-center">
-                  <div class="qty-control__reduce">-</div>
-                  <div class="qty-control__increase">+</div>
-                </div><!-- .qty-control -->
-                {% if single_product.stock <= 0 %}
-                <a class="btn btn-primary btn-addtocart btn-outofstock" fdprocessedid="tj539u">Out of Stock</a>
-                {% else %}
-                <button type='submit' class="btn btn-primary btn-addtocart">Add to
-                  Cart</button>
-                {% endif %}
-                
-                  
-              </div>
-            <div class="product-single__addtolinks">
-              <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16" viewBox="0 0 20 20"
-                  fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_heart" />
-                </svg><span>Add to Wishlist</span></a>
-              <share-button class="share-button">
-              <a class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center" fdprocessedid="8uplvm">
-                <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_sharing"></use></svg>
-                <span>Share</span>
-              </a>
-              <details id="Details-share-template__main" class="m-1 xl:m-1.5" hidden="">
-                <summary class="btn-solid m-1 xl:m-1.5 pt-3.5 pb-3 px-5">+</summary>
-                <div id="Article-share-template__main" class="share-button__fallback flex items-center absolute top-full left-0 w-full px-2 py-4 bg-container shadow-theme border-t z-10">
-                  <div class="field grow mr-4">
-                    <label class="field__label sr-only" for="url">Link</label>
-                    <input type="text" class="field__input w-full" id="url" value="https://uomo-crystal.myshopify.com/blogs/news/go-to-wellness-tips-for-mental-health" placeholder="Link" onclick="this.select();" readonly="">
-                  </div>
-                  <button class="share-button__copy no-js-hidden">
-                    <svg class="icon icon-clipboard inline-block mr-1" width="11" height="13" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 11 13">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M2 1a1 1 0 011-1h7a1 1 0 011 1v9a1 1 0 01-1 1V1H2zM1 2a1 1 0 00-1 1v9a1 1 0 001 1h7a1 1 0 001-1V3a1 1 0 00-1-1H1zm0 10V3h7v9H1z" fill="currentColor"></path>
-                    </svg>
-                    <span class="sr-only">Copy link</span>
-                  </button>
-                </div>
-              </details>
-            </share-button>
-              <script src="{% static 'products/js/details-disclosure.js' %}" defer="defer"></script>
-              <script src="{% static 'products/js/share.js' %}" defer="defer"></script>
             </div>
+
+            <div class="product-single__addtocart">
+              <div class="qty-control position-relative">
+                <input id="quantityInput" type="number"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  max="1"
+                  readonly
+                  class="qty-control__number text-center"
+                  id="quantityInput">
+
+
+                <div class="qty-control__reduce">-</div>
+                <div class="qty-control__increase">+</div>
+              </div><!-- .qty-control -->
+
+              {% if has_stock %}
+  <button type="submit" class="btn btn-primary btn-addtocart">Add to Cart</button>
+{% else %}
+  <button type="button" class="btn btn-secondary btn-addtocart" disabled>Out of Stock</button>
+{% endif %}
+
+
+            </div>
+
+            <div class="product-single__addtolinks">
+              <a href="#" class="menu-link menu-link_us-s add-to-wishlist">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <use href="#icon_heart" />
+                </svg><span>Add to Wishlist</span>
+              </a>
+              <share-button class="share-button">
+                <a class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
+                  <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_sharing"></use></svg>
+                  <span>Share</span>
+                </a>
+              </share-button>
+            </div>
+
             <div class="product-single__meta-info">
               <div class="meta-item">
                 <label>SKU:</label>
@@ -193,6 +191,9 @@
               </div>
             </div>
           </form>
+
+
+
         </div>
       </div>
       <div class="product-single__details-tab">
@@ -440,4 +441,81 @@
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
+
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const radios = document.querySelectorAll("input[name='size']");
+    const qtyInput = document.getElementById("quantityInput");
+    const addToCartBtn = document.getElementById("addToCartBtn");
+    const outOfStockBtn = document.getElementById("outOfStockBtn");
+
+    const increaseBtn = document.querySelector(".qty-control__increase");
+    const reduceBtn = document.querySelector(".qty-control__reduce");
+
+    function updateStock() {
+      const selected = document.querySelector("input[name='size']:checked");
+      const stock = parseInt(selected.getAttribute("data-stock")) || 1;
+
+      qtyInput.value = stock > 0 ? 1 : 0;
+      qtyInput.max = stock;
+      qtyInput.min = 1;
+
+      toggleButtons();
+
+      if (stock <= 0) {
+        addToCartBtn.classList.add("d-none");
+        outOfStockBtn.classList.remove("d-none");
+      } else {
+        addToCartBtn.classList.remove("d-none");
+        outOfStockBtn.classList.add("d-none");
+      }
+    }
+
+    function toggleButtons() {
+      const value = parseInt(qtyInput.value) || 0;
+      const min = parseInt(qtyInput.min);
+      const max = parseInt(qtyInput.max);
+
+      // disable reduce if at min
+      if (value <= min) {
+        reduceBtn.classList.add("disabled");
+      } else {
+        reduceBtn.classList.remove("disabled");
+      }
+
+      // disable increase if at max
+      if (value >= max) {
+        increaseBtn.classList.add("disabled");
+      } else {
+        increaseBtn.classList.remove("disabled");
+      }
+    }
+
+    increaseBtn.addEventListener("click", function () {
+      let value = parseInt(qtyInput.value) || 1;
+      const max = parseInt(qtyInput.max);
+      if (value < max) {
+        qtyInput.value = value + 1;
+        toggleButtons();
+      }
+    });
+
+    reduceBtn.addEventListener("click", function () {
+      let value = parseInt(qtyInput.value) || 1;
+      const min = parseInt(qtyInput.min);
+      if (value > min) {
+        qtyInput.value = value - 1;
+        toggleButtons();
+      }
+    });
+
+    radios.forEach(radio => {
+      radio.addEventListener("change", updateStock);
+    });
+
+    updateStock(); // initialize on load
+  });
+</script>
+
 {% endblock content %}

@@ -8,44 +8,42 @@ from bson.decimal128 import Decimal128
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
 
+
 def add_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     selected_size = request.POST.get('size')
     quantity = int(request.POST.get('quantity', 1))
 
+    # ✅ get stock for this variant
+    stock = product.stock_for_size(selected_size) if selected_size else 0
+
     if request.user.is_authenticated:
-        # ✅ Logged-in user cart
         try:
-            cart_item = CartItem.objects.get(
-                product=product, 
-                user=request.user, 
-                size=selected_size
-            )
-            if cart_item.quantity + quantity <= product.stock:
+            cart_item = CartItem.objects.get(product=product, user=request.user, size=selected_size)
+            if cart_item.quantity + quantity <= stock:
                 cart_item.quantity += quantity
             else:
-                cart_item.quantity = product.stock
+                cart_item.quantity = stock
             cart_item.save()
         except CartItem.DoesNotExist:
-            if quantity > product.stock:
-                quantity = product.stock
+            if quantity > stock:
+                quantity = stock
             cart_item = CartItem.objects.create(
                 product=product,
-                user=request.user,   # ✅ tie to logged-in user
+                user=request.user,
                 size=selected_size,
                 quantity=quantity
             )
             cart_item.save()
 
     else:
-        # ✅ Guest cart (session based)
         try:
             cart = Cart.objects.get(cart_id=_cart_id(request))
         except Cart.DoesNotExist:
@@ -53,30 +51,24 @@ def add_cart(request, product_id):
             cart.save()
 
         try:
-            cart_item = CartItem.objects.get(
-                product=product, 
-                cart=cart, 
-                size=selected_size
-            )
-            if cart_item.quantity + quantity <= product.stock:
+            cart_item = CartItem.objects.get(product=product, cart=cart, size=selected_size)
+            if cart_item.quantity + quantity <= stock:
                 cart_item.quantity += quantity
             else:
-                cart_item.quantity = product.stock
+                cart_item.quantity = stock
             cart_item.save()
         except CartItem.DoesNotExist:
-            if quantity > product.stock:
-                quantity = product.stock
+            if quantity > stock:
+                quantity = stock
             cart_item = CartItem.objects.create(
                 product=product,
-                cart=cart,   # ✅ tie to guest cart
+                cart=cart,
                 size=selected_size,
                 quantity=quantity
             )
             cart_item.save()
 
     return redirect('carts_urls:view_cart_page')
-
-
 
 
 def remove_cart(request, cart_item_id):
@@ -91,13 +83,10 @@ def remove_cart(request, cart_item_id):
             cart_item.save()
         else:
             cart_item.delete()
-
     except CartItem.DoesNotExist:
         pass
 
     return redirect('carts_urls:view_cart_page')
-
-
 
 
 def remove_cart_item(request, cart_item_id):
@@ -106,15 +95,11 @@ def remove_cart_item(request, cart_item_id):
             cart_item = CartItem.objects.get(id=cart_item_id, user=request.user)
         else:
             cart_item = CartItem.objects.get(id=cart_item_id, cart__cart_id=_cart_id(request))
-
         cart_item.delete()
-
     except CartItem.DoesNotExist:
         pass
 
     return redirect('carts_urls:view_cart_page')
-
-
 
 
 def to_decimal(value):
@@ -122,6 +107,7 @@ def to_decimal(value):
     if isinstance(value, Decimal128):
         return value.to_decimal()
     return Decimal(str(value))
+
 
 def view_cart(request):
     total = Decimal('0.00')
@@ -139,9 +125,15 @@ def view_cart(request):
         except ObjectDoesNotExist:
             cart_items = []
 
-    for cart_item in cart_items:
-        price = to_decimal(cart_item.product.price)
-        qty = cart_item.quantity or 0
+    # attach available stock per variant
+    for item in cart_items:
+        if item.size:
+            item.available_stock = item.product.stock_for_size(item.size)
+        else:
+            item.available_stock = 0
+
+        price = to_decimal(item.product.price)
+        qty = item.quantity or 0
         total += price * qty
         quantity += qty
 
@@ -157,7 +149,6 @@ def view_cart(request):
         'platform_fee': platform_fee,
         'grand_total': grand_total,
     }
-
     return render(request, 'carts/shop_cart.html', context)
 
 
@@ -169,7 +160,6 @@ def checkout(request):
     platform_fee = Decimal('0.00')
     grand_total = Decimal('0.00')
 
-    # 🔑 Fetch cart items for user OR guest
     if request.user.is_authenticated:
         cart_items = CartItem.objects.filter(user=request.user, is_active=True)
     else:
@@ -179,14 +169,18 @@ def checkout(request):
         except ObjectDoesNotExist:
             cart_items = []
 
-    # calculate totals
-    for cart_item in cart_items:
-        price = to_decimal(cart_item.product.price)
-        qty = cart_item.quantity or 0
+    for item in cart_items:
+        if item.size:
+            item.available_stock = item.product.stock_for_size(item.size)
+        else:
+            item.available_stock = 0
+
+        price = to_decimal(item.product.price)
+        qty = item.quantity or 0
         total += price * qty
         quantity += qty
 
-    tax = (Decimal('5') * total) / Decimal('100')   # 5% tax
+    tax = (Decimal('5') * total) / Decimal('100')
     platform_fee = Decimal('12.00')
     grand_total = total + platform_fee
 
@@ -198,5 +192,4 @@ def checkout(request):
         'platform_fee': platform_fee,
         'grand_total': grand_total,
     }
-
     return render(request, 'carts/shop_checkout.html', context)

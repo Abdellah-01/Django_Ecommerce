@@ -71,26 +71,29 @@
                   <td>
                     <span class="shopping-cart__product-price">₹{{cart_item.product.price}}</span>
                   </td>
-                  <td>
-        <div class="qty-control position-relative">
-          <input type="number" value="{{ cart_item.quantity }}" min="1" max="{{ cart_item.product.stock }}" class="qty-control__number text-center" readonly>
+                 <td>
+  <div class="qty-control position-relative">
+    <input type="number" value="{{ cart_item.quantity }}" 
+           min="1" max="{{ cart_item.available_stock }}" 
+           class="qty-control__number text-center" readonly>
 
-          <!-- decrease -->
-          <a href="{% url 'carts_urls:remove_cart_page' cart_item.id %}" class="qty-control__reduce">-</a>
+    <!-- decrease -->
+    <a href="{% url 'carts_urls:remove_cart_page' cart_item.id %}" class="qty-control__reduce">-</a>
 
-          <!-- increase -->
-          {% if cart_item.quantity < cart_item.product.stock %}
-            <form action="{% url 'carts_urls:add_cart_page' cart_item.product.id %}" method="POST" style="display:inline;">
-              {% csrf_token %}
-              <input type="hidden" name="size" value="{{ cart_item.size }}">
-              <input type="hidden" name="quantity" value="1">
-              <button type="submit" class="qty-control__increase" style="border: 0; background: transparent;">+</button>
-            </form>
-          {% else %}
-            <button class="qty-control__increase btn btn-light" disabled title="No more stock">+</button>
-          {% endif %}
-        </div>
-      </td>
+    <!-- increase -->
+    {% if cart_item.quantity < cart_item.available_stock %}
+      <form action="{% url 'carts_urls:add_cart_page' cart_item.product.id %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="size" value="{{ cart_item.size }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="qty-control__increase" style="border: 0; background: transparent;">+</button>
+      </form>
+    {% else %}
+      <button class="qty-control__increase btn btn-light" disabled title="No more stock">+</button>
+    {% endif %}
+  </div>
+</td>
+
                   <td>
                     <span class="shopping-cart__subtotal">₹{{ cart_item.sub_total|floatformat:2|intcomma }}</span>
                   </td>
