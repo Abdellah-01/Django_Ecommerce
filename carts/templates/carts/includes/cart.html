@@ -3,7 +3,7 @@
 <div class="aside aside_right overflow-hidden cart-drawer" id="cartDrawer">
   <div class="aside-header d-flex align-items-center">
     <h3 class="text-uppercase fs-6 mb-0">
-      CART ( <span class="cart-amount js-cart-items-count">{{cart_items|length}}</span> )
+      CART ( <span class="cart-amount js-cart-items-count">{{ cart_items|length }}</span> )
     </h3>
     <button class="btn-close-lg js-close-aside btn-close-aside ms-auto"></button>
   </div>
@@ -14,7 +14,7 @@
       {% for cart_item in cart_items %}
         <div class="cart-drawer-item d-flex position-relative">
           <div class="position-relative">
-            <a href="{{cart_item.product.get_url}}">
+            <a href="{{ cart_item.product.get_url }}">
               {% if cart_item.product.product_image %}
                 <img
                   loading="lazy"
@@ -32,31 +32,61 @@
               {% endif %}
             </a>
           </div>
+
           <div class="cart-drawer-item__info flex-grow-1">
             <h6 class="cart-drawer-item__title fw-normal">
-              <a href="{{cart_item.product.get_url}}">{{ cart_item.product.product_name }}</a>
+              <a href="{{ cart_item.product.get_url }}">{{ cart_item.product.product_name|truncatechars:25 }}</a>
             </h6>
-            <p class="cart-drawer-item__option text-secondary">Size: {{cart_item.size|upper}}</p>
+            {% if cart_item.size %}
+              <p class="cart-drawer-item__option text-secondary">Size: {{ cart_item.size|upper }}</p>
+            {% endif %}
+
             <div class="d-flex align-items-center justify-content-between mt-1">
-              <div class="qty-control position-relative">
+              <div class="qty-control position-relative d-flex align-items-center">
+                
+                <!-- Decrease Quantity -->
+                <form action="{% url 'carts_urls:remove_cart_page' cart_item.id %}" method="POST" class="me-2">
+                  {% csrf_token %}
+                  <button type="submit" class="qty-control__reduce btn btn-light">-</button>
+                </form>
+
+                <!-- Quantity Display (readonly) -->
                 <input
                   type="number"
                   name="quantity"
                   value="{{ cart_item.quantity }}"
                   min="1"
+                  max="{{ cart_item.product.stock }}"
                   class="qty-control__number border-0 text-center"
+                  readonly
                 />
-                <div class="qty-control__reduce text-start">-</div>
-                <div class="qty-control__increase text-end">+</div>
+
+                <!-- Increase Quantity -->
+                {% if cart_item.quantity < cart_item.product.stock %}
+                  <form action="{% url 'carts_urls:add_cart_page' cart_item.product.id %}" method="POST" class="ms-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="size" value="{{ cart_item.size }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="qty-control__increase btn btn-light">+</button>
+                  </form>
+                {% else %}
+                  <button class="qty-control__increase btn btn-light ms-2" disabled title="No more stock">+</button>
+                {% endif %}
+
               </div>
               <!-- .qty-control -->
+
               <span class="cart-drawer-item__price money price">
                 ₹{{ cart_item.sub_total|floatformat:2|intcomma }}
               </span>
             </div>
-          </div>
 
-          <button class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
+            <!-- Remove Item -->
+            <form action="{% url 'carts_urls:remove_cart_item_page' cart_item.id %}" method="POST" class="mt-1">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link p-0">Remove</button>
+            </form>
+          </div>
         </div>
         <!-- /.cart-drawer-item -->
 
@@ -67,24 +97,21 @@
     {% else %}
       <div class="text-center py-5">
         <p class="mb-3">Your cart is empty</p>
-        <a href="" class="btn btn-primary">Shop New Arrivals</a>
+        <a href="{% url 'products:products_page' %}" class="btn btn-primary">Shop New Arrivals</a>
       </div>
     {% endif %}
   </div>
   <!-- /.aside-content -->
 
   {% if cart_items %}
-    <div class="cart-drawer-actions position-absolute start-0 bottom-0 w-100">
-      <hr class="cart-drawer-divider" />
+    <div class="cart-drawer-actions position-absolute start-0 bottom-0 w-100 bg-white p-3 border-top">
       <div class="d-flex justify-content-between">
         <h6 class="fs-base fw-medium">SUBTOTAL:</h6>
         <span class="cart-subtotal fw-medium">₹{{ total|floatformat:2|intcomma }}</span>
       </div>
-      <!-- /.d-flex justify-content-between -->
       <a href="{% url 'carts_urls:view_cart_page' %}" class="btn btn-light mt-3 d-block">View Cart</a>
-      <a href="{% url "carts_urls:checkout_page" %}" class="btn btn-primary mt-3 d-block">Checkout</a>
+      <a href="{% url 'carts_urls:checkout_page' %}" class="btn btn-primary mt-2 d-block">Checkout</a>
     </div>
   {% endif %}
-  <!-- /.aside-content -->
 </div>
 <!-- /.aside -->
