@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from flask import json
 from abdellah_collections.models import Collection
 from category.models import Category
 from multiselectfield import MultiSelectField
@@ -136,4 +137,11 @@ class Product(models.Model):
         """Safe wrapper for templates (avoids template limitations)."""
         return self.stock_for_size(size)
     
-    
+    def size_stock_dict(self):
+        """Return dictionary of size -> stock"""
+        return {size: self.stock_for_size(size) for size in self.sizes}
+
+    @property
+    def size_stock_json(self):
+        """Return JSON string for templates"""
+        return json.dumps(self.size_stock_dict())

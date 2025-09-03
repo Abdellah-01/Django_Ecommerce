@@ -62,6 +62,26 @@
 <!-- Overlay -->
 <div class="shx-model-overlay" id="shxCartOverlay" onclick="closeShxCart()"></div>
 
+<style>
+/* 🔴 Crossed-out style for out-of-stock sizes */
+.swatch.disabled,
+.swatch.out-of-stock {
+  opacity: 0.6;
+  position: relative;
+  cursor: pointer;
+}
+.swatch.out-of-stock::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background: red;
+  transform: rotate(-30deg);
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -73,12 +93,16 @@ document.addEventListener("DOMContentLoaded", function(){
     const image = el.getAttribute("data-image");
     const url = el.getAttribute("data-url");
     const addUrl = el.getAttribute("data-add-url");
-    
+
+    // ✅ Parse size-stock map
+    let stockMap = {};
+    try {
+      stockMap = JSON.parse(el.getAttribute("data-stock-map") || "{}");
+    } catch(e) { stockMap = {}; }
+
     let sizesStr = el.getAttribute("data-sizes") || "";
     sizesStr = sizesStr.replace(/[\[\]'"]/g, '');
     const sizes = sizesStr.split(',').map(s => s.trim()).filter(s => s);
-
-    currentStock = parseInt(el.getAttribute("data-stock") || '1');
 
     const form = document.getElementById("modalAddToCartForm");
     form.action = addUrl;
@@ -97,28 +121,58 @@ document.addEventListener("DOMContentLoaded", function(){
     const swatchList = document.getElementById("modalSwatches");
     swatchList.innerHTML = "";
     sizes.forEach((size, index) => {
+      const stock = stockMap[size] || 0;
+
       const input = document.createElement("input");
       input.type = "radio";
       input.name = "size";
       input.id = `swatch-${index+1}`;
       input.value = size;
-      if(index === 0) input.checked = true;
 
       const label = document.createElement("label");
       label.className = "swatch js-swatch";
       label.htmlFor = `swatch-${index+1}`;
       label.innerText = size.toUpperCase();
 
+      // Show crossed-out if stock = 0
+      if(stock <= 0){
+        label.classList.add("out-of-stock");
+      }
+
+      // ✅ when user selects size
+      input.addEventListener("change", function(){
+        currentStock = stock;
+        const qtyInput = document.getElementById("modalQuantity");
+        qtyInput.value = 1;
+        qtyInput.max = currentStock;
+
+        const addToCartBtn = document.getElementById("modalAddToCartBtn");
+        if(currentStock <= 0){
+          addToCartBtn.disabled = true;
+          addToCartBtn.innerText = "Out of Stock";
+        } else {
+          addToCartBtn.disabled = false;
+          addToCartBtn.innerText = "Add to Cart";
+        }
+      });
+
       swatchList.appendChild(input);
       swatchList.appendChild(label);
     });
 
-    // Quantity reset
+    // Default stock = first available size
+    const firstAvailable = sizes.find(s => (stockMap[s] || 0) > 0);
+    if(firstAvailable){
+      document.querySelector(`input[value="${firstAvailable}"]`).checked = true;
+      currentStock = stockMap[firstAvailable];
+    } else {
+      currentStock = 0;
+    }
+
     const qtyInput = document.getElementById("modalQuantity");
     qtyInput.value = 1;
     qtyInput.max = currentStock;
 
-    // Add to Cart button
     const addToCartBtn = document.getElementById("modalAddToCartBtn");
     if(currentStock <= 0){
       addToCartBtn.disabled = true;
@@ -128,7 +182,6 @@ document.addEventListener("DOMContentLoaded", function(){
       addToCartBtn.innerText = "Add to Cart";
     }
 
-    // Show modal
     document.getElementById("shxCartModal").classList.add("active");
     document.getElementById("shxCartOverlay").classList.add("active");
   }
