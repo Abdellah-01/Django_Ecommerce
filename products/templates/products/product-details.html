@@ -120,19 +120,19 @@
                 </div>
                 <div class="swatch-list">
                   {% for size, stock in size_stock.items %}
-                  <input type="radio"
-                        name="size"
-                        id="swatch-{{ forloop.counter }}"
-                        value="{{ size }}"
-                        {% if stock == 0 %}disabled{% endif %}
-                        {% if forloop.first and stock > 0 %}checked{% endif %}>
-                  <label class="swatch js-swatch {% if stock == 0 %}disabled{% endif %}"
-                        for="swatch-{{ forloop.counter }}">
-                    {{ size|upper }}
-                  </label>
-                {% endfor %}
+                    <input type="radio"
+                          name="size"
+                          id="swatch-{{ forloop.counter }}"
+                          value="{{ size }}"
+                          data-stock="{{ stock }}"
+                          {% if forloop.first %}checked{% endif %}>
+                    <label class="swatch js-swatch {% if stock == 0 %}out-of-stock{% endif %}"
+                          for="swatch-{{ forloop.counter }}">
+                      {{ size|upper }}
+                    </label>
+                  {% endfor %}
+                </div>
 
-              </div>
 
               </div>
             </div>
@@ -140,27 +140,26 @@
             <div class="product-single__addtocart">
               <div class="qty-control position-relative">
                 <input id="quantityInput" type="number"
-                  name="quantity"
-                  value="1"
-                  min="1"
-                  max="1"
-                  readonly
-                  class="qty-control__number text-center"
-                  id="quantityInput">
-
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      max="1"
+                      readonly
+                      class="qty-control__number text-center">
 
                 <div class="qty-control__reduce">-</div>
                 <div class="qty-control__increase">+</div>
-              </div><!-- .qty-control -->
+              </div>
 
-              {% if has_stock %}
-  <button type="submit" class="btn btn-primary btn-addtocart">Add to Cart</button>
-{% else %}
-  <button type="button" class="btn btn-secondary btn-addtocart" disabled>Out of Stock</button>
-{% endif %}
+              <!-- Add to Cart (default visible if stock > 0) -->
+              <button id="addToCartBtn" type="submit" class="btn btn-primary btn-addtocart">Add to Cart</button>
 
-
+              <!-- Out of Stock (hidden by default, visible when stock == 0) -->
+              <button id="outOfStockBtn" type="button" class="btn btn-secondary btn-addtocart d-none" disabled>
+                Out of Stock
+              </button>
             </div>
+
 
             <div class="product-single__addtolinks">
               <a href="#" class="menu-link menu-link_us-s add-to-wishlist">
@@ -369,68 +368,79 @@
           {% for product in related_products %}
           <div class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-              <div class="pc__img-wrapper">
-                <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <a href="{{product.get_url}}"><img loading="lazy" src="{{product.product_image.url}}" width="330"
-                          height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                    </div><!-- /.pc__img-wrapper -->
-                    <div class="swiper-slide">
-                      <a href="{{product.get_url}}"><img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}"
-                          width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                    </div><!-- /.pc__img-wrapper -->
-                  </div>
-                  <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_prev_sm" />
-                    </svg></span>
-                  <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_next_sm" />
-                    </svg></span>
-                </div>
-                <button
-                  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                  data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+              <div class="pc__img-wrapper position-relative">
+                <a href="{{ product.get_url }}">
+                  <!-- Default Image -->
+                  <img loading="lazy" src="{{ product.product_image.url }}" width="330" height="400" 
+                      alt="{{ product.product_name }}" class="pc__img main-img">
+
+                  <!-- Hover Image -->
+                  <img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330" height="400" 
+                      alt="{{ product.product_name }}" class="pc__img hover-img">
+                </a>
+
+                {% if product.total_stock <= 0 %}
+                        <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                          <div class="pc-labels__right ms-auto">
+                            <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
+                          </div>
+                        </div>
+                      {% else %}
+                        <!-- Desktop & Tablet only -->
+                        <a class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium d-none d-sm-inline-block"
+                          onclick="openShxCart(this)"
+                          data-id="{{ product.id }}"
+                          data-name="{{ product.product_name }}"
+                          data-price="{{ product.price }}"
+                          data-image="{{ product.product_image.url }}"
+                          data-stock="{{ product.total_stock }}"
+                          data-stock-map='{{ product.size_stock_json|safe }}'
+                          data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                          data-sizes="{{ product.sizes }}"
+                          data-url="{{ product.get_url }}">
+                          Quick View
+                        </a>
+
+                        <!-- Mobile Devices Only -->
+                        <a style="width:fit-content; padding: 5px;"
+                          class="pc__atc btn position-absolute border-0 text-uppercase fw-medium d-inline-flex d-sm-none mobile-visible"
+                          onclick="openShxCart(this)"
+                          data-id="{{ product.id }}"
+                          data-name="{{ product.product_name }}"
+                          data-price="{{ product.price }}"
+                          data-image="{{ product.product_image.url }}"
+                          data-stock="{{ product.total_stock }}"
+                          data-stock-map='{{ product.size_stock_json|safe }}'
+                          data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                          data-sizes="{{ product.sizes }}"
+                          data-url="{{ product.get_url }}">
+                          <span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 5V19M5 12H19" stroke="black" stroke-width="1" stroke-linecap="round"></path>
+                            </svg>
+                          </span>
+                        </a>
+                      {% endif %}
               </div>
 
+              <!-- Product Info -->
               <div class="pc__info position-relative">
+                <p class="pc__category">{{ product.collection }}</p>
+                <h6 class="pc__title"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h6>
 
-                <h6 class="pc__title"><a href="{{product.get_url}}">{{product.product_name}}</a></h6>
-                <div class="product-card__price d-flex">
-                  <span class="money price">${{product.price}}</span>
-                </div>
-                <div class="product-card__review d-sm-flex align-items-center">
-                  <div class="reviews-group d-flex">
-                    <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_star" />
-                    </svg>
-                    <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_star" />
-                    </svg>
-                    <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_star" />
-                    </svg>
-                    <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_star" />
-                    </svg>
-                    <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                      <use href="#icon_star" />
-                    </svg>
-                  </div>
-                  <span class="reviews-note text-lowercase text-secondary ms-sm-1">8k+ reviews</span>
+                <div class="product-card__price d-flex gap-2">
+                  <span class="money price price-sale">₹{{ product.price }}</span>
+                  <span class="money price price-old">₹{{ product.compare_at_price }}</span>
                 </div>
 
-                <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                  title="Add To Wishlist">
+                <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist" title="Add To Wishlist">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_heart" />
                   </svg>
                 </button>
               </div>
             </div>
-          </div>
+        </div>
           {% endfor %}
         </div>
 
@@ -443,79 +453,107 @@
   <div class="mb-5 pb-xl-5"></div>
 
 
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const radios = document.querySelectorAll("input[name='size']");
-    const qtyInput = document.getElementById("quantityInput");
-    const addToCartBtn = document.getElementById("addToCartBtn");
-    const outOfStockBtn = document.getElementById("outOfStockBtn");
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const radios = document.querySelectorAll("input[name='size']");
+  const qtyInput = document.getElementById("quantityInput");
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  const outOfStockBtn = document.getElementById("outOfStockBtn");
 
-    const increaseBtn = document.querySelector(".qty-control__increase");
-    const reduceBtn = document.querySelector(".qty-control__reduce");
+  const increaseBtn = document.querySelector(".qty-control__increase");
+  const reduceBtn   = document.querySelector(".qty-control__reduce");
 
-    function updateStock() {
-      const selected = document.querySelector("input[name='size']:checked");
-      const stock = parseInt(selected.getAttribute("data-stock")) || 1;
+  // Guard so this script doesn't bind twice if included multiple times
+  if (window.__qtyBound) return;
+  window.__qtyBound = true;
 
-      qtyInput.value = stock > 0 ? 1 : 0;
-      qtyInput.max = stock;
-      qtyInput.min = 1;
+  function clamp(val, min, max) {
+    if (isNaN(val)) val = 0;
+    if (isNaN(min)) min = 0;
+    if (isNaN(max)) max = 0;
+    return Math.max(min, Math.min(max, val));
+  }
 
-      toggleButtons();
+  function toggleButtons() {
+    const value = parseInt(qtyInput.value) || 0;
+    const min = parseInt(qtyInput.min) || 0;
+    const max = parseInt(qtyInput.max) || 0;
 
-      if (stock <= 0) {
-        addToCartBtn.classList.add("d-none");
-        outOfStockBtn.classList.remove("d-none");
-      } else {
-        addToCartBtn.classList.remove("d-none");
-        outOfStockBtn.classList.add("d-none");
-      }
+    if (value <= min) {
+      reduceBtn.classList.add("disabled");
+    } else {
+      reduceBtn.classList.remove("disabled");
     }
 
-    function toggleButtons() {
-      const value = parseInt(qtyInput.value) || 0;
-      const min = parseInt(qtyInput.min);
-      const max = parseInt(qtyInput.max);
+    if (value >= max || max === 0) {
+      increaseBtn.classList.add("disabled");
+    } else {
+      increaseBtn.classList.remove("disabled");
+    }
+  }
 
-      // disable reduce if at min
-      if (value <= min) {
-        reduceBtn.classList.add("disabled");
-      } else {
-        reduceBtn.classList.remove("disabled");
-      }
+  function updateStock() {
+    const selected = document.querySelector("input[name='size']:checked");
+    const stock = selected ? (parseInt(selected.getAttribute("data-stock")) || 0) : 0;
 
-      // disable increase if at max
-      if (value >= max) {
-        increaseBtn.classList.add("disabled");
-      } else {
-        increaseBtn.classList.remove("disabled");
-      }
+    // In stock: start at 1, min=1; Out of stock: 0, min=0
+    const inStock = stock > 0;
+    qtyInput.readOnly = true; // enforce click-only changes
+    qtyInput.max = stock;
+    qtyInput.min = inStock ? 1 : 0;
+    qtyInput.value = inStock ? 1 : 0;
+
+    // Toggle Add to Cart / Out of Stock buttons
+    if (inStock) {
+      addToCartBtn.classList.remove("d-none");
+      outOfStockBtn.classList.add("d-none");
+    } else {
+      addToCartBtn.classList.add("d-none");
+      outOfStockBtn.classList.remove("d-none");
     }
 
-    increaseBtn.addEventListener("click", function () {
-      let value = parseInt(qtyInput.value) || 1;
-      const max = parseInt(qtyInput.max);
-      if (value < max) {
-        qtyInput.value = value + 1;
-        toggleButtons();
-      }
-    });
+    toggleButtons();
+  }
 
-    reduceBtn.addEventListener("click", function () {
-      let value = parseInt(qtyInput.value) || 1;
-      const min = parseInt(qtyInput.min);
-      if (value > min) {
-        qtyInput.value = value - 1;
-        toggleButtons();
-      }
-    });
+  // Use CAPTURE phase and stop the event so theme handlers don't fire too.
+  function safeHandleClick(handler) {
+    return function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+      handler();
+    };
+  }
 
-    radios.forEach(radio => {
-      radio.addEventListener("change", updateStock);
-    });
+  increaseBtn.addEventListener("click", safeHandleClick(function () {
+    const max = parseInt(qtyInput.max) || 0;
+    const min = parseInt(qtyInput.min) || 0;
+    let value = parseInt(qtyInput.value) || min;
 
-    updateStock(); // initialize on load
-  });
+    // step = 1 always
+    value = clamp(value + 1, min, max);
+    qtyInput.value = value;
+    toggleButtons();
+  }), true); // <= capture
+
+  reduceBtn.addEventListener("click", safeHandleClick(function () {
+    const max = parseInt(qtyInput.max) || 0;
+    const min = parseInt(qtyInput.min) || 0;
+    let value = parseInt(qtyInput.value) || min;
+
+    value = clamp(value - 1, min, max);
+    qtyInput.value = value;
+    toggleButtons();
+  }), true); // <= capture
+
+  radios.forEach(radio => radio.addEventListener("change", updateStock));
+
+  // Initialize on page load
+  updateStock();
+});
 </script>
+
+
+
 
 {% endblock content %}

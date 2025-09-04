@@ -265,80 +265,75 @@
           {% if all_products %}
         {% for product in all_products %}
           <div class="product-card-wrapper">
-                <div class="product-card mb-3 mb-md-4 mb-xxl-5">
-                  <div class="pc__img-wrapper">
-                    <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <a href="{{product.get_url}}"><img loading="lazy" src="{{product.product_image.url}}" width="330"
-                              height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                        </div><!-- /.pc__img-wrapper -->
-                        <div class="swiper-slide">
-                          <a href="{{product.get_url}}"><img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330"
-                              height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                        </div><!-- /.pc__img-wrapper -->
-                      </div>
-                      <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_prev_sm" />
-                        </svg></span>
-                      <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_next_sm" />
-                        </svg></span>
-                    </div>
-                  {% if product.stock <= 0 %}
-                    <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-                      <div class="pc-labels__right ms-auto">
-                        <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
-                      </div>
-                    </div>
-                    {% else %}
-                    <a href='{% url "carts_urls:add_cart_page" product_id=product.id %}'
-                    class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium">Add To Cart</a>
+            <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+              <div class="pc__img-wrapper position-relative">
+                <a href="{{ product.get_url }}">
+                  <!-- Default Image -->
+                  <img loading="lazy" src="{{ product.product_image.url }}" width="330" height="400" 
+                      alt="{{ product.product_name }}" class="pc__img main-img">
 
-                  {% endif %}
-                      
-                  </div>
+                  <!-- Hover Image -->
+                  <img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330" height="400" 
+                      alt="{{ product.product_name }}" class="pc__img hover-img">
+                </a>
 
-                  <div class="pc__info position-relative">
-                    <p class="pc__category">{{product.collection}}</p>
-                    <h6 class="pc__title"><a href="{{product.get_url}}">{{product.product_name}}</a></h6>
-                    
-                    <div class="product-card__price d-flex gap-2">
-                      <span class="money price price-sale">₹{{product.price}}</span>
-                      <span class="money price price-old">₹{{product.compare_at_price}}</span>
-                    </div>
-                    <div class="product-card__review d-flex align-items-center">
-                      <div class="reviews-group d-flex">
-                        <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_star" />
-                        </svg>
-                        <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_star" />
-                        </svg>
-                        <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_star" />
-                        </svg>
-                        <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_star" />
-                        </svg>
-                        <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                          <use href="#icon_star" />
-                        </svg>
-                      </div>
-                      <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
-                    </div>
+                {% if product.total_stock <= 0 %}
+                        <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                          <div class="pc-labels__right ms-auto">
+                            <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
+                          </div>
+                        </div>
+                      {% else %}
+                        <!-- Desktop & Tablet only -->
+                        <a class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium d-none d-sm-inline-block"
+                          onclick="openShxCart(this)"
+                          data-id="{{ product.id }}"
+                          data-name="{{ product.product_name }}"
+                          data-price="{{ product.price }}"
+                          data-image="{{ product.product_image.url }}"
+                          data-stock="{{ product.total_stock }}"
+                          data-stock-map='{{ product.size_stock_json|safe }}'
+                          data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                          data-sizes="{{ product.sizes }}"
+                          data-url="{{ product.get_url }}">
+                          Quick View
+                        </a>
 
-                    <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                      title="Add To Wishlist">
-                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_heart" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+                        <!-- Mobile Devices Only -->
+                        <a style="width:fit-content; padding: 5px;"
+                          class="pc__atc btn position-absolute border-0 text-uppercase fw-medium d-inline-flex d-sm-none mobile-visible"
+                          onclick="openShxCart(this)"
+                          data-id="{{ product.id }}"
+                          data-name="{{ product.product_name }}"
+                          data-price="{{ product.price }}"
+                          data-image="{{ product.product_image.url }}"
+                          data-stock="{{ product.total_stock }}"
+                          data-stock-map='{{ product.size_stock_json|safe }}'
+                          data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                          data-sizes="{{ product.sizes }}"
+                          data-url="{{ product.get_url }}">
+                          <span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 5V19M5 12H19" stroke="black" stroke-width="1" stroke-linecap="round"></path>
+                            </svg>
+                          </span>
+                        </a>
+                      {% endif %}
               </div>
+
+              <!-- Product Info -->
+              <div class="pc__info position-relative">
+                <h6 class="pc__title"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h6>
+
+                <div class="product-card__price d-flex gap-2">
+                  <span class="money price price-sale">₹{{ product.price }}</span>
+                  <span class="money price price-old">₹{{ product.compare_at_price }}</span>
+                </div>
+
+                
+              </div>
+            </div>
+        </div>
         {% endfor %}
         {% else %}
           <p>No products available.</p>
