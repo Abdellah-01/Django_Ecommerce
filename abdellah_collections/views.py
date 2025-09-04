@@ -2,14 +2,19 @@ from django.shortcuts import render, get_object_or_404
 from .models import Collection
 from products.models import Product
 from django.core.paginator import Paginator
-
+ 
 # Create your views here.
 def collections_list(request):
-    all_collections = Collection.objects.all().order_by('-id')
+    all_collections = list(Collection.objects.all())
+    
+    # Split categories into chunks of 3 for template
+    chunks = [all_collections[i:i + 3] for i in range(0, len(all_collections), 3)]
+    
     context = {
-        'all_collections':all_collections,
+        'chunks': chunks,  # pass the chunks to template
     }
-    return render(request, 'collections/collections.html', context)
+    return render(request, 'collections/collections.html', context) 
+
 
 def all_products_collections(request, collection_slug=None):
     collections = None

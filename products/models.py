@@ -5,6 +5,8 @@ from flask import json
 from abdellah_collections.models import Collection
 from category.models import Category
 from multiselectfield import MultiSelectField
+from decimal import Decimal, ROUND_HALF_UP
+
 
 class SizeGuide(models.Model):
     title = models.CharField(max_length=255)
@@ -26,11 +28,11 @@ class SizeGuide(models.Model):
     )
 
     def get_cm_table(self):
-        """Convert inch values to cm on the fly."""
+        """Convert inch values to cm on the fly (rounded half up)."""
         cm_data = {"columns": self.table_data.get("columns", []), "rows": []}
         for row in self.table_data.get("rows", []):
             inch_values = row.get("values", [])
-            cm_values = [round(val * 2.54, 2) for val in inch_values]
+            cm_values = [int(Decimal(val * 2.54).quantize(0, ROUND_HALF_UP)) for val in inch_values]
             cm_data["rows"].append({
                 "name": row.get("name"),
                 "values": cm_values

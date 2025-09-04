@@ -97,7 +97,7 @@
             <div class="product-single__price">
               <span class="current-price">₹{{single_product.price}}</span>
               {% if single_product.compare_at_price %}
-                <span class="compare-price">₹{{single_product.compare_at_price}}</span>
+                <span class="old-price">₹{{single_product.compare_at_price}}</span>
               {% endif %}
               <div class="btn btn-primary btn-lg" style="padding: 0 5px;">
                 Save ₹{{ single_product.savings }}

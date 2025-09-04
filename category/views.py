@@ -12,7 +12,7 @@ def category_list(request):
     context = {
         'chunks': chunks,  # pass the chunks to template
     }
-    return render(request, 'category/category.html', context)
+    return render(request, 'category/category.html', context) 
 
 def category_products(request, category_slug=None):
     categories = None

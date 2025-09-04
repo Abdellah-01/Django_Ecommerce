@@ -19632,6 +19632,7 @@ textarea.form-control.is-invalid {
   }
   .product-single__details-tab > .nav-tabs .nav-link {
     width: max-content;
+    padding-left: 0 !important;
   }
 }
 .product-single__details-tab > .tab-content {
