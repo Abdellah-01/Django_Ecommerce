@@ -22262,7 +22262,7 @@ body.coming-soon-page .header {
   box-shadow: none;
 }
 .footer .accordion-button::after {
-  content: '\25BC'; /* Down arrow */
+  content: '+'; /* Down arrow */
   font-size: 12px;
   margin-left: auto;
   transition: transform 0.3s ease;

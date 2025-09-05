@@ -26,7 +26,7 @@ def home(request):
     return render(request, 'abdellah_shoping/index.html', context)
 
 def search_here(request):
-    all_products = Product.objects.filter(is_available=True).order_by('-created_at')[:6]
+    all_products = Product.objects.filter(is_available=True).order_by('?')
 
     context ={
         'all_products':all_products

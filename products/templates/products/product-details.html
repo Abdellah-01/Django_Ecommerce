@@ -107,7 +107,7 @@
             <hr>
 
             <div class="product-single__short-desc">
-              <p>{{single_product.description}}</p>
+              {{single_product.description|safe}}
             </div>
 
             <div class="product-single__swatches">
@@ -215,15 +215,16 @@
           <div class="tab-pane fade show active" id="tab-description" role="tabpanel"
             aria-labelledby="tab-description-tab">
             <div class="product-single__description">
-              <p class="content">{{single_product.description}}</p>
+              <div class="content">{{single_product.description|safe}}</div>
               
               
             </div>
           </div>
           <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab">
             <div class="product-single__addtional-info">
-              <p class="content">{{single_product.more_info}}</p>
+              <div class="content">{{ single_product.more_info|safe }}</div>
             </div>
+
           </div>
           <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
             <h2 class="product-single__reviews-title">Reviews</h2>
@@ -366,7 +367,7 @@
       <div class="products-grid overflow-auto">
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4 flex-nowrap" id="products-grid">
           {% for product in related_products %}
-          <div class="product-card-wrapper">
+          <div style="width: 75%;" class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper position-relative">
                 <a href="{{ product.get_url }}">

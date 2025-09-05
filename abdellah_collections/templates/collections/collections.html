@@ -29,7 +29,13 @@
                   {% endif %}
                 </div>
                 <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
-                  <p class="text-uppercase mb-1">Starting At ₹499</p>
+                  <p class="text-uppercase mb-1">
+                    {% if row.0.starting_price %}
+                      Starting At ₹{{ row.0.starting_price }}
+                    {% else %}
+                      No Products
+                    {% endif %}
+                  </p>
                   <h3>{{ row.0.title }}</h3>
                 </div>
               </a>
@@ -49,7 +55,14 @@
                   {% endif %}
                 </div>
                 <div class="content_abs content_bottom content_left content_bottom-md content_left-md">
-                  <p class="text-uppercase mb-1">Starting At ₹499</p>
+                  <p class="text-uppercase mb-1">
+                    {% if col.starting_price %}
+                      Starting At ₹{{ col.starting_price }}
+                    {% else %}
+                      No Products
+                    {% endif %}
+                  </p>
+
                   <h3>{{ col.title }}</h3>
                 </div>
               </a>

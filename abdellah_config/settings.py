@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'ckeditor',
     'adminsortable2', 
     'sortedm2m',
     'sortedm2m_filter_horizontal_widget',

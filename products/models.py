@@ -6,6 +6,7 @@ from abdellah_collections.models import Collection
 from category.models import Category
 from multiselectfield import MultiSelectField
 from decimal import Decimal, ROUND_HALF_UP
+from ckeditor.fields import RichTextField
 
 
 class SizeGuide(models.Model):
@@ -64,13 +65,13 @@ class Product(models.Model):
     
     product_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    description = models.TextField(blank=True)
+    description = RichTextField(blank=True)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     compare_at_price = models.DecimalField(max_digits=10, decimal_places=2)
     product_image = models.ImageField(upload_to='images/products/')
-    more_info = models.TextField(blank=True)
+    more_info = RichTextField(blank=True)
     tags = models.CharField(max_length=255, blank=True)
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
