@@ -23,10 +23,13 @@ class Order(models.Model):
         ('Cancelled', 'Cancelled'),
     )
 
-    user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
+    # ✅ Always require a user
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)  
+
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
     order_number = models.CharField(max_length=100)
     first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
     mobile_number = models.CharField(max_length=15)
     email = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100, blank=True)
@@ -51,7 +54,9 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.first_name
+        return f"Order {self.order_number} by {self.user.first_name}"
+
+
     
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

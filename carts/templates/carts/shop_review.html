@@ -1,0 +1,270 @@
+{% extends "carts/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}<title>Place Your Order</title>{% endblock %}
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    {% if cart_items %}
+    <section class="shop-checkout container">
+      <h2 class="page-title">Shipping and Checkout</h2>
+      <div class="checkout-steps">
+        <a href="{% url 'carts_urls:view_cart_page' %}" class="checkout-steps__item active">
+          <span class="checkout-steps__item-number">01</span>
+          <span class="checkout-steps__item-title">
+            <span>Shopping Bag</span>
+            <em>Manage Your Items List</em>
+          </span>
+        </a>
+
+        <a class="checkout-steps__item active">
+          <span class="checkout-steps__item-number">02</span>
+          <span class="checkout-steps__item-title">
+            <span>Shipping and Checkout</span>
+            <em>Checkout Your Items List</em>
+          </span>
+        </a>
+
+        <!-- New Review Step -->
+        <a class="checkout-steps__item active">
+          <span class="checkout-steps__item-number">03</span>
+          <span class="checkout-steps__item-title">
+            <span>Review And Order</span>
+            <em>Review Your Order Details</em>
+          </span>
+        </a>
+
+        <a class="checkout-steps__item">
+          <span class="checkout-steps__item-number">04</span>
+          <span class="checkout-steps__item-title">
+            <span>Confirmation</span>
+            <em>Review And Submit Your Order</em>
+          </span>
+        </a>
+      </div>
+        <div class="checkout-form">
+          <div class="billing-info__wrapper">
+            <h4 class="mb-3 fw-bold text-uppercase">Billing Details</h4>
+            <div class="card  rounded-3 p-4 mb-4">
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2">
+                  {{order.first_name}} {{order.last_name}} <br>
+                  {{order.address_line_1}},<br>
+                  {{order.address_line_2}}, {{order.city}}<br>
+                  {{order.state}} – {{order.pincode}}<br>
+                  {{order.country}}<br>
+                  +91 {{order.mobile_number}}<br>
+                  {{order.email}}
+                </li>       
+                {% if order.order_note %}
+                    <li class="mb-2">
+                      Order Note: {{order.order_note}}
+                     </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <h4 class="mb-3 fw-bold text-uppercase">Payment Method</h4>
+            <div class="card  rounded-0 p-4 mb-4">
+              <div class="payment-card-body">
+                    <div class="payment-title">
+                      <span>Paypal Payment Gateway (UPI, Cards &amp; NetBanking)</span>
+                      <div class="payment-icons">
+                        <img src="/static/accounts/images/payments/upi.svg" alt="UPI">
+                        <img src="/static/accounts/images/payments/visa.svg" alt="Visa">
+                        <img src="/static/accounts/images/payments/master.svg" alt="MasterCard">
+                        <img src="/static/accounts/images/payments/rupay.png" alt="RuPay">
+                        <span class="extra">+3</span>
+                      </div>
+                    </div>
+                    <div class="payment-description">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-270.8 371 102 52" class="zjrzY"><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" d="M-182 404v16.8c0 .7-.4 1.2-1 1.2h-75.7c-.7 0-1.2-.6-1.2-1.2v-47.6c0-.7.6-1.2 1.2-1.2h75.7c.7 0 1 .6 1 1.2V395m-78-14h78m-17 18h27m-3.9-4.6 4.5 4.6-4.5 4.6"></path><circle cx="-255.5" cy="376.5" r="1.5" fill="currentColor"></circle><circle cx="-250.5" cy="376.5" r="1.5" fill="currentColor"></circle><circle cx="-245.5" cy="376.5" r="1.5" fill="currentColor"></circle></svg>
+                      <p>
+                        After clicking “Pay now”, you will be redirected to PhonePe Payment Gateway 
+                        (UPI, Cards &amp; NetBanking) to complete your purchase securely.
+                      </p>
+                    </div>
+                  </div>
+            </div>
+            <h4 class="mb-3 fw-bold text-uppercase">Review Products</h4>
+            <div class="shopping-cart card rounded-0 p-4 mb-4">
+              <div class="cart-table__wrapper">
+                <table class="cart-table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th></th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Subtotal</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for cart_item in cart_items %}
+                    <tr>
+                      <td>
+                        <div class="shopping-cart__product-item">
+                          <a>
+                            <img loading="lazy" src="{{cart_item.product.product_image.url}}" width="120" height="120" alt="">
+                          </a>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="shopping-cart__product-item__detail">
+                          <h4><a href="./product1_simple.html">{{cart_item.product.product_name}}</a></h4>
+                          <ul class="shopping-cart__product-item__options">
+                            <li>Size: {{ cart_item.size|upper }}</li>
+                          </ul>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="shopping-cart__product-price">₹{{cart_item.product.price}}</span>
+                      </td>
+                      <td>
+                        <div class="qty-control position-relative qty-initialized">
+                          <input type="number" name="quantity" value="{{ cart_item.quantity }}" min="1" class="qty-control__number text-center" readonly>
+                          <div class="qty-control__reduce">-</div>
+                          <div class="qty-control__increase">+</div>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="shopping-cart__subtotal">₹{{ cart_item.sub_total|floatformat:2|intcomma }}</span>
+                      </td>
+                      
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout__totals-wrapper">
+            <div class="sticky-content">
+              <div class="checkout__totals">
+                <h3>Review</h3>
+                <table class="checkout-totals">
+                  <tbody>
+                    <tr>
+                      <th>TOTAL PRICE</th>
+                      <td>₹{{total|floatformat:2|intcomma}}</td>
+                    </tr>
+                    <tr>
+                    <th>CGST & SGST <br><span style="font-size: 12px; font-style: italic; opacity: 0.7;">(included)</span></th>
+                    <td>₹{{tax|floatformat:2|intcomma}}</td>
+                  </tr>
+                  <tr>
+                    <th>Platform Fee</th>
+                    <td>₹{{platform_fee}}</td>
+                  </tr>
+                    <tr>
+                      <th>SHIPPING</th>
+                      <td>Free shipping</td>
+                    </tr>
+                    <tr>
+                      <th>TOTAL</th>
+                      <td>₹{{grand_total|floatformat:2|intcomma}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              
+              <div id="paypal-button-container">
+                <!-- Paypal Button Will Load -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </section>
+    {% else %}
+    <section class="shop-checkout container text-center py-5">
+      <h2>Your Have No Products to Checkout!</h2>
+      <p class="text-muted">Add some products to Place Order.</p>
+      <a href="{% url "products:products_page" %}" class="btn btn-primary mt-3">Go to Shop</a>
+    </section>
+    {% endif %}
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+
+
+
+  <script>
+  // CSRF Token manually
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  const csrftoken = getCookie('csrftoken');
+
+  // Convert INR to USD
+  var inrAmount = parseFloat("{{ grand_total|floatformat:2 }}") || 0;
+  var exchangeRate = 0.01134;  // 1 INR ≈ 0.01134 USD
+  var usdAmount = (inrAmount * exchangeRate).toFixed(2);
+
+  var url = "{% url 'orders_urls:review_order_page' %}";
+  var orderID = "{{order.order_number}}";
+  var payment_method = 'PayPal';
+
+  paypal.Buttons({
+    style: {
+        color: 'white',
+        shape: 'rect',
+        label: 'pay',
+        height: 40
+    },
+
+    // Set up Transaction
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: usdAmount,
+          }
+        }]
+      });
+    },
+
+    // Finalize The Transaction
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        console.log(details);
+
+        // Send payment info to backend
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
+          body: JSON.stringify({
+            orderID: orderID,
+            transID: details.id,
+            payment_method: payment_method,
+            status: details.status
+          }),
+        })
+        .then(response => response.json())
+        .then(data => console.log("Server response:", data))
+        .catch(error => console.error("Error:", error));
+      });
+    }
+
+  }).render('#paypal-button-container');
+</script>
+
+{% endblock %}

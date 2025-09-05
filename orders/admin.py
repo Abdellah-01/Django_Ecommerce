@@ -13,7 +13,7 @@ class OrderProductInline(admin.TabularInline):
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('payment_id', 'user', 'payment_method', 'amount_paid', 'status', 'created_at')
     list_filter = ('status', 'payment_method', 'created_at')
-    search_fields = ('payment_id', 'user__email', 'user__first_name', 'status')
+    search_fields = ('payment_id', 'user__email', 'user__first_name', 'user__last_name', 'status')
     readonly_fields = ('created_at',)
     ordering = ('-created_at',)
 
@@ -21,11 +21,11 @@ class PaymentAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        'order_number', 'user', 'email', 'mobile_number', 'order_total',
-        'tax', 'platform_fee', 'status', 'is_ordered', 'created_at'
+        'order_number', 'user', 'first_name', 'last_name', 'email', 'mobile_number',
+        'order_total', 'tax', 'platform_fee', 'status', 'is_ordered', 'created_at'
     )
     list_filter = ('status', 'is_ordered', 'created_at', 'updated_at')
-    search_fields = ('order_number', 'user__email', 'user__first_name', 'mobile_number', 'email')
+    search_fields = ('order_number', 'user__email', 'user__first_name', 'user__last_name', 'mobile_number', 'email')
     readonly_fields = ('created_at', 'updated_at')
     inlines = [OrderProductInline]
 
@@ -34,7 +34,7 @@ class OrderAdmin(admin.ModelAdmin):
             'fields': ('order_number', 'status', 'is_ordered', 'ip')
         }),
         ('Customer Info', {
-            'fields': ('user', 'first_name', 'email', 'mobile_number', 'company_name')
+            'fields': ('user', 'first_name', 'last_name', 'email', 'mobile_number', 'company_name')
         }),
         ('Address', {
             'fields': ('address_line_1', 'address_line_2', 'city', 'state', 'country', 'pincode')

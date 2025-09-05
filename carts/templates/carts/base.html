@@ -43,6 +43,8 @@
       href="{% static 'products/css/plugins/jquery.fancybox.css' %}"
       type="text/css"
     />
+     <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AS7s08__v3xDIxHylkoJescQO5RL_YmuUBmRhh73ksprcEOCfBGDzzbeaYYF7H7ubahdoxm459T0CZiA&currency=USD"></script>
 <style>
   .filters-container {
     display: none;
@@ -146,6 +148,11 @@
 .policy-text {
   font-size: 13px;
   color: #666;
+}
+@media only screen and (min-width: 300px) {
+    .paypal-button.paypal-button-shape-rect {
+        border-radius: 0 !important;
+    }
 }
 
 </style>
