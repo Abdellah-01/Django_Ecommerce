@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'category',
     'abdellah_collections',
     'carts',
-    'pages'
+    'pages',
+    'orders',
 ]
 
 MIDDLEWARE = [

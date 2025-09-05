@@ -31,7 +31,7 @@
           </span>
         </a>
       </div>
-      <form method='POST' action="">
+      <form method='GET' action="">
         {% csrf_token %}
         <div class="checkout-form">
           <div class="billing-info__wrapper">
@@ -85,13 +85,13 @@
               </div>
               <div class="col-md-12">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" id="checkout_street_address" name='address1' placeholder="Street Address *">
+                  <input type="text" class="form-control" id="checkout_street_address" name='address_line_1' placeholder="Street Address *">
                   <label for="checkout_company_name">Address Line 1 *</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" id="checkout_street_address" name='address2' placeholder="Street Address *">
+                  <input type="text" class="form-control" id="checkout_street_address" name='address_line_2' placeholder="Street Address *">
                   <label for="checkout_company_name">Address Line 2 *</label>
                 </div>
               </div>
