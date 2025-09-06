@@ -1,0 +1,78 @@
+{% autoescape off %}
+<h2>Hi {{ user.first_name }},</h2>
+
+<p>Thank you for shopping with us! 🎉  
+Your order has been received and is being processed.</p>
+
+<hr>
+
+<h3>📦 Order Summary</h3>
+<p>
+<strong>Order Number:</strong> {{ order.order_number }}<br>
+<strong>Status:</strong> {{ order.status }}<br>
+<strong>Date:</strong> {{ order.created_at|date:"d M Y, h:i A" }}
+</p>
+
+<h3>💳 Payment Details</h3>
+<p>
+<strong>Payment Method:</strong> {{ order.payment.payment_method }}<br>
+<strong>Transaction ID:</strong> {{ order.payment.payment_id }}<br>
+<strong>Amount Paid:</strong> ₹{{ order.payment.amount_paid }}<br>
+<strong>Status:</strong> {{ order.payment.status }}
+</p>
+
+<h3>👤 Billing Details</h3>
+<p>
+{{ order.first_name }} {{ order.last_name }}<br>
+{% if order.company_name %}{{ order.company_name }}<br>{% endif %}
+{{ order.address_line_1 }}<br>
+{% if order.address_line_2 %}{{ order.address_line_2 }}<br>{% endif %}
+{{ order.city }}, {{ order.state }} - {{ order.pincode }}<br>
+{{ order.country }}<br>
+<strong>Phone:</strong> {{ order.mobile_number }}<br>
+<strong>Email:</strong> {{ order.email }}
+</p>
+
+<h3>🛒 Ordered Products</h3>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse: collapse; width:100%;">
+  <thead>
+    <tr>
+      <th align="left">Product</th>
+      <th align="center">Size</th>
+      <th align="center">Quantity</th>
+      <th align="right">Price</th>
+      <th align="right">Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order.orderproduct_set.all %}
+    <tr>
+      <td>{{ item.product.product_name }}</td>
+      <td align="center">{{ item.size }}</td>
+      <td align="center">{{ item.quantity }}</td>
+      <td align="right">₹{{ item.product_price }}</td>
+      <td align="right">₹{{ item.subtotal }}</td> <!-- ✅ fixed subtotal -->
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>💰 Order Total</h3>
+<p>
+<strong>Subtotal:</strong> ₹{{ order.order_total }}<br>
+<strong>Tax (5%):</strong> ₹{{ order.tax }}<br>
+<strong>Platform Fee:</strong> ₹{{ order.platform_fee }}<br>
+<strong>Grand Total:</strong> ₹{{ order.order_total|add:order.tax|add:order.platform_fee }}
+</p>
+
+<hr>
+<p>
+We’ll notify you when your order is shipped.  
+Thank you for choosing us! 🙏
+</p>
+
+<p>
+Best Regards,<br>
+<strong>Your Store Team</strong>
+</p>
+{% endautoescape %}

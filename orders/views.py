@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from decimal import Decimal
@@ -7,6 +8,14 @@ from django.contrib.auth.decorators import login_required
 from carts.models import CartItem
 from .forms import OrderForm, Order
 from .models import Order, Payment, OrderProduct
+
+# Email
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMessage
 
 
 def to_decimal(value):
@@ -151,6 +160,15 @@ def make_payment(request):
     CartItem.objects.filter(user=request.user).delete()
 
     # Send the Order Recieved Email to Customer
+    mail_subject = "Order Confirmation"
+    message = render_to_string('orders/order_confirmation_email.html', {
+        'user': request.user,
+        'order': order,
+    })
+    to_email = request.user.email
+    email = EmailMessage(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [to_email])
+    email.content_subtype = "html"  # ✅ tells Django this is HTML email
+    email.send()
 
     # Send Order Number and Transaction ID Back to sendData Method Via JSON Response
 
