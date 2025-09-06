@@ -6,7 +6,7 @@ import datetime, json
 from django.contrib.auth.decorators import login_required
 from carts.models import CartItem
 from .forms import OrderForm, Order
-from .models import Order, Payment
+from .models import Order, Payment, OrderProduct
 
 
 def to_decimal(value):
@@ -111,5 +111,47 @@ def make_payment(request):
     order.payment = payment
     order.is_ordered = True
     order.save()
-    
+
+    # Move Cart Items to Order Product TAble
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    for item in cart_items:
+        orderproduct = OrderProduct()
+        orderproduct.order_id = order.id
+        orderproduct.payment = payment
+        orderproduct.user_id = request.user.id
+        orderproduct.product_id = item.product_id
+        orderproduct.size = item.size or ''
+        orderproduct.quantity = item.quantity
+        orderproduct.product_price = Decimal(item.product.price)
+        orderproduct.ordered = True
+        orderproduct.save()
+
+
+        # Reduce Stocks of the Sold Product
+        product = item.product
+        if item.size:
+            normalized_size = str(item.size).lower().strip()
+            size_field = f"stock_{normalized_size}"
+            if hasattr(product, size_field):
+                current_stock = getattr(product, size_field) or 0
+                new_stock = max(current_stock - item.quantity, 0)
+                setattr(product, size_field, new_stock)
+                product.save()   # <<--- IMPORTANT: persist change to DB
+            else:
+                # helpful debug message — you can replace prints with logging
+                print(f"Warning: product {product.id} has no field '{size_field}'")
+        else:
+            # if you later add a general stock field, handle it here
+            if hasattr(product, "stock"):
+                product.stock = max((getattr(product, "stock") or 0) - item.quantity, 0)
+                product.save()
+
+    # Clear the Cart
+    CartItem.objects.filter(user=request.user).delete()
+
+    # Send the Order Recieved Email to Customer
+
+    # Send Order Number and Transaction ID Back to sendData Method Via JSON Response
+
     return render(request, 'carts/shop_review.html')
