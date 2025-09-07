@@ -25,7 +25,6 @@
           </span>
         </a>
 
-        <!-- New Review Step -->
         <a class="checkout-steps__item">
           <span class="checkout-steps__item-number">03</span>
           <span class="checkout-steps__item-title">
@@ -43,7 +42,7 @@
         </a>
       </div>
 
-      <form method='POST' action="{% url "orders_urls:place_order_page" %}">
+      <form method="POST" action="{% url 'orders_urls:place_order_page' %}" class="needs-validation" novalidate>
         {% csrf_token %}
         <div class="checkout-form">
           <div class="billing-info__wrapper">
@@ -54,17 +53,20 @@
                   <div class="form-label-fixed hover-container" style="position: relative;">
                     <label for="search-dropdown-1" class="form-label">Country / Region*</label>
                     <div class="js-hover__open">
-                      <input type="text" 
-                            class="form-control form-control-lg search-field__actor search-field__arrow-down" 
-                            id="search-dropdown-1" 
-                            name="country" 
-                            readonly 
-                            placeholder="Choose a location...">
+                      <input type="text"
+                        class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                        id="search-dropdown-1"
+                        name="country"
+                        placeholder="Choose a location..."
+                        required
+                        onkeydown="return false;">
+                        <div class="invalid-feedback">Country is required</div>
+
                     </div>
                     <div class="filters-container js-hidden-content mt-2" id="filters-1">
                       <div class="search-field__input-wrapper">
                         <input type="text" id="search-input-1"
-                              class="search-field__input form-control form-control-sm bg-lighter border-lighter" 
+                              class="search-field__input form-control form-control-sm bg-lighter border-lighter"
                               placeholder="Search">
                       </div>
                       <ul class="search-suggestion list-unstyled">
@@ -75,55 +77,60 @@
                 </div>
               </div>
 
-
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_first_name" name='first_name' placeholder="First Name">
-                  <label for="checkout_first_name">First Name</label>
+                  <input type="text" class="form-control" id="checkout_first_name" name="first_name" placeholder="First Name" required>
+                  <label for="checkout_first_name">First Name *</label>
+                  <div class="invalid-feedback">First name is required</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_last_name" name='last_name' placeholder="Last Name">
-                  <label for="checkout_last_name">Last Name</label>
+                  <input type="text" class="form-control" id="checkout_last_name" name="last_name" placeholder="Last Name" required>
+                  <label for="checkout_last_name">Last Name *</label>
+                  <div class="invalid-feedback">Last name is required</div>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_company_name" name='company_name'
-                    placeholder="Company Name (optional)">
+                  <input type="text" class="form-control" id="checkout_company_name" name="company_name"
+                         placeholder="Company Name (optional)">
                   <label for="checkout_company_name">Company Name (optional)</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" id="checkout_street_address" name='address_line_1' placeholder="Street Address *">
-                  <label for="checkout_company_name">Address Line 1 *</label>
+                  <input type="text" class="form-control" id="checkout_address1" name="address_line_1" placeholder="Street Address *" required>
+                  <label for="checkout_address1">Address Line 1 *</label>
+                  <div class="invalid-feedback">Address Line 1 is required</div>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-floating mt-3 mb-3">
-                  <input type="text" class="form-control" id="checkout_street_address" name='address_line_2' placeholder="Street Address *">
-                  <label for="checkout_company_name">Address Line 2 *</label>
+                  <input type="text" class="form-control" id="checkout_address2" name="address_line_2" placeholder="Street Address">
+                  <label for="checkout_address2">Address Line 2</label>
                 </div>
               </div>
-              <!-- STATE DROPDOWN -->
+
+              <!-- STATE -->
               <div class="col-md-4">
                 <div class="search-field my-3">
                   <div class="form-label-fixed hover-container" style="position: relative;">
                     <label for="search-dropdown-2" class="form-label">State / Province*</label>
                     <div class="js-hover__open">
-                      <input type="text" 
-                            class="form-control form-control-lg search-field__actor search-field__arrow-down" 
-                            id="search-dropdown-2" 
-                            name="state" 
-                            readonly 
-                            placeholder="Choose a state...">
+                      <input type="text"
+                            class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                            id="search-dropdown-2"
+                            name="state"
+                            placeholder="Choose a state..."
+                            required
+                            onkeydown="return false;">
+                      <div class="invalid-feedback">State is required</div>
                     </div>
                     <div class="filters-container js-hidden-content mt-2" id="filters-2">
                       <div class="search-field__input-wrapper">
                         <input type="text" id="search-input-2"
-                              class="search-field__input form-control form-control-sm bg-lighter border-lighter" 
+                              class="search-field__input form-control form-control-sm bg-lighter border-lighter"
                               placeholder="Search">
                       </div>
                       <ul class="search-suggestion list-unstyled" id="state-list">
@@ -170,61 +177,75 @@
                 </div>
               </div>
 
-              <!-- CITY DROPDOWN -->
+              <!-- CITY -->
               <div class="col-md-4">
                 <div class="search-field my-3">
                   <div class="form-label-fixed hover-container" style="position: relative;">
                     <label for="search-dropdown-3" class="form-label">City / Town*</label>
                     <div class="js-hover__open">
-                      <input type="text" 
-                            class="form-control form-control-lg search-field__actor search-field__arrow-down" 
-                            id="search-dropdown-3" 
-                            name="city" 
-                            readonly 
-                            placeholder="Choose a city...">
+                      <input type="text"
+                            class="form-control form-control-lg search-field__actor search-field__arrow-down"
+                            id="search-dropdown-3"
+                            name="city"
+                            placeholder="Choose a city..."
+                            required
+                            onkeydown="return false;">
+                      <div class="invalid-feedback">City is required</div>
                     </div>
                     <div class="filters-container js-hidden-content mt-2" id="filters-3">
                       <div class="search-field__input-wrapper">
                         <input type="text" id="search-input-3"
-                              class="search-field__input form-control form-control-sm bg-lighter border-lighter" 
+                              class="search-field__input form-control form-control-sm bg-lighter border-lighter"
                               placeholder="Search">
                       </div>
                       <ul class="search-suggestion list-unstyled" id="city-list">
-                        <!-- Cities will load dynamically -->
+                        <!-- dynamically loaded -->
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
+              <!-- PINCODE -->
               <div class="col-md-4">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_zipcode" name='pincode' placeholder="Postcode / ZIP *">
+                  <input type="text" class="form-control" id="checkout_zipcode" name="pincode"
+                         placeholder="Postcode / ZIP *" pattern="[0-9]{6}" required>
                   <label for="checkout_zipcode">Postcode / ZIP *</label>
+                  <div class="invalid-feedback">Enter a valid 6-digit pincode</div>
                 </div>
               </div>
-              
+
+              <!-- PHONE -->
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="text" class="form-control" id="checkout_phone" name='mobile_number' placeholder="Phone *">
+                  <input type="text" class="form-control" id="checkout_phone" name="mobile_number"
+                         placeholder="Phone *" pattern="[0-9]{10}" required>
                   <label for="checkout_phone">Mobile Number *</label>
+                  <div class="invalid-feedback">Enter a valid 10-digit number</div>
                 </div>
               </div>
+
+              <!-- EMAIL -->
               <div class="col-md-6">
                 <div class="form-floating my-3">
-                  <input type="email" class="form-control" id="checkout_email" name='email' placeholder="Your Mail *">
+                  <input type="email" class="form-control" id="checkout_email" name="email"
+                         placeholder="Your Mail *" required>
                   <label for="checkout_email">Your Mail *</label>
+                  <div class="invalid-feedback">Enter a valid email</div>
                 </div>
               </div>
+
               <div class="col-md-12">
-              <div class="mt-3">
-                <textarea class="form-control form-control_gray" name='order_note' placeholder="Order Notes (optional)" cols="30"
-                  rows="8"></textarea>
+                <div class="mt-3">
+                  <textarea class="form-control form-control_gray" name="order_note"
+                            placeholder="Order Notes (optional)" cols="30" rows="8"></textarea>
+                </div>
               </div>
             </div>
-            </div>
-            
           </div>
+
+          <!-- Right Side Totals Section (UNCHANGED) -->
           <div class="checkout__totals-wrapper">
             <div class="sticky-content">
               <div class="checkout__totals">
@@ -334,7 +355,7 @@
                 </div>
               </div>
 
-              <button type='submit' class="btn btn-primary btn-checkout">PLACE ORDER</button>
+              <button type='submit' class="btn btn-primary">PLACE ORDER</button>
             </div>
           </div>
         </div>
@@ -342,7 +363,7 @@
     </section>
     {% else %}
     <section class="shop-checkout container text-center py-5">
-      <h2>Your Have No Products to Checkout!</h2>
+      <h2>You Have No Products to Checkout!</h2>
       <p class="text-muted">Add some products to Place Order.</p>
       <a href="{% url "products:products_page" %}" class="btn btn-primary mt-3">Go to Shop</a>
     </section>
@@ -350,4 +371,20 @@
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
+
+  <script>
+    (function () {
+      'use strict'
+      const forms = document.querySelectorAll('.needs-validation')
+      Array.from(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+  </script>
 {% endblock %}
