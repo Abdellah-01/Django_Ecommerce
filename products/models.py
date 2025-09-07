@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from flask import json
 from abdellah_collections.models import Collection
+from accounts.models import Account
 from category.models import Category
 from multiselectfield import MultiSelectField
 from decimal import Decimal, ROUND_HALF_UP
@@ -148,3 +149,18 @@ class Product(models.Model):
     def size_stock_json(self):
         """Return JSON string for templates"""
         return json.dumps(self.size_stock_dict())
+    
+class ReviewRating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=150)
+    review = models.TextField(max_length=500, blank=True)
+    rating = models.FloatField()
+    ip = models.CharField(max_length=20, blank=True)
+    status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.subject
+

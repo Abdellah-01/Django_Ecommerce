@@ -1,12 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from abdellah_collections.models import Collection
 from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import Category
-from .models import Product
+from .models import Product, ReviewRating
 from django.core.paginator import Paginator
-
+from .forms import ReviewForm
+from django.contrib import messages
 
 # -------------------------------
 # Product List View
@@ -64,3 +65,23 @@ def product_details(request, product_slug):
     }
 
     return render(request, "products/product-details.html", context)
+
+def submit_review(request, product_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST' and request.user.is_authenticated:
+        try:
+            review = ReviewRating.objects.get(user_id=request.user.id, product_id=product_id)
+            form = ReviewForm(request.POST, instance=review)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Thank You! Your Review Has Been Updated")
+        except ReviewRating.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                new_review = form.save(commit=False)
+                new_review.user_id = request.user.id
+                new_review.product_id = product_id
+                new_review.ip = request.META.get('REMOTE_ADDR')
+                new_review.save()
+                messages.success(request, "Thank You! Your Review Has Been Submitted")
+    return redirect(url)

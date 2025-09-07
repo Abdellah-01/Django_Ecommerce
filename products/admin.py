@@ -3,7 +3,7 @@ from django.contrib import admin, messages
 from django.utils.html import format_html
 from django.urls import reverse
 from django.shortcuts import redirect
-from .models import Product, SizeGuide
+from .models import Product, ReviewRating, SizeGuide
 
 
 # -----------------------------
@@ -178,3 +178,6 @@ class ProductAdmin(admin.ModelAdmin):
             self.message_user(request, "Product duplicated successfully!", messages.SUCCESS)
             return redirect(reverse("admin:products_product_change", args=[obj.pk]))
         return super().response_change(request, obj)
+
+
+admin.site.register(ReviewRating)
