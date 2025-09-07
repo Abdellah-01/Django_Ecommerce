@@ -8,6 +8,7 @@ from .models import Product, ReviewRating
 from django.core.paginator import Paginator
 from .forms import ReviewForm
 from django.contrib import messages
+from orders.models import OrderProduct
 
 # -------------------------------
 # Product List View
@@ -54,6 +55,17 @@ def product_details(request, product_slug):
             size_stock[size] = stock
             total_stock += stock  # accumulate total stock
 
+    try:
+        if request.user.is_authenticated:
+            order_product = OrderProduct.objects.filter(
+                user=request.user,
+                product_id=single_product.id
+            ).exists()
+        else:
+            order_product = False
+    except OrderProduct.DoesNotExist:
+        order_product = None
+
     context = {
         "single_product": single_product,
         "in_cart": in_cart,
@@ -62,6 +74,7 @@ def product_details(request, product_slug):
         "cm_table": cm_table,
         "size_stock": size_stock,        # stock per size
         "has_stock": total_stock > 0,    # ✅ boolean for template
+        "order_product": order_product,
     }
 
     return render(request, "products/product-details.html", context)

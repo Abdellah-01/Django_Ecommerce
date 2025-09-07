@@ -127,7 +127,7 @@
                           data-stock="{{ stock }}"
                           {% if forloop.first %}checked{% endif %}>
                     <label class="swatch js-swatch {% if stock == 0 %}out-of-stock{% endif %}"
-                          for="swatch-{{ forloop.counter }}">
+                          for="swatch-{{ forloop.counter }}" style="color:#000;">
                       {{ size|upper }}
                     </label>
                   {% endfor %}
@@ -335,9 +335,13 @@
                     cols="30" rows="8"></textarea>
                 </div>
                 {% if user.is_authenticated  %}
-                  <div >
-                    <input type="submit" class="btn btn-primary" value="Submit Review">
-                  </div>
+                  {% if order_product %}
+                    <div>
+                      <input type="submit" class="btn btn-primary" value="Submit Review">
+                    </div>
+                  {% else %}
+                    <p>You Must Purchase This Product Post a Review.</p>
+                  {% endif %}
                 {% else %}
                   <p>You Must Be Logged in to Post a Review. <span><a href="{% url 'accounts:login_page' %}">Login Now</a></span></p>
                 {% endif %}
@@ -359,7 +363,7 @@
       <div class="products-grid overflow-auto">
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4 flex-nowrap" id="products-grid">
           {% for product in related_products %}
-          <div style="width: 75%;" class="product-card-wrapper">
+          <div class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper position-relative">
                 <a href="{{ product.get_url }}">
