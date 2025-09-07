@@ -65,6 +65,9 @@ def product_details(request, product_slug):
             order_product = False
     except OrderProduct.DoesNotExist:
         order_product = None
+    
+    # Get Reviews
+    reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
 
     context = {
         "single_product": single_product,
@@ -75,6 +78,7 @@ def product_details(request, product_slug):
         "size_stock": size_stock,        # stock per size
         "has_stock": total_stock > 0,    # ✅ boolean for template
         "order_product": order_product,
+        "reviews": reviews,
     }
 
     return render(request, "products/product-details.html", context)

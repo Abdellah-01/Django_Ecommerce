@@ -229,76 +229,108 @@
           <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
             <h2 class="product-single__reviews-title">Reviews</h2>
             <div class="product-single__reviews-list">
-              <div class="product-single__reviews-item">
-                <div class="customer-avatar">
-                  <img loading="lazy" src="{% static 'products/images/avatar.jpg' %}" alt="">
-                </div>
-                <div class="customer-review">
-                  <div class="customer-name">
-                    <h6>Janice Miller</h6>
-                    <div class="reviews-group d-flex">
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
+              {% if reviews %}
+                {% for review in reviews %}
+                  <div class="product-single__reviews-item">
+                    <div class="customer-avatar" 
+                        style="background:#333; border-radius: 0; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px;">
+                      {{ review.user.first_name|slice:":1"|upper }}{{ review.user.last_name|slice:":1"|upper }}
+                    </div>
+                    <div class="customer-review">
+                      <div class="customer-name">
+                        <h6>{{review.user.full_name|upper}}</h6>
+                        <div class="reviews-group d-flex">
+                          {% if review.rating >= 5 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                          {% elif review.rating >= 4.5 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                          {% elif review.rating >= 4 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 3.5 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 3 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 2.5 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 2 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 1.5 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 1 %}
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% elif review.rating >= 0.5 %}
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% else %}
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                          {% endif %}
+                        </div>
+
+                      </div>
+                      <div class="review-date">{{review.updated_at}}</div>
+                      <div class="review-subject" style="font-weight:400; margin-top:4px;">
+                        {{ review.subject }}
+                      </div>
+                      <div class="review-text">
+                        <p>{{review.review}}</p>
+                      </div>
                     </div>
                   </div>
-                  <div class="review-date">April 06, 2023</div>
-                  <div class="review-text">
-                    <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod
-                      maxime placeat facere possimus, omnis voluptas assumenda est…</p>
-                  </div>
-                </div>
-              </div>
-              <div class="product-single__reviews-item">
-                <div class="customer-avatar">
-                  <img loading="lazy" src="{% static 'products/images/avatar.jpg' %}" alt="">
-                </div>
-                <div class="customer-review">
-                  <div class="customer-name">
-                    <h6>Benjam Porter</h6>
-                    <div class="reviews-group d-flex">
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                      <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_star" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="review-date">April 06, 2023</div>
-                  <div class="review-text">
-                    <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod
-                      maxime placeat facere possimus, omnis voluptas assumenda est…</p>
-                  </div>
-                </div>
-              </div>
+                {% endfor %}
+              {% else %}
+                <p>There are No Reviews</P>
+              {% endif %}
             </div>
             <div class="product-single__review-form">
               <form action="{% url 'products:submit_review_page' single_product.id %}" method="POST">
                 {% csrf_token %}
+                {% if not reviews %}
                 <h5>Be the first to review “{{single_product.product_name|title}}”</h5>
-                <p>Your email address will not be published. Required fields are marked *</p>
+                {% endif %}
+                <h2 class="product-single__reviews-title">Write a Review</h2>
                 <div class="select-star-rating" style="display: flex; align-items: anchor-center;">
                   <label>Your rating *</label>
                   <div class="rate">
