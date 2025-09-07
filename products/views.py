@@ -55,15 +55,15 @@ def product_details(request, product_slug):
             size_stock[size] = stock
             total_stock += stock  # accumulate total stock
 
-    try:
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
+        try:
             order_product = OrderProduct.objects.filter(
                 user=request.user,
                 product_id=single_product.id
             ).exists()
-        else:
-            order_product = False
-    except OrderProduct.DoesNotExist:
+        except OrderProduct.DoesNotExist:
+            order_product = None
+    else:
         order_product = None
     
     # Get Reviews

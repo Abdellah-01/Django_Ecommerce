@@ -8,6 +8,7 @@ from category.models import Category
 from multiselectfield import MultiSelectField
 from decimal import Decimal, ROUND_HALF_UP
 from ckeditor.fields import RichTextField
+from django.db.models import Avg, Count
 
 
 class SizeGuide(models.Model):
@@ -149,6 +150,22 @@ class Product(models.Model):
     def size_stock_json(self):
         """Return JSON string for templates"""
         return json.dumps(self.size_stock_dict())
+    
+    def average_review(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = float(reviews['average'])
+        return avg
+    
+    @property
+    def count_review(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        count = 0
+        if reviews['count'] is not None:
+            count = int(reviews['count'])
+        return count
+
     
 class ReviewRating(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.conf import settings
 from django.urls import reverse
+from orders.models import Order, OrderProduct, Payment
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
 from .forms import RegistrationForm
@@ -240,3 +241,16 @@ def dashboard(request):
         'active':active
     }
     return render(request, 'accounts/account_dashboard.html', context)
+
+@login_required(login_url='accounts:login_page')
+def my_orders(request):
+    active1 = "menu-link_active"
+    orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+
+    orders = orders.prefetch_related('orderproduct_set')
+
+    context = {
+        'active1':active1,
+        'orders':orders,
+    }
+    return render(request, 'accounts/account_orders.html', context)

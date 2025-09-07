@@ -44,6 +44,17 @@
       type="text/css"
     />
 
+    <style>
+      .orders-table td, 
+      .orders-table th {
+        white-space: nowrap; /* Prevent text from wrapping */
+      }
+
+      .table-responsive {
+        overflow-x: auto; /* Allow horizontal scroll on small screens */
+      }
+
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     {% block title %} {% endblock %}

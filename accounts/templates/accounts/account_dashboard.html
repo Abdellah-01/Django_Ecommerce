@@ -6,15 +6,32 @@
     <div class="mb-4 pb-4"></div>
     <section class="my-account container">
       <h2 class="page-title">My Account</h2>
+      <!-- Toggle button for mobile sidebar -->
+      <a class="d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" fill="none" stroke="#2b3b56" stroke-width="2">
+            <!-- Outer rectangle -->
+            <rect x="6" y="11" width="32" height="25" fill="white" stroke="#2b3b56"/>
+            
+            <!-- Left sidebar (filled) -->
+            <rect x="6" y="11" width="14" height="25" fill="#9ca3af" stroke="#2b3b56"/>
+            
+            <!-- Menu lines -->
+            <line x1="28" y1="18" x2="38" y2="18" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="22" x2="38" y2="22" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="26" x2="38" y2="26" stroke="#2b3b56" stroke-width="2"/>
+        </svg>
+      </a>
+
       <div class="row">
         <div class="col-lg-3">
+          <!-- Sidebar with collapse for mobile -->
           {% include "accounts/includes/accounts_sidebar.html" %}
         </div>
         <div class="col-lg-9">
           <div class="page-content my-account__dashboard">
-            <p>Hello <strong>{{user.first_name}}</strong> (not <strong>{{user.username}}?</strong> <a href="{% url "accounts:logout_page" %}">Log
+            <p>Hello <strong>{{user.full_name}}</strong> (not <strong>{{user.username}}?</strong> <a href="{% url "accounts:logout_page" %}">Log
                 out</a>)</p>
-            <p>From your account dashboard you can view your <a class="unerline-link" href="account_orders.html">recent
+            <p>From your account dashboard you can view your <a class="unerline-link" href="{% url "accounts:my_orders_page" %}">recent
                 orders</a>, manage your <a class="unerline-link" href="account_edit_address.html">shipping and billing
                 addresses</a>, and <a class="unerline-link" href="account_edit.html">edit your password and account
                 details.</a></p>
@@ -25,4 +42,6 @@
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
+
+  
 {% endblock %}

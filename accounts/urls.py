@@ -13,5 +13,6 @@ urlpatterns = [
     path('reset-password', views.reset_password, name='reset_password_page'),
 
     # USer Acoounts
-    path('dashboard', views.dashboard, name='dashboard_page')
+    path('dashboard', views.dashboard, name='dashboard_page'),
+    path('my_orders', views.my_orders, name='my_orders_page'),
 ]

@@ -1,0 +1,71 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}<title>My Orders</title>{% endblock %}
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">My Orders</h2>
+      <a class="d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" fill="none" stroke="#2b3b56" stroke-width="2">
+            <!-- Outer rectangle -->
+            <rect x="6" y="11" width="32" height="25" fill="white" stroke="#2b3b56"/>
+            
+            <!-- Left sidebar (filled) -->
+            <rect x="6" y="11" width="14" height="25" fill="#9ca3af" stroke="#2b3b56"/>
+            
+            <!-- Menu lines -->
+            <line x1="28" y1="18" x2="38" y2="18" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="22" x2="38" y2="22" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="26" x2="38" y2="26" stroke="#2b3b56" stroke-width="2"/>
+        </svg>
+      </a>
+      <div class="row">
+        <div class="col-lg-3">
+          {% include "accounts/includes/accounts_sidebar.html" %}
+        </div>
+        <div class="col-lg-9">
+          <div class="table-responsive page-content my-account__orders-list">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if orders %}
+                  {% for order in orders %}
+                    <tr>
+                      <td>#{{order.order_number}}</td>
+                      <td>{{ order.created_at|date:"d M, Y" }}</td>
+                      <td>{{order.status}}</td>
+                      <td>
+                        ₹{{ order.order_total }} 
+                        for 
+                        {% with order_items=order.orderproduct_set.all %}
+                          {{ order_items|length }} item{% if order_items|length > 1 %}s{% endif %}
+                        {% endwith %}
+                      </td>
+                      <td><a href="account_orders_details.html" class="btn btn-primary">VIEW</a></td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td class="text-center" colspan='5'>You Doen't Purchase Any products! <a href="{% url "products:products_page" %}">Shop Now</a></td>
+                  </tr>
+                {% endif %}
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+{% endblock %}
