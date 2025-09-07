@@ -220,6 +220,7 @@
   var orderID = "{{order.order_number}}";
   var payment_method = 'PayPal';
   var redirect_url = "{% url 'orders_urls:order_complete_page' %}"
+  var failed_redirect_url = "{% url 'orders_urls:order_failed_page' %}"
 
   paypal.Buttons({
     style: {
@@ -265,6 +266,17 @@
         })
         .catch(error => console.error("Error:", error));
       });
+    },
+    // ❌ Payment Cancelled by User
+    onCancel: function (data) {
+        console.warn("⚠️ Payment Cancelled:", data);
+        window.location.href = failed_redirect_url + '?order_number=' + orderID;;
+    },
+
+    // ❌ Payment Error (network or PayPal error)
+    onError: function (err) {
+        console.error("❌ Payment Error:", err);
+        window.location.href = failed_redirect_url + '?order_number=' + orderID;;
     }
 
   }).render('#paypal-button-container');

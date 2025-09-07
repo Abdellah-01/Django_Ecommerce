@@ -205,3 +205,25 @@ def order_complete(request):
     
     except(Payment.DoesNotExist, Order.DoesNotExist):
         return redirect("abdellah_shoping:home_page")
+    
+def order_failed(request):
+    order_number = request.GET.get('order_number')
+
+    try:
+        order = Order.objects.get(order_number=order_number, is_ordered=False)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
+
+        subtotal = 0
+        for i in ordered_products:
+            subtotal += i.product_price * i.quantity
+
+        context = {
+            'order': order,
+            'ordered_products': ordered_products,
+            'order_number': order.order_number,
+            'subtotal': subtotal
+        }
+        return render(request, 'carts/shop_order_failed.html', context)
+    
+    except(Order.DoesNotExist):
+        return redirect("abdellah_shoping:home_page")
