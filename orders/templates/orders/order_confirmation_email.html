@@ -1,78 +1,228 @@
 {% autoescape off %}
-<h2>Hi {{ user.first_name }},</h2>
-
-<p>Thank you for shopping with us! 🎉  
-Your order has been received and is being processed.</p>
-
-<hr>
-
-<h3>📦 Order Summary</h3>
-<p>
-<strong>Order Number:</strong> {{ order.order_number }}<br>
-<strong>Status:</strong> {{ order.status }}<br>
-<strong>Date:</strong> {{ order.created_at|date:"d M Y, h:i A" }}
-</p>
-
-<h3>💳 Payment Details</h3>
-<p>
-<strong>Payment Method:</strong> {{ order.payment.payment_method }}<br>
-<strong>Transaction ID:</strong> {{ order.payment.payment_id }}<br>
-<strong>Amount Paid:</strong> ₹{{ order.payment.amount_paid }}<br>
-<strong>Status:</strong> {{ order.payment.status }}
-</p>
-
-<h3>👤 Billing Details</h3>
-<p>
-{{ order.first_name }} {{ order.last_name }}<br>
-{% if order.company_name %}{{ order.company_name }}<br>{% endif %}
-{{ order.address_line_1 }}<br>
-{% if order.address_line_2 %}{{ order.address_line_2 }}<br>{% endif %}
-{{ order.city }}, {{ order.state }} - {{ order.pincode }}<br>
-{{ order.country }}<br>
-<strong>Phone:</strong> {{ order.mobile_number }}<br>
-<strong>Email:</strong> {{ order.email }}
-</p>
-
-<h3>🛒 Ordered Products</h3>
-<table border="1" cellspacing="0" cellpadding="6" style="border-collapse: collapse; width:100%;">
-  <thead>
-    <tr>
-      <th align="left">Product</th>
-      <th align="center">Size</th>
-      <th align="center">Quantity</th>
-      <th align="right">Price</th>
-      <th align="right">Subtotal</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in order.orderproduct_set.all %}
-    <tr>
-      <td>{{ item.product.product_name }}</td>
-      <td align="center">{{ item.size }}</td>
-      <td align="center">{{ item.quantity }}</td>
-      <td align="right">₹{{ item.product_price }}</td>
-      <td align="right">₹{{ item.subtotal }}</td> <!-- ✅ fixed subtotal -->
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<h3>💰 Order Total</h3>
-<p>
-<strong>Subtotal:</strong> ₹{{ order.order_total }}<br>
-<strong>Tax (5%):</strong> ₹{{ order.tax }}<br>
-<strong>Platform Fee:</strong> ₹{{ order.platform_fee }}<br>
-<strong>Grand Total:</strong> ₹{{ order.order_total|add:order.tax|add:order.platform_fee }}
-</p>
-
-<hr>
-<p>
-We’ll notify you when your order is shipped.  
-Thank you for choosing us! 🙏
-</p>
-
-<p>
-Best Regards,<br>
-<strong>Your Store Team</strong>
-</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 4px solid #ffd700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .content h3 {
+      color: #1a1a1a;
+      font-size: 18px;
+      margin-bottom: 10px;
+      border-left: 3px solid #ffd700;
+      padding-left: 10px;
+    }
+    .content p {
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+    .order-table {
+      width: 100%;
+      max-width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      table-layout: auto;
+      box-sizing: border-box;
+    }
+    .order-table th, .order-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #e0e0e0;
+      word-wrap: break-word;
+      overflow: hidden;
+    }
+    .order-table th {
+      background-color: #f8f8f8;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .order-table td {
+      background-color: #ffffff;
+    }
+    .order-table tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+    .order-table .right-align {
+      text-align: right;
+    }
+    .order-table .center-align {
+      text-align: center;
+    }
+    .totals p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .totals strong {
+      color: #1a1a1a;
+    }
+    .grand-total {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffd700;
+      background-color: #1a1a1a;
+      padding: 10px;
+      text-align: right;
+    }
+    .footer {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      padding: 15px;
+      text-align: center;
+      font-size: 12px;
+      border-top: 4px solid #ffd700;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #e0e0e0;
+      margin: 20px 0;
+    }
+    @media only screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+        border: none;
+      }
+      .header {
+        padding: 15px;
+      }
+      .logo {
+        width: 80px;
+        height: 50px;
+        font-size: 14px;
+      }
+      .header h2 {
+        font-size: 20px;
+      }
+      .content {
+        padding: 15px;
+      }
+      .content h3 {
+        font-size: 16px;
+      }
+      .order-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .order-table th, .order-table td {
+        padding: 8px;
+        font-size: 12px;
+        min-width: 80px;
+      }
+      .totals p {
+        font-size: 12px;
+      }
+      .grand-total {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Hi {{ user.first_name }},</h2>
+    </div>
+    <div class="content">
+      <p>Thank you for shopping with us! 🎉 Your order has been received and is being processed.</p>
+      <hr>
+      <h3>📦 Order Summary</h3>
+      <p>
+        <strong>Order Number:</strong> {{ order.order_number }}<br>
+        <strong>Status:</strong> {{ order.status }}<br>
+        <strong>Date:</strong> {{ order.created_at|date:"d M Y, h:i A" }}
+      </p>
+      <h3>💳 Payment Details</h3>
+      <p>
+        <strong>Payment Method:</strong> {{ order.payment.payment_method }}<br>
+        <strong>Transaction ID:</strong> {{ order.payment.payment_id }}<br>
+        <strong>Amount Paid:</strong> ₹{{ order.payment.amount_paid }}<br>
+        <strong>Status:</strong> {{ order.payment.status }}
+      </p>
+      <h3>👤 Billing Details</h3>
+      <p>
+        {{ order.first_name }} {{ order.last_name }}<br>
+        {% if order.company_name %}{{ order.company_name }}<br>{% endif %}
+        {{ order.address_line_1 }}<br>
+        {% if order.address_line_2 %}{{ order.address_line_2 }}<br>{% endif %}
+        {{ order.city }}, {{ order.state }} - {{ order.pincode }}<br>
+        {{ order.country }}<br>
+        <strong>Phone:</strong> {{ order.mobile_number }}<br>
+        <strong>Email:</strong> {{ order.email }}
+      </p>
+      <h3>🛒 Ordered Products</h3>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="center-align">Size</th>
+            <th class="center-align">Quantity</th>
+            <th class="right-align">Price</th>
+            <th class="right-align">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.orderproduct_set.all %}
+          <tr>
+            <td>{{ item.product.product_name }}</td>
+            <td class="center-align">{{ item.size }}</td>
+            <td class="center-align">{{ item.quantity }}</td>
+            <td class="right-align">₹{{ item.product_price }}</td>
+            <td class="right-align">₹{{ item.subtotal }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <h3>💰 Order Total</h3>
+      <div class="totals">
+        <p><strong>Subtotal:</strong> ₹{{ order.order_total }}</p>
+        <p><strong>Tax (5%):</strong> ₹{{ order.tax }}</p>
+        <p><strong>Platform Fee:</strong> ₹{{ order.platform_fee }}</p>
+        <p class="grand-total"><strong>Grand Total:</strong> ₹{{ order.order_total|add:order.tax|add:order.platform_fee }}</p>
+      </div>
+      <hr>
+      <p>We’ll notify you when your order is shipped. Thank you for choosing us! 🙏</p>
+    </div>
+    <div class="footer">
+      <p>Best Regards,<br><strong>Your Store Team</strong></p>
+    </div>
+  </div>
+</body>
+</html>
 {% endautoescape %}

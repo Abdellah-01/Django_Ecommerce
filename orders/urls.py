@@ -5,5 +5,6 @@ app_name = "orders_urls"
 
 urlpatterns = [
     path('place_order', views.place_order, name ="place_order_page"),
-    path('review_order', views.make_payment, name="review_order_page")
+    path('review_order', views.make_payment, name="review_order_page"),
+    path('order_complete', views.order_complete, name="order_complete_page")
 ]

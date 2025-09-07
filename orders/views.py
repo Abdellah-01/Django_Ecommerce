@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from decimal import Decimal
 from bson.decimal128 import Decimal128
 import datetime, json
@@ -171,5 +171,37 @@ def make_payment(request):
     email.send()
 
     # Send Order Number and Transaction ID Back to sendData Method Via JSON Response
+    data = {
+        'order_number': order.order_number,
+        'transID': payment.payment_id,
+    }
+    return JsonResponse(data)
 
-    return render(request, 'carts/shop_review.html')
+    # return render(request, 'carts/shop_review.html')
+
+def order_complete(request):
+    order_number = request.GET.get('order_number')
+    transID = request.GET.get('payment_id')
+
+    try:
+        order = Order.objects.get(order_number=order_number, is_ordered=True)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
+
+        subtotal = 0
+        for i in ordered_products:
+            subtotal += i.product_price * i.quantity
+
+        payment = Payment.objects.get(payment_id=transID)
+
+        context = {
+            'order': order,
+            'ordered_products': ordered_products,
+            'order_number': order.order_number,
+            'transID': payment.payment_id,
+            'payment': payment,
+            'subtotal': subtotal
+        }
+        return render(request, 'carts/shop_order_complete.html', context)
+    
+    except(Payment.DoesNotExist, Order.DoesNotExist):
+        return redirect("abdellah_shoping:home_page")

@@ -30,7 +30,7 @@
           <span class="checkout-steps__item-number">03</span>
           <span class="checkout-steps__item-title">
             <span>Review And Order</span>
-            <em>Review Your Order Details</em>
+            <em>Review And Place Order</em>
           </span>
         </a>
 
@@ -38,7 +38,7 @@
           <span class="checkout-steps__item-number">04</span>
           <span class="checkout-steps__item-title">
             <span>Confirmation</span>
-            <em>Review And Submit Your Order</em>
+            <em>Order Confirmation</em>
           </span>
         </a>
       </div>
@@ -219,6 +219,7 @@
   var url = "{% url 'orders_urls:review_order_page' %}";
   var orderID = "{{order.order_number}}";
   var payment_method = 'PayPal';
+  var redirect_url = "{% url 'orders_urls:order_complete_page' %}"
 
   paypal.Buttons({
     style: {
@@ -258,8 +259,10 @@
             status: details.status
           }),
         })
-        .then(response => response.json())
-        .then(data => console.log("Server response:", data))
+        .then((response) => response.json())
+        .then((data) => {
+          window.location.href = redirect_url + '?order_number='+data.order_number+'&payment_id='+data.transID;
+        })
         .catch(error => console.error("Error:", error));
       });
     }
