@@ -1,0 +1,181 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}<title>#{{order.order_number}}</title>{% endblock %}
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">My Orders</h2>
+      <a class="d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" fill="none" stroke="#2b3b56" stroke-width="2">
+            <!-- Outer rectangle -->
+            <rect x="6" y="11" width="32" height="25" fill="white" stroke="#2b3b56"/>
+            
+            <!-- Left sidebar (filled) -->
+            <rect x="6" y="11" width="14" height="25" fill="#9ca3af" stroke="#2b3b56"/>
+            
+            <!-- Menu lines -->
+            <line x1="28" y1="18" x2="38" y2="18" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="22" x2="38" y2="22" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="26" x2="38" y2="26" stroke="#2b3b56" stroke-width="2"/>
+        </svg>
+      </a>
+      <div class="row">
+        <div class="col-lg-3">
+          {% include "accounts/includes/accounts_sidebar.html" %}
+        </div>
+        <div class="col-lg-9">
+          <div class="page-content my-account__order-details">
+
+            <div class="order-complete" style="margin: 40px 2px; width: 100%;">
+              <div class="order-info">
+                <div class="order-info__item">
+                  <label>Order Number</label>
+                  <span>#{{order.order_number}}</span>
+                </div>
+                <div class="order-info__item">
+                  <label>Date</label>
+                  <span>{{ order.created_at|date:"d M Y h:i A"|upper }}</span>
+                </div>
+                <div class="order-info__item">
+                  <label>Status</label>
+                  <span class="status-badge on-hold">{{order.status|upper}}</span>
+                </div>
+                <div class="order-info__item">
+                  <label>Payment Method</label>
+                  <span class="status-badge on-hold">{{order.payment.payment_method}} (txn Id: {{order.payment.payment_id}})</span>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- Address Section -->
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3">
+                <div class="address-box p-3 rounded" style="border: 1px solid #222;">
+                  <h5>Billing Address</h5>
+                  <p>{{order.full_name}}<br>
+                    {% if order.company_name %}
+                    {{order.company_name}}<br>
+                    {% endif %}
+                    {{order.address_line_1}}<br>
+                    {{order.address_line_2}}<br>
+                    {{order.city}}, {{order.state}} - {{order.pincode}}<br>
+                    {{order.country}}</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="address-box p-3 rounded" style="border: 1px solid #222;">
+                  <h5>Shipping Address</h5>
+                  <p>{{order.full_name}}<br>
+                    {% if order.company_name %}
+                    {{order.company_name}}<br>
+                    {% endif %}
+                    {{order.address_line_1}}<br>
+                    {{order.address_line_2}}<br>
+                    {{order.city}}, {{order.state}} - {{order.pincode}}<br>
+                    {{order.country}}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order Items Table -->
+            <div class="checkout__totals-wrapper">
+              <div class="checkout__totals" style="width: 100%;">
+                <h3>Order Details</h3>
+                <div class="shopping-cart">
+                  <div class="cart-table__wrapper" style="padding-top: 10px;">
+                    <table class="cart-table">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th></th>
+                          <th>Price</th>
+                          <th>Subtotal</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% if order_detail %}
+                          {% for item in order_detail %}
+                            <tr>
+                              <td>
+                                <div class="shopping-cart__product-item">
+                                  <a href="{{item.product.get_url}}">
+                                    <img loading="lazy" src="{{item.product.product_image.url}}" width="120" height="120" alt="">
+                                  </a>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="shopping-cart__product-item__detail">
+                                  <h4><a href="{{item.product.get_url}}">{{item.product}}</a></h4>
+                                  <ul class="shopping-cart__product-item__options">
+                                    <li>Size: {{item.size|upper}}</li>
+                                    <li>Qty: {{item.quantity}}</li>
+                                  </ul>
+                                </div>
+                              </td>
+                              <td>
+                                <span class="shopping-cart__product-price">₹{{item.product_price|floatformat:2|intcomma}}</span>
+                              </td>
+                              <td>
+                                <span class="shopping-cart__subtotal">₹{{item.subtotal|floatformat:2|intcomma}}</span>
+                              </td>
+                    
+                            </tr>
+                          {% endfor %}
+                        {% endif %}
+                      </tbody>
+                    </table>
+                
+                  </div>
+                </div>
+                <table class="checkout-totals">
+                  <tbody>
+                    <tr>
+                      <th>SUBTOTAL</th>
+                      <td>₹{{subtotal|floatformat:2|intcomma}}</td>
+                    </tr>
+                    <tr>
+                      <th>
+                        CGST + SGST<br>
+                        <span style="font-size: 12px; font-style: italic; opacity: 0.7;">(included)</span>
+                      </th>
+                      <td>₹{{order.tax|floatformat:2|intcomma}}</td>
+                    </tr>
+                    <tr>
+                      <th>PLATFORM FEE</th>
+                      <td>₹{{order.platform_fee|floatformat:2|intcomma}}</td>
+                    </tr>
+                    <tr>
+                      <th>TOTAL</th>
+                      <td>₹{{order.order_total|floatformat:2|intcomma}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            
+            
+
+
+            <!-- Actions -->
+            <div class="order-actions">
+              <button class="btn mb-2 btn-outline-primary me-2">Track Order</button>
+              <button class="btn mb-2 btn-outline-secondary me-2">Download Invoice</button>
+              <button class="btn mb-2 btn-outline-success me-2">Return Item</button>
+              <button class="btn mb-2 btn-outline-warning me-2">Exchange Item</button>
+              <button class="btn mb-2 btn-outline-danger">Cancel Order</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+{% endblock %}

@@ -89,7 +89,7 @@
                       Size: {{item.size|upper}}
                     </td>
                     <td style="text-align: right;">
-                      ₹{{item.product_price}}
+                      ₹{{item.product_price|floatformat:2|intcomma}}
                     </td>
                   </tr>
                 {% endfor %}
@@ -99,19 +99,19 @@
               <tbody>
                 <tr>
                   <th>SUBTOTAL</th>
-                  <td>₹{{subtotal}}</td>
+                  <td>₹{{subtotal|floatformat:2|intcomma}}</td>
                 </tr>
                 <tr>
                   <th>CGST + SGST<br><span style="font-size: 12px; font-style: italic; opacity: 0.7;">(included)</span></th>
-                  <td>₹{{order.tax}}</td>
+                  <td>₹{{order.tax|floatformat:2|intcomma}}</td>
                 </tr>
                 <tr>
                   <th>Platform Fee</th>
-                  <td>₹{{order.platform_fee}}</td>
+                  <td>₹{{order.platform_fee|floatformat:2|intcomma}}</td>
                 </tr>
                 <tr>
                   <th>TOTAL</th>
-                  <td>${{order.order_total}}</td>
+                  <td>₹{{order.order_total|floatformat:2|intcomma}}</td>
                 </tr>
               </tbody>
             </table>

@@ -313,3 +313,21 @@ def change_password(request):
         'active3': active3,
     }
     return render(request, 'accounts/change_password.html', context)
+
+@login_required(login_url='accounts:login_page')
+def order_detail(request, order_id):
+    active1 = "menu-link_active"
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id)
+    order = Order.objects.get(order_number=order_id)
+
+    subtotal = 0
+    for i in order_detail:
+        subtotal += i.product_price * i.quantity
+
+    context = {
+        'active1':active1,
+        'order_detail':order_detail,
+        'order':order,
+        'subtotal':subtotal,
+    }
+    return render(request, 'accounts/account_order_detail.html', context)

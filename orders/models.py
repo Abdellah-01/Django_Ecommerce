@@ -55,6 +55,9 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.order_number} by {self.user.first_name}"
+    
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
 
 
     
