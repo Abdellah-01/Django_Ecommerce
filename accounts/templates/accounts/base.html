@@ -21,6 +21,8 @@
       href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
     <!-- Stylesheets -->
     <link
@@ -53,6 +55,21 @@
       .table-responsive {
         overflow-x: auto; /* Allow horizontal scroll on small screens */
       }
+    /* Position the eye icon inside the input */
+    .form-floating.position-relative .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #6c757d;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+
+    .form-floating.position-relative .toggle-password:hover {
+      color: #0d6efd; /* premium blue hover */
+    }
 
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />

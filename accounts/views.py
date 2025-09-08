@@ -257,7 +257,7 @@ def my_orders(request):
 
 @login_required(login_url='accounts:login_page')
 def account_details(request):
-    active3 = "menu-link_active"
+    active2 = "menu-link_active"
 
     # get or create UserProfile
     userprofile, created = UserProfile.objects.get_or_create(user=request.user)
@@ -277,8 +277,39 @@ def account_details(request):
         profile_form = UserProfileForm(instance=userprofile)
 
     context = {
-        'active3': active3,
+        'active2': active2,
         'user_form': user_form,
         'profile_form': profile_form,
     }
     return render(request, 'accounts/account_edit.html', context)
+
+@login_required(login_url='accounts:login_page')
+def change_password(request):
+    active3 = "menu-link_active"
+
+    if request.method == 'POST':
+        current_password = request.POST['current_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        user = Account.objects.get(username__exact=request.user.username)
+
+        if new_password == confirm_password:
+            success = user.check_password(current_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+                # auth_logout(request)
+                messages.success(request, 'Password Updated Successfully!')
+                return redirect('accounts:change_password_page')
+            else:
+                messages.error(request, "Please Enter Valid Password!")
+                return redirect('accounts:change_password_page')
+        else:
+            messages.error(request, "Password Does Not Match!")
+            return redirect('accounts:change_password_page')
+
+    context = {
+        'active3': active3,
+    }
+    return render(request, 'accounts/change_password.html', context)

@@ -22,7 +22,7 @@ class RestrictUnauthenticatedUserMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        restricted_path = [reverse('accounts:dashboard_page')]
+        restricted_path = [reverse('accounts:dashboard_page'), reverse('accounts:change_password_page')]
 
         if not request.user.is_authenticated and request.path in restricted_path:
             return redirect(reverse('accounts:login_page'))
