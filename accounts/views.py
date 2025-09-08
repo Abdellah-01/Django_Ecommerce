@@ -1,12 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.conf import settings
 from django.urls import reverse
 from orders.models import Order, OrderProduct, Payment
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
-from .forms import RegistrationForm
-from .models import Account
+from .forms import RegistrationForm, UserForm, UserProfileForm
+from .models import Account, UserProfile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -254,3 +254,31 @@ def my_orders(request):
         'orders':orders,
     }
     return render(request, 'accounts/account_orders.html', context)
+
+@login_required(login_url='accounts:login_page')
+def account_details(request):
+    active3 = "menu-link_active"
+
+    # get or create UserProfile
+    userprofile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your Profile Has Been Updated!')
+            return redirect('accounts:account_details_page')
+        
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=userprofile)
+
+    context = {
+        'active3': active3,
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'accounts/account_edit.html', context)

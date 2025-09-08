@@ -228,81 +228,81 @@
           </div>
           <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
             <h2 class="product-single__reviews-title">Reviews</h2>
-            <h5 class="product-single__reviews-title">Average Reviews: <span>
-              {% if single_product.average_review >= 5 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-              {% elif single_product.average_review >= 4.5 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star-half-stroke"></i>
-              {% elif single_product.average_review >= 4 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 3.5 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star-half-stroke"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 3 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 2.5 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star-half-stroke"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 2 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 1.5 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star-half-stroke"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 1 %}
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% elif single_product.average_review >= 0.5 %}
-                <i class="fa-regular fa-star-half-stroke"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% else %}
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              {% endif %}
-            </span></h5>
+            <h5 class="product-single__reviews-title">Average Reviews:</h5>
+            <div class="average-review-box d-flex align-items-center mb-4 p-3"
+                style="border:1px solid #eee;">
+
+              <!-- Numeric Value -->
+              <div class="average-score me-3 text-center">
+                <h2 style="margin:0; font-weight:700; font-size:2rem; color:#222;">
+                  {{ single_product.average_review|floatformat:1 }}
+                </h2>
+                <small style="color:#888; font-size:0.9rem;">out of 5</small>
+              </div>
+
+              <!-- Star Rating -->
+              <div class="average-stars d-flex flex-column">
+                <div class="stars mb-1" style="font-size:1.2rem; color:#f5a623;">
+                  {% if single_product.average_review >= 5 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                  {% elif single_product.average_review >= 4.5 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star-half-stroke"></i>
+                  {% elif single_product.average_review >= 4 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 3.5 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 3 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 2.5 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 2 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 1.5 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 1 %}
+                    <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% elif single_product.average_review >= 0.5 %}
+                    <i class="fa-regular fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% else %}
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  {% endif %}
+                </div>
+
+                <!-- Reviews Count -->
+                <small style="color:#555; font-size:0.9rem;">
+                  Based on {{ reviews|length }} review{{ reviews|pluralize }}
+                </small>
+              </div>
+            </div>
+
             <div class="product-single__reviews-list">
               {% if reviews %}
                 {% for review in reviews %}
                   <div class="product-single__reviews-item">
                     <div class="customer-avatar" 
-                        style="background:#333; border-radius: 0; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px;">
+                        style="background:#333; border-radius: 0; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">
                       {{ review.user.first_name|slice:":1"|upper }}{{ review.user.last_name|slice:":1"|upper }}
                     </div>
                     <div class="customer-review">
@@ -441,7 +441,7 @@
                       <input type="submit" class="btn btn-primary" value="Submit Review">
                     </div>
                   {% else %}
-                    <p>You Must Purchase This Product Post a Review.</p>
+                    <p>You Must Purchase This Product to Post a Review.</p>
                   {% endif %}
                 {% else %}
                   <p>You Must Be Logged in to Post a Review. <span><a href="{% url 'accounts:login_page' %}">Login Now</a></span></p>

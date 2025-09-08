@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
@@ -41,7 +42,18 @@ class Account(AbstractBaseUser):
     last_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
-    mobile_number = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    mobile_number = models.CharField(
+        max_length=10,
+        unique=True,
+        null=True,
+        blank=True,
+        validators=[
+            RegexValidator(
+                regex=r'^[6-9]\d{9}$',
+                message="Enter a valid 10-digit mobile number"
+            )
+        ]
+    )
     date_joined = models.DateTimeField(auto_now_add=True)
     last_logined = models.DateTimeField(auto_now_add=True)
 
@@ -67,3 +79,26 @@ class Account(AbstractBaseUser):
     
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+    
+    def formatted_mobile(self):
+        if self.mobile_number:
+            num = self.mobile_number[-10:]  # last 10 digits
+            return f"+91 {num[:5]} {num[5:]}"
+        return ""
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(blank=True, upload_to='user_profile/')
+    address_line_1 = models.CharField(blank=True, max_length=150)
+    address_line_2 = models.CharField(blank=True, max_length=150)
+    country = models.CharField(blank=True, max_length=50)
+    state = models.CharField(blank=True, max_length=50)
+    city = models.CharField(blank=True, max_length=50)
+    pincode = models.CharField(
+        max_length=6,
+        validators=[RegexValidator(r'^\d{6}$', message="Enter a valid 6-digit PIN code")],
+        help_text="Enter 6 digit PIN code"
+    )
+
+    def __str__(self):
+        return self.user.full_name()

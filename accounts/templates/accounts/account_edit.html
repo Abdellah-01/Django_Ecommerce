@@ -1,0 +1,268 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}<title>Account Details</title>{% endblock %}
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">Account Details</h2>
+      <a class="d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" fill="none" stroke="#2b3b56" stroke-width="2">
+            <!-- Outer rectangle -->
+            <rect x="6" y="11" width="32" height="25" fill="white" stroke="#2b3b56"/>
+            
+            <!-- Left sidebar (filled) -->
+            <rect x="6" y="11" width="14" height="25" fill="#9ca3af" stroke="#2b3b56"/>
+            
+            <!-- Menu lines -->
+            <line x1="28" y1="18" x2="38" y2="18" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="22" x2="38" y2="22" stroke="#2b3b56" stroke-width="2"/>
+            <line x1="28" y1="26" x2="38" y2="26" stroke="#2b3b56" stroke-width="2"/>
+        </svg>
+      </a>
+      <div class="row">
+        <div class="col-lg-3">
+          {% include "accounts/includes/accounts_sidebar.html" %}
+        </div>
+        <div class="col-lg-9">
+          <div class="page-content my-account__edit">
+            <div class="my-account__edit-form">
+              {% for message in messages %}
+              <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+              <form action="{% url "accounts:account_details_page" %}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="row">
+
+                  <!-- Profile Picture (Top Left) -->
+                  <div class="col-12 d-flex align-items-center mb-3">
+                    <div class="text-start">
+
+                      <label for="profile_picture" class="d-inline-block position-relative" style="cursor: pointer;">
+
+                        {% if profile_form.instance.profile_picture %}
+                          <!-- Profile Image -->
+                          <img id="profilePreview"
+                              src="{{ profile_form.instance.profile_picture.url }}"
+                              alt="Profile Picture"
+                              class="rounded-circle shadow"
+                              width="100" height="100"
+                              style="object-fit: cover;">
+                        {% else %}
+                          <!-- Initials Avatar -->
+                          <div id="profilePreview"
+                              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center shadow"
+                              style="width:100px; height:100px; font-size:32px; font-weight:600;">
+                            {{ user_form.first_name.value|default:''|slice:":1" }}{{ user_form.last_name.value|default:''|slice:":1" }}
+                          </div>
+                        {% endif %}
+
+                      </label>
+
+                      <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="d-none">
+
+                      <small class="text-muted d-block mt-2">Click image to update</small>
+
+                      {% if profile_form.profile_picture.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.profile_picture.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- First Name -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="first_name" name="first_name"
+                            value="{{ user_form.first_name.value|default_if_none:'' }}" placeholder="First Name" required>
+                      <label for="first_name">First Name</label>
+                      {% if user_form.first_name.errors %}
+                        <div class="invalid-feedback d-block">{{ user_form.first_name.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Last Name -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="last_name" name="last_name"
+                            value="{{ user_form.last_name.value|default_if_none:'' }}" placeholder="Last Name" required>
+                      <label for="last_name">Last Name</label>
+                      {% if user_form.last_name.errors %}
+                        <div class="invalid-feedback d-block">{{ user_form.last_name.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Username -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="username" name="username"
+                            value="{{ user_form.username.value|default_if_none:'' }}" placeholder="Username" required>
+                      <label for="username">Username</label>
+                      {% if user_form.username.errors %}
+                        <div class="invalid-feedback d-block">{{ user_form.username.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Mobile Number -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="number" class="form-control" id="mobile_number" name="mobile_number"
+                            value="{{ user_form.mobile_number.value|default_if_none:'' }}" placeholder="Mobile Number" required>
+                      <label for="mobile_number">Mobile Number</label>
+                      {% if user_form.mobile_number.errors %}
+                        <div class="invalid-feedback d-block">{{ user_form.mobile_number.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Address Line 1 -->
+                  <div class="col-md-12">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="address_line_1" name="address_line_1"
+                            value="{{ profile_form.address_line_1.value|default_if_none:'' }}" placeholder="1418 River Drive" required>
+                      <label for="address_line_1">Address Line 1</label>
+                      {% if profile_form.address_line_1.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.address_line_1.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Address Line 2 -->
+                  <div class="col-md-12">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="address_line_2" name="address_line_2"
+                            value="{{ profile_form.address_line_2.value|default_if_none:'' }}" placeholder="Apartment, Suite" required>
+                      <label for="address_line_2">Address Line 2</label>
+                      {% if profile_form.address_line_2.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.address_line_2.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Country -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="country" name="country"
+                            value="{{ profile_form.country.value|default_if_none:'' }}" placeholder="India" required>
+                      <label for="country">Country</label>
+                      {% if profile_form.country.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.country.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- State -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="state" name="state"
+                            value="{{ profile_form.state.value|default_if_none:'' }}" placeholder="Tamil Nadu" required>
+                      <label for="state">State</label>
+                      {% if profile_form.state.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.state.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- City -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="text" class="form-control" id="city" name="city"
+                            value="{{ profile_form.city.value|default_if_none:'' }}" placeholder="Madurai" required>
+                      <label for="city">City</label>
+                      {% if profile_form.city.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.city.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Pincode -->
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input type="number" class="form-control" id="pincode" name="pincode"
+                            value="{{ profile_form.pincode.value|default_if_none:'' }}" placeholder="600001" required>
+                      <label for="pincode">Pincode</label>
+                      {% if profile_form.pincode.errors %}
+                        <div class="invalid-feedback d-block">{{ profile_form.pincode.errors.0 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <!-- Submit -->
+                  <div class="col-md-12">
+                    <div class="my-3">
+                      <input type="submit" class="btn btn-primary" value="Save Changes">
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+
+
+  <!-- JS for Instant Preview -->
+<script>
+  const fileInput = document.getElementById('profile_picture');
+  const preview = document.getElementById('profilePreview');
+
+  fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // If preview is <img>, update src
+        if (preview.tagName.toLowerCase() === 'img') {
+          preview.src = e.target.result;
+        } else {
+          // Replace initials div with img
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = 'Profile Picture';
+          img.className = 'rounded-circle shadow';
+          img.width = 100;
+          img.height = 100;
+          img.style.objectFit = 'cover';
+          preview.replaceWith(img);
+          img.id = 'profilePreview';
+        }
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+  <script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
+
+{% endblock %}

@@ -3,7 +3,7 @@
               <li><a href="{% url "accounts:dashboard_page" %}" class="menu-link menu-link_us-s {{active|default:""}}">Dashboards</a></li>
               <li><a href="{% url "accounts:my_orders_page" %}" class="menu-link menu-link_us-s {{active1|default:""}}">Orders</a></li>
               <li><a href="account_edit_address.html" class="menu-link menu-link_us-s {{active2|default:""}}">Addresses</a></li>
-              <li><a href="account_edit.html" class="menu-link menu-link_us-s {{active3|default:""}}">Account Details</a></li>
+              <li><a href="{% url "accounts:account_details_page" %}" class="menu-link menu-link_us-s {{active3|default:""}}">Account Details</a></li>
               <li><a href="account_wishlist.html" class="menu-link menu-link_us-s {{active4|default:""}}">Wishlist</a></li>
               <li><a href="{% url "accounts:logout_page" %}" class="menu-link menu-link_us-s {{active5|default:""}}">Logout</a></li>
             </ul>

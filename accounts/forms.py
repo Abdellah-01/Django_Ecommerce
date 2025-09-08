@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account
+from .models import Account, UserProfile
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(
@@ -59,7 +59,14 @@ class RegistrationForm(forms.ModelForm):
                 "Password Does Not Match!"
             )
 
-    # def __init__(self, *args, **kwargs):
-    #     super(RegistrationForm, self).__init__(*args, **kwargs)
-    #     for field in self.fields:
-    #         self.fields[field].widget.attrs['class']
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('first_name', 'last_name', 'username', 'mobile_number')
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('profile_picture', 'address_line_1', 'address_line_2', 'country', 'state', 'city', 'pincode')

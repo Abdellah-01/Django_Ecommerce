@@ -26,18 +26,18 @@
         </div>
         <div class="col-lg-9">
           <div class="table-responsive page-content my-account__orders-list">
-            <table class="orders-table">
-              <thead>
-                <tr>
-                  <th>Order</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Total</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% if orders %}
+            {% if orders %}
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {% for order in orders %}
                     <tr>
                       <td>#{{order.order_number}}</td>
@@ -50,18 +50,28 @@
                           {{ order_items|length }} item{% if order_items|length > 1 %}s{% endif %}
                         {% endwith %}
                       </td>
-                      <td><a href="account_orders_details.html" class="btn btn-primary">VIEW</a></td>
+                      <td>
+                        <a href="" class="btn btn-primary">
+                          VIEW
+                        </a>
+                      </td>
                     </tr>
                   {% endfor %}
-                {% else %}
-                  <tr>
-                    <td class="text-center" colspan='5'>You Doen't Purchase Any products! <a href="{% url "products:products_page" %}">Shop Now</a></td>
-                  </tr>
-                {% endif %}
-                
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            {% else %}
+              <div class="text-center border shadow-sm p-5 bg-light">
+                <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="none" stroke="#9ca3af" stroke-width="2" class="mb-3">
+                  <circle cx="35" cy="35" r="32" stroke="#d1d5db" fill="none"/>
+                  <path d="M20 40h30M25 28h20" stroke="#9ca3af" stroke-linecap="round"/>
+                </svg>
+                <h4 class="fw-bold text-dark">No Orders Yet</h4>
+                <p class="text-muted mb-3">You haven’t purchased anything yet. Once you order, your details will appear here.</p>
+                <a href="{% url 'products:products_page' %}" class="btn btn-primary px-4">Shop Now</a>
+              </div>
+            {% endif %}
           </div>
+
         </div>
       </div>
     </section>

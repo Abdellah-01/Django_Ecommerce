@@ -23,21 +23,76 @@
       </a>
 
       <div class="row">
+        <!-- Sidebar -->
         <div class="col-lg-3">
-          <!-- Sidebar with collapse for mobile -->
           {% include "accounts/includes/accounts_sidebar.html" %}
         </div>
-        <div class="col-lg-9">
+
+        <!-- Main Content -->
+        <div class="col-lg-6">
           <div class="page-content my-account__dashboard">
-            <p>Hello <strong>{{user.full_name}}</strong> (not <strong>{{user.username}}?</strong> <a href="{% url "accounts:logout_page" %}">Log
-                out</a>)</p>
-            <p>From your account dashboard you can view your <a class="unerline-link" href="{% url "accounts:my_orders_page" %}">recent
-                orders</a>, manage your <a class="unerline-link" href="account_edit_address.html">shipping and billing
-                addresses</a>, and <a class="unerline-link" href="account_edit.html">edit your password and account
-                details.</a></p>
+            <p>
+              Hello <strong>{{ user.full_name }}</strong>
+              (not <strong>{{ user.username }}</strong>?
+              <a href="{% url 'accounts:logout_page' %}">Log out</a>)
+            </p>
+            <p>
+              From your account dashboard you can view your
+              <a class="unerline-link" href="{% url 'accounts:my_orders_page' %}">recent orders</a>,
+              manage your
+              <a class="unerline-link" href="">shipping and billing addresses</a>,
+              and
+              <a class="unerline-link" href="">edit your password and account details</a>.
+            </p>
           </div>
         </div>
+
+        <!-- Profile Card -->
+        <div class="col-lg-3">
+          <div class="card border-0  overflow-hidden">
+            <!-- Optional Header Gradient -->
+            <div class="bg-primary text-white py-4">
+              <div class="d-flex justify-content-center">
+                {% if user.userprofile.profile_picture %}
+                  <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile"
+                      class="rounded-circle border border-3 border-white shadow-sm"
+                      width="130" height="130">
+                {% else %}
+                  <div class="customer-avatar border border-3 border-white shadow-sm"
+                      style="width: 130px; height: 130px; background:#6c63ff; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:32px;">
+                    {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body text-center" style="background: #f5f7f9;">
+              <!-- Name -->
+              <h5 class="card-title fw-bold mb-0">{{ user.full_name }}</h5>
+              <!-- Username -->
+              <p class="text-muted mb-2">@{{ user.username }}</p>
+
+              <!-- Contact Info -->
+              <p class="mb-1">
+                <i class="bi bi-envelope-fill me-1 text-primary"></i>{{ user.email }}
+              </p>
+              {% if user.mobile_number %}
+                <p class="mb-2">
+                  <i class="bi bi-telephone-fill me-1 text-success"></i>{{ user.formatted_mobile }}
+                </p>
+              {% endif %}
+
+              <!-- Edit Button -->
+              <a href="{% url "accounts:account_details_page" %}" class="btn btn-outline-primary btn-sm mt-3 px-4">
+                Edit Profile
+              </a>
+            </div>
+          </div>
+        </div>
+
       </div>
+
     </section>
   </main>
 
