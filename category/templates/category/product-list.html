@@ -16,7 +16,7 @@
           <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
         </div><!-- /.breadcrumb -->
 
-        <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+        <div class="shop-acs d-none d-md-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
           <div class="custom-select-wrapper">
             <select class="custom-select" aria-label="Sort Items" name="total-number">
               <option selected>Default Sorting</option>
@@ -44,6 +44,8 @@
           </div><!-- /.col-size d-flex align-items-center ms-auto ms-md-3 -->
         </div><!-- /.shop-acs -->
       </div><!-- /.d-flex justify-content-between -->
+
+      {% include "Products/includes/sort.html" %}
       
 
       <div class="products-grid row row-cols-2 row-cols-md-3 row-cols-lg-4" id="products-grid">
