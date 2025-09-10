@@ -1,0 +1,170 @@
+ <!-- Mobile Filter & Sort Bar -->
+  <div class="strx-mobile-bar header_sticky  mb-3">
+    <div class="strx-sort" id="strxSortBtn">
+      <i class="bi bi-funnel me-2"></i>
+      <span>Sort by</span>
+    </div>
+    <div class="strx-divider"></div>
+    <div class="strx-filters js-open-aside" data-aside="shopFilter">
+      <i class="bi bi-sliders me-2"></i>
+      <span>Filters</span>
+    </div>
+    
+  </div>
+
+  <!-- Overlay -->
+  <div class="strx-overlay" id="strxOverlay"></div>
+
+  <!-- Bottom Drawer -->
+  <div class="strx-drawer" id="strxDrawer">
+    <div class="strx-drawer-header">
+      <span>Sort by</span>
+      <span id="strxCloseDrawer" style="cursor:pointer;">✕</span>
+    </div>
+    <ul class="strx-drawer-body">
+      <li>Newest</li>
+      <li>Price: Low to High</li>
+      <li>Price: High to Low</li>
+      <li>Best Selling</li>
+      <li>Popular</li>
+      <li>Discounted</li>
+      <li>Rating</li>
+    </ul>
+  </div>
+
+  <style>
+    /* Mobile-only bar */
+    .strx-mobile-bar {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .strx-mobile-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 12px 0;
+        font-family: 'Segoe UI', sans-serif;
+        font-weight: 500;
+      }
+
+      .strx-filters,
+      .strx-sort {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: #333;
+        position: relative;
+      }
+
+      .strx-filters:hover,
+      .strx-sort:hover {
+        color: #56112a;
+      }
+
+      .strx-divider {
+        width: 1px;
+        height: 24px;
+        background-color: #ccc;
+        margin: 0 15px;
+      }
+    }
+
+    /* Bottom Drawer */
+    .strx-drawer {
+      position: fixed;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      max-height: 50%;
+      background: #fff;
+      border-radius: 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      transition: bottom 0.3s ease;
+      overflow-y: auto;
+      z-index: 1001;
+    }
+
+    /* Hide scrollbar but allow scroll */
+    .strx-drawer::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+    .strx-drawer {
+      -ms-overflow-style: none;  /* IE 10+ */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    .strx-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      font-weight: 600;
+    }
+
+    .strx-drawer-body li {
+      list-style: none;
+      padding: 12px 20px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .strx-drawer-body li:last-child {
+      border-bottom: none;
+    }
+
+    .strx-drawer-body li:hover {
+      color: #56112a;
+    }
+
+    /* Overlay */
+    .strx-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      display: none;
+      z-index: 998;
+    }
+
+    /* Body lock */
+    body.strx-locked {
+      overflow: hidden;
+      height: 100vh;
+      touch-action: none; /* prevents iOS scroll bounce */
+    }
+  </style>
+
+
+<script>
+    const drawer = document.getElementById('strxDrawer');
+    const overlay = document.getElementById('strxOverlay');
+    const openBtn = document.getElementById('strxSortBtn');
+    const closeBtn = document.getElementById('strxCloseDrawer');
+
+    function openDrawer() {
+      drawer.style.bottom = '0';
+      overlay.style.display = 'block';
+      document.body.classList.add('strx-locked'); // lock body
+    }
+
+    function closeDrawer() {
+      drawer.style.bottom = '-100%';
+      overlay.style.display = 'none';
+      document.body.classList.remove('strx-locked'); // unlock body
+    }
+
+    openBtn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+  </script>

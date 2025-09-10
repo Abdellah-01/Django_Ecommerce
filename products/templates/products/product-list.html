@@ -16,7 +16,7 @@
           <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
         </div><!-- /.breadcrumb -->
 
-        <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+        <div class="shop-acs d-none d-md-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
           <div class="custom-select-wrapper">
             <select class="custom-select" aria-label="Sort Items" name="total-number">
               <option selected>Default Sorting</option>
@@ -45,6 +45,8 @@
         </div><!-- /.shop-acs -->
       </div><!-- /.d-flex justify-content-between -->
 
+      {% include "Products/includes/sort.html" %}
+
       <div class="products-grid row row-cols-2 row-cols-md-3 row-cols-lg-4" id="products-grid">
         {% if all_products %}
           {% for product in all_products %}
@@ -70,6 +72,13 @@
                         {% endif %}
                     {% endwith %}
                   </a>
+                  {% if product.total_stock > 0 %}
+                    <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                      <div class="pc-labels__right ms-auto">
+                        <span class="pc-label pc-label_sale d-block text-white">SAVE ₹{{ product.savings }}</span>
+                      </div>
+                    </div>
+                  {% endif %}
 
 
                   {% if product.total_stock <= 0 %}

@@ -48,7 +48,7 @@
   <!-- /.container -->
 
   <nav
-    class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto"
+    class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto" style="height: 86vh;"
   >
     <div class="container">
       <form
@@ -207,23 +207,45 @@
       <!-- /.overflow-hidden -->
     </div>
     <!-- /.container -->
-
+    
     <div class="border-top mt-auto pb-2">
-      <div class="customer-links container mt-4 mb-2 pb-1">
-        <svg
-          class="d-inline-block align-middle"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use href="#icon_user" />
-        </svg>
-        <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium"
-          >My Account</span
-        >
-      </div>
+      {% if not user.is_authenticated %}
+        <div class="customer-links container mt-4 mb-2 pb-1">
+          <a href="{% url "accounts:login_page" %}">
+            <svg
+              class="d-inline-block align-middle"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use href="#icon_user" />
+            </svg>
+            <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium"
+              >Login</span
+            >
+          </a>
+        </div>
+      {% else %}
+        <div class="customer-links container mt-4 mb-2 pb-1">
+          <a href="{% url "accounts:dashboard_page" %}">
+            <svg
+              class="d-inline-block align-middle"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use href="#icon_user" />
+            </svg>
+            <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium"
+              >My Account</span
+            >
+          </a>
+        </div>
+      {% endif %}
     </div>
   </nav>
   <!-- /.navigation -->

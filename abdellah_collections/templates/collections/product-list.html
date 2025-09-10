@@ -71,6 +71,14 @@
                     {% endwith %}
                   </a>
 
+                  {% if product.total_stock > 0 %}
+                    <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                      <div class="pc-labels__right ms-auto">
+                        <span class="pc-label pc-label_sale d-block text-white">SAVE ₹{{ product.savings }}</span>
+                      </div>
+                    </div>
+                  {% endif %}
+
                   {% if product.total_stock <= 0 %}
                       <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
                         <div class="pc-labels__right ms-auto">

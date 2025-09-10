@@ -14806,7 +14806,7 @@ textarea.form-control.is-invalid {
 }
 
 .pc-label_sale {
-  background-color: #d6001c;
+  background-color: #56112a;
 }
 
 .pc-label_sale-text {
@@ -22263,7 +22263,8 @@ body.coming-soon-page .header {
 }
 .footer .accordion-button::after {
   content: '+'; /* Down arrow */
-  font-size: 12px;
+  font-size: 18px;
+  font-weight: 400;
   margin-left: auto;
   transition: transform 0.3s ease;
 }
