@@ -1971,7 +1971,7 @@
   <div class="mb-4 pb-4 mb-xl-4 mt-xl-3 pt-xl-3 pb-xl-4"></div>
 
 {% for collection in collections %}
-<section class="shop-main container scrollbar-gray mb-100">
+<section class="shop-main container mb-100">
   <!-- Section Header -->
   <div class="section-header d-flex justify-content-between align-items-center flex-wrap">
     <h2 class="section-title fw-normal mb-3 pb-2">{{collection.title}}</h2>
@@ -2000,13 +2000,23 @@
           <div class="product-card mb-3 mb-md-4 mb-xxl-5">
             <div class="pc__img-wrapper position-relative">
               <a href="{{ product.get_url }}">
-                <!-- Default Image -->
-                <img loading="lazy" src="{{ product.product_image.url }}" width="330" height="400" 
-                     alt="{{ product.product_name }}" class="pc__img main-img">
+                {% with product.gallery.all as gallery %}
+                    {% if gallery %}
+                        <!-- Default Image (first) -->
+                        <img loading="lazy"
+                            src="{{ gallery.0.image.url }}"
+                            width="330" height="400"
+                            alt="{{ product.product_name }}"
+                            class="pc__img main-img">
 
-                <!-- Hover Image -->
-                <img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330" height="400" 
-                     alt="{{ product.product_name }}" class="pc__img hover-img">
+                        <!-- Hover Image (second if exists, fallback to first) -->
+                        <img loading="lazy"
+                            src="{% if gallery|length > 1 %}{{ gallery.1.image.url }}{% else %}{{ gallery.0.image.url }}{% endif %}"
+                            width="330" height="400"
+                            alt="{{ product.product_name }}"
+                            class="pc__img hover-img">
+                    {% endif %}
+                {% endwith %}
               </a>
 
               {% if product.total_stock <= 0 %}
@@ -2022,7 +2032,7 @@
                         data-id="{{ product.id }}"
                         data-name="{{ product.product_name }}"
                         data-price="{{ product.price }}"
-                        data-image="{{ product.product_image.url }}"
+                        data-image="{{ product.first_gallery_image }}"
                         data-stock="{{ product.total_stock }}"
                         data-stock-map='{{ product.size_stock_json|safe }}'
                         data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
@@ -2038,7 +2048,7 @@
                         data-id="{{ product.id }}"
                         data-name="{{ product.product_name }}"
                         data-price="{{ product.price }}"
-                        data-image="{{ product.product_image.url }}"
+                        data-image="{{ product.first_gallery_image }}"
                         data-stock="{{ product.total_stock }}"
                         data-stock-map='{{ product.size_stock_json|safe }}'
                         data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"

@@ -4,7 +4,7 @@ from abdellah_collections.models import Collection
 from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import Category
-from .models import Product, ReviewRating
+from .models import Product, ReviewRating, ProductGallery
 from django.core.paginator import Paginator
 from .forms import ReviewForm
 from django.contrib import messages

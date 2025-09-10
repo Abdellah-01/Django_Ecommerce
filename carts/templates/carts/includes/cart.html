@@ -15,11 +15,11 @@
         <div class="cart-drawer-item d-flex position-relative">
           <div class="position-relative">
             <a href="{{ cart_item.product.get_url }}">
-              {% if cart_item.product.product_image %}
+              {% if cart_item.product.first_gallery_image %}
                 <img
                   loading="lazy"
                   class="cart-drawer-item__img"
-                  src="{{ cart_item.product.product_image.url }}"
+                  src="{{ cart_item.product.first_gallery_image }}"
                   alt="{{ cart_item.product.product_name }}"
                 />
               {% else %}

@@ -72,7 +72,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     compare_at_price = models.DecimalField(max_digits=10, decimal_places=2)
-    product_image = models.ImageField(upload_to='images/products/')
     more_info = RichTextField(blank=True)
     tags = models.CharField(max_length=255, blank=True)
     is_available = models.BooleanField(default=True)
@@ -165,6 +164,17 @@ class Product(models.Model):
         if reviews['count'] is not None:
             count = int(reviews['count'])
         return count
+    
+    @property
+    def gallery_images(self):
+        """Return all images in the product gallery"""
+        return self.gallery.all()
+
+    @property
+    def first_gallery_image(self):
+        """Return first gallery image or fallback to main product image"""
+        gallery = self.gallery.first()
+        return gallery.image.url if gallery else None
 
     
 class ReviewRating(models.Model):
@@ -181,3 +191,13 @@ class ReviewRating(models.Model):
     def __str__(self):
         return self.subject
 
+class ProductGallery(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, related_name='gallery')
+    image = models.ImageField(upload_to='images/products/')
+    order = models.PositiveIntegerField(default=0)  # For reordering
+
+    class Meta:
+        ordering = ['order']  # Default ordering by "order" field
+
+    def __str__(self):
+        return f"{self.product.product_name} - Image {self.id}"

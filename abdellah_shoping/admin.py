@@ -44,7 +44,7 @@ class FeaturedCollectionAdmin(admin.ModelAdmin):
                 'vertical-align:middle; margin-right:4px;">{}'
                 '</a>',
                 url,
-                p.product_image.url if p.product_image else "https://via.placeholder.com/20",
+                p.first_gallery_image if p.first_gallery_image else "https://via.placeholder.com/20",
                 p.product_name
             )
 

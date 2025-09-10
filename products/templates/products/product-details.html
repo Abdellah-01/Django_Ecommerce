@@ -20,46 +20,21 @@
             <div class="product-single__image">
               <div class="swiper-container">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{{single_product.product_image.url}}" width="674" height="674"
+                 
+                  {% if single_product.gallery_images %}
+                    {% for i in single_product.gallery_images %}
+                       <div class="swiper-slide product-single__image-item">
+                    <img loading="lazy" class="h-auto" src="{{i.image.url}}" width="674" height="674"
                       alt="">
-                    <a data-fancybox="gallery" href="{{single_product.product_image.url}}" data-bs-toggle="tooltip"
+                    <a data-fancybox="gallery" href="{{i.image.url}}" data-bs-toggle="tooltip"
                       data-bs-placement="left" title="Zoom">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <use href="#icon_zoom" />
                       </svg>
                     </a>
                   </div>
-                  <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{% static 'products/images/products/product_0-1.jpg' %}" width="674" height="674"
-                      alt="">
-                    <a data-fancybox="gallery" href="{% static 'products/images/products/product_0-1.jpg' %}" data-bs-toggle="tooltip"
-                      data-bs-placement="left" title="Zoom">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
-                  <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{% static 'products/images/products/product_0-2.jpg' %}" width="674" height="674"
-                      alt="">
-                    <a data-fancybox="gallery" href="{% static 'products/images/products/product_0-2.jpg' %}" data-bs-toggle="tooltip"
-                      data-bs-placement="left" title="Zoom">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
-                  <div class="swiper-slide product-single__image-item">
-                    <img loading="lazy" class="h-auto" src="{% static 'products/images/products/product_0-3.jpg' %}" width="674" height="674"
-                      alt="">
-                    <a data-fancybox="gallery" href="{% static 'products/images/products/product_0-3.jpg' %}" data-bs-toggle="tooltip"
-                      data-bs-placement="left" title="Zoom">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
+                    {% endfor %}
+                  {% endif %}
                 </div>
                 <div class="swiper-button-prev"><svg width="7" height="11" viewBox="0 0 7 11"
                     xmlns="http://www.w3.org/2000/svg">
@@ -74,14 +49,14 @@
             <div class="product-single__thumbnail">
               <div class="swiper-container">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto"
-                      src="{{single_product.product_image.url}}" width="104" height="104" alt=""></div>
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto"
-                      src="{% static 'products/images/products/product_0-1.jpg' %}" width="104" height="104" alt=""></div>
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto"
-                      src="{% static 'products/images/products/product_0-2.jpg' %}" width="104" height="104" alt=""></div>
-                  <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto"
-                      src="{% static 'products/images/products/product_0-3.jpg' %}" width="104" height="104" alt=""></div>
+                  {% if single_product.gallery_images %}
+                    {% for i in single_product.gallery_images %}
+                      <div class="swiper-slide product-single__image-item"><img loading="lazy" class="h-auto"
+                      src="{{i.image.url}}" width="104" height="104" alt=""></div>
+                    {% endfor %}
+                  {% endif %}
+                  
+                  
                 </div>
               </div>
             </div>
@@ -468,57 +443,67 @@
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper position-relative">
                 <a href="{{ product.get_url }}">
-                  <!-- Default Image -->
-                  <img loading="lazy" src="{{ product.product_image.url }}" width="330" height="400" 
-                      alt="{{ product.product_name }}" class="pc__img main-img">
+                    {% with product.gallery.all as gallery %}
+                        {% if gallery %}
+                            <!-- Default Image (first) -->
+                            <img loading="lazy"
+                                src="{{ gallery.0.image.url }}"
+                                width="330" height="400"
+                                alt="{{ product.product_name }}"
+                                class="pc__img main-img">
 
-                  <!-- Hover Image -->
-                  <img loading="lazy" src="{% static 'products/images/products/product_1-1.jpg' %}" width="330" height="400" 
-                      alt="{{ product.product_name }}" class="pc__img hover-img">
-                </a>
+                            <!-- Hover Image (second if exists, fallback to first) -->
+                            <img loading="lazy"
+                                src="{% if gallery|length > 1 %}{{ gallery.1.image.url }}{% else %}{{ gallery.0.image.url }}{% endif %}"
+                                width="330" height="400"
+                                alt="{{ product.product_name }}"
+                                class="pc__img hover-img">
+                        {% endif %}
+                    {% endwith %}
+                  </a>
 
                 {% if product.total_stock <= 0 %}
-                        <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
-                          <div class="pc-labels__right ms-auto">
-                            <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
-                          </div>
+                      <div class="pc-labels position-absolute top-0 start-0 w-100 d-flex justify-content-between">
+                        <div class="pc-labels__right ms-auto">
+                          <span class="pc-label pc-label_sale d-block text-white">SOLD OUT</span>
                         </div>
-                      {% else %}
-                        <!-- Desktop & Tablet only -->
-                        <a class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium d-none d-sm-inline-block"
-                          onclick="openShxCart(this)"
-                          data-id="{{ product.id }}"
-                          data-name="{{ product.product_name }}"
-                          data-price="{{ product.price }}"
-                          data-image="{{ product.product_image.url }}"
-                          data-stock="{{ product.total_stock }}"
-                          data-stock-map='{{ product.size_stock_json|safe }}'
-                          data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
-                          data-sizes="{{ product.sizes }}"
-                          data-url="{{ product.get_url }}">
-                          Quick View
-                        </a>
+                      </div>
+                    {% else %}
+                      <!-- Desktop & Tablet only -->
+                      <a class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium d-none d-sm-inline-block"
+                        onclick="openShxCart(this)"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.product_name }}"
+                        data-price="{{ product.price }}"
+                        data-image="{{ product.first_gallery_image }}"
+                        data-stock="{{ product.total_stock }}"
+                        data-stock-map='{{ product.size_stock_json|safe }}'
+                        data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                        data-sizes="{{ product.sizes }}"
+                        data-url="{{ product.get_url }}">
+                        Quick View
+                      </a>
 
-                        <!-- Mobile Devices Only -->
-                        <a style="width:fit-content; padding: 5px;"
-                          class="pc__atc btn position-absolute border-0 text-uppercase fw-medium d-inline-flex d-sm-none mobile-visible"
-                          onclick="openShxCart(this)"
-                          data-id="{{ product.id }}"
-                          data-name="{{ product.product_name }}"
-                          data-price="{{ product.price }}"
-                          data-image="{{ product.product_image.url }}"
-                          data-stock="{{ product.total_stock }}"
-                          data-stock-map='{{ product.size_stock_json|safe }}'
-                          data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
-                          data-sizes="{{ product.sizes }}"
-                          data-url="{{ product.get_url }}">
-                          <span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                              <path d="M12 5V19M5 12H19" stroke="black" stroke-width="1" stroke-linecap="round"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      {% endif %}
+                      <!-- Mobile Devices Only -->
+                      <a style="width:fit-content; padding: 5px;"
+                        class="pc__atc btn position-absolute border-0 text-uppercase fw-medium d-inline-flex d-sm-none mobile-visible"
+                        onclick="openShxCart(this)"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.product_name }}"
+                        data-price="{{ product.price }}"
+                        data-image="{{ product.first_gallery_image }}"
+                        data-stock="{{ product.total_stock }}"
+                        data-stock-map='{{ product.size_stock_json|safe }}'
+                        data-add-url="{% url 'carts_urls:add_cart_page' product_id=product.id %}"
+                        data-sizes="{{ product.sizes }}"
+                        data-url="{{ product.get_url }}">
+                        <span>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="black" stroke-width="1" stroke-linecap="round"></path>
+                          </svg>
+                        </span>
+                      </a>
+                    {% endif %}
               </div>
 
               <!-- Product Info -->
@@ -549,6 +534,49 @@
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
+  <style>
+    .rate > input {
+    display: none;
+}
+
+.rate {
+    display: inline-block;
+    border: 0;   
+}
+
+.rate >label {
+    float: right;
+}
+
+/* Display Stars */
+.rate >label::before {
+    display: inline-block;
+    font-size: 1rem;
+    font-family: FontAwesome;
+    content: "\f005";
+    margin: 0;
+    padding: 0.3rem 0.2rem;
+    cursor: pointer;
+}
+
+/* Half Star */
+.rate .half::before {
+    content: "\f089";
+    position: absolute;
+    padding-right: 0;
+}
+
+/* Click and Hver */
+input:checked ~ label, label:hover ~ label {
+    color: #ffb503;
+    
+}
+
+/* Hover Highligh */
+input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:hover ~ label, lobel:hover ~ input:checked ~ label {
+    color: #cc9000;
+}
+  </style>
 
 
 <script>

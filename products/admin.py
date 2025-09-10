@@ -3,11 +3,10 @@ from django.contrib import admin, messages
 from django.utils.html import format_html
 from django.urls import reverse
 from django.shortcuts import redirect
-from .models import Product, ReviewRating, SizeGuide
-
+from .models import Product, ReviewRating, SizeGuide, ProductGallery
 
 # -----------------------------
-# Product Form (no JS)
+# Product Form
 # -----------------------------
 class ProductAdminForm(forms.ModelForm):
     class Meta:
@@ -52,6 +51,26 @@ class ProductAdminForm(forms.ModelForm):
             field = size_map.get(size)
             if field:
                 self.fields[field].widget = forms.NumberInput(attrs={"min": "0"})
+
+
+# -----------------------------
+# ProductGallery Inline
+# -----------------------------
+class ProductGalleryInline(admin.TabularInline):
+    model = ProductGallery
+    extra = 1
+    readonly_fields = ("image_preview",)
+    fields = ("image", "image_preview", "order")
+    sortable_field_name = "order"
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="100" style="border-radius:8px; object-fit:cover;"/>',
+                obj.image.url
+            )
+        return "No Image"
+    image_preview.short_description = "Preview"
 
 
 # -----------------------------
@@ -107,6 +126,7 @@ class SizeGuideAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
+    inlines = [ProductGalleryInline]
 
     list_display = (
         "product_name", "price", "compare_at_price", "total_stock",
@@ -129,23 +149,22 @@ class ProductAdmin(admin.ModelAdmin):
                 "stock_28","stock_30","stock_32","stock_34","stock_36","stock_38","stock_40","stock_42","stock_44"
             )
         }),
-        ("Images", {"fields": ("product_image", "thumbnail_preview")}),
+        ("Images", {"fields": ("thumbnail_preview",)}),
         ("Timestamps", {"fields": ("created_at", "modified_at")}),
     )
 
-    # Thumbnail for list view
     def thumbnail(self, obj):
-        if obj.product_image:
+        if obj.first_gallery_image:
             return format_html(
                 '<img src="{}" width="60" height="60" style="object-fit:cover;border-radius:5px;" />',
-                obj.product_image.url
+                obj.first_gallery_image
             )
         return "No Image"
     thumbnail.short_description = "Preview"
 
     def thumbnail_preview(self, obj):
-        if obj.product_image:
-            return format_html('<img src="{}" width="150" style="border-radius:8px;" />', obj.product_image.url)
+        if obj.first_gallery_image:
+            return format_html('<img src="{}" width="150" style="border-radius:8px;" />', obj.first_gallery_image)
         return "No Image"
     thumbnail_preview.short_description = "Image Preview"
 
@@ -157,7 +176,6 @@ class ProductAdmin(admin.ModelAdmin):
         return sum(getattr(obj, f, 0) for f in fields)
     total_stock.short_description = "Stock"
 
-    # Duplicate product action
     actions = ["duplicate_products"]
 
     def duplicate_products(self, request, queryset):
@@ -180,4 +198,23 @@ class ProductAdmin(admin.ModelAdmin):
         return super().response_change(request, obj)
 
 
+# -----------------------------
+# ProductGallery Admin (Standalone)
+# -----------------------------
+@admin.register(ProductGallery)
+class ProductGalleryAdmin(admin.ModelAdmin):
+    list_display = ("product", "image_preview", "order")
+    readonly_fields = ("image_preview",)
+    list_editable = ("order",)
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="100" style="border-radius:8px; object-fit:cover;"/>', obj.image.url)
+        return "No Image"
+    image_preview.short_description = "Preview"
+
+
+# -----------------------------
+# ReviewRating Admin
+# -----------------------------
 admin.site.register(ReviewRating)
