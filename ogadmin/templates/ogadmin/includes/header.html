@@ -1,0 +1,193 @@
+{% load static %}
+
+<header class="header sticky-top" id="header">
+    <div class="container-fluid px-2 px-md-4">
+        <div class="d-flex align-items-center justify-content-between py-md-3 py-2">
+            <!-- Start:: Left Header -->
+            <div class="logo">
+                <a href="{% url "ogadmin:overview_admin_page" %}" aria-label="Thunder AI Dashboard">
+                    <img src="{% static 'abdellah_shoping/images/logo.png' %}" width="100px" alt="Thunder AI Logo" class="img-fluid">
+                    <small class="d-block text-uppercase text-secondary text-truncate">Analytics</small>
+                </a>
+            </div>
+            <!-- End:: Left Header -->
+
+            <!-- Right Header -->
+            <div class="right-header d-flex flex-fill align-items-center justify-content-between">
+                <a href="#" class="btn p-0 ms-3 hover-svg" data-bs-toggle="modal" data-bs-target="#Menu_Grid">
+                    <svg width="28" height="28" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5.27148 5H12.7296V12.5H5.27148V5Z"/>
+                        <path d="M17.7017 5H25.1598V12.5H17.7017V5Z"/>
+                        <path d="M5.27148 17.5H12.7296V25H5.27148V17.5Z"/>
+                        <path d="M17.7017 21.25C17.7017 22.2446 18.0945 23.1984 18.7939 23.9017C19.4932 24.6049 20.4417 25 21.4307 25C22.4197 25 23.3682 24.6049 24.0676 23.9017C24.7669 23.1984 25.1598 22.2446 25.1598 21.25C25.1598 20.2554 24.7669 19.3016 24.0676 18.5983C23.3682 17.8951 22.4197 17.5 21.4307 17.5C20.4417 17.5 19.4932 17.8951 18.7939 18.5983C18.0945 19.3016 17.7017 20.2554 17.7017 21.25Z"/>
+                    </svg>
+                </a>
+                <ul class="nav navbar-right d-flex gap-lg-4 gap-2 align-items-center ms-auto">
+                    <li class="d-none align-items-center d-sm-flex">
+                        <a class="nav-link p-1 px-2 d-none d-md-block" href="documentation.html" aria-label="Thunder AI Documentation">Documentation</a>
+                        <a class="nav-link p-1 px-2" href="help.html" aria-label="Thunder AI Help Center">Help</a>
+                    </li>
+                    <li class="d-flex gap-2 align-items-center">
+                        <!-- Dropdown Menu for Notifications -->
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle hover-svg" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+                                <span class="bullet-dot bg-primary animation-blink"></span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                                    <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                                    <path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727" />
+                                    <path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727" />
+                                </svg>
+                            </a>
+                            <div class="dropdown-menu p-0 notifications shadow-lg rounded-4 overflow-hidden">
+                                <div class="card border-0">
+                                    <div class="card-header d-flex justify-content-between align-items-center p-4 border-bottom-0">
+                                        <h6 class="card-title mb-0">Notifications Center</h6>
+                                        <span class="badge bg-primary">19</span>
+                                    </div>
+                                    <ul class="list-unstyled list-group list-group-custom mb-0 rounded-0 li_animate">
+                                        <li class="list-group-item d-flex border-end-0 border-start-0">
+                                            <div class="d-flex flex-column flex-grow-1 p-2 overflow-hidden">
+                                                <h6 class="mb-0 fw-medium">
+                                                    <a href="#">7 New Feedback</a>
+                                                    <small class="float-end text-muted">Today</small>
+                                                </h6>
+                                                <small class="d-block text-truncate">It will give a smart finishing to your site</small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex border-end-0 border-start-0">
+                                            <div class="d-flex flex-column flex-grow-1 p-2 overflow-hidden">
+                                                <h6 class="mb-0 fw-medium">
+                                                    <a href="#">New User</a>
+                                                    <small class="float-end text-muted">10:45</small>
+                                                </h6>
+                                                <small class="d-block text-truncate">I feel great! Thanks team</small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex border-end-0 border-start-0">
+                                            <div class="d-flex flex-column flex-grow-1 p-2 overflow-hidden">
+                                                <h6 class="mb-0 fw-medium">
+                                                    <a href="#">Server Warning</a>
+                                                    <small class="float-end text-muted">10:50</small>
+                                                </h6>
+                                                <small class="d-block text-truncate">Your connection is not private</small>
+                                                <div class="mt-2 d-flex gap-2 align-items-center">
+                                                    <a href="#" class="btn btn-sm rounded-pill bg-primary text-white">Accept</a>
+                                                    <a href="#" class="btn btn-sm rounded-pill btn-dark text-white">Decline</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex border-end-0 border-start-0">
+                                            <div class="d-flex flex-column flex-grow-1 p-2 overflow-hidden">
+                                                <h6 class="mb-0 fw-medium">
+                                                    <a href="#">Issue Fixed</a>
+                                                    <small class="float-end text-muted">11:05</small>
+                                                </h6>
+                                                <small class="d-block text-truncate">WE have fix all Design bug with Responsive</small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex border-end-0 border-start-0">
+                                            <div class="d-flex flex-column flex-grow-1 p-2 overflow-hidden">
+                                                <h6 class="mb-0 fw-medium">
+                                                    <a href="#">7 New Orders</a>
+                                                    <small class="float-end text-muted">11:35</small>
+                                                </h6>
+                                                <small class="d-block text-truncate">You received a new order from Tina.</small>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="card-body py-2">
+                                        <a href="#" class="btn btn-link px-2">View all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dropdown Menu for Languages -->
+                        <div class="d-md-inline-block d-none dropdown">
+                            <a class="nav-link dropdown-toggle hover-svg" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Select Languages">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 5h7" />
+                                    <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+                                    <path d="M5 9c0 2.144 2.952 3.908 6.7 4" />
+                                    <path d="M12 20l4 -9l4 9" />
+                                    <path d="M19.1 18h-6.2" />
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu p-2 p-xl-3 language shadow-lg rounded-4 li_animate">
+                                <li class="mb-1"><a class="dropdown-item rounded-pill active" href="#">English</a></li>
+                                <li class="mb-1"><a class="dropdown-item rounded-pill" href="#">French</a></li>
+                                <li class="mb-1"><a class="dropdown-item rounded-pill" href="#">German</a></li>
+                            </ul>
+                        </div>
+                        <!-- Theme Light/Dark/Auto -->
+                        <div class="dropdown">
+                            <a class="dropdown-toggle d-flex" href="#" id="bd-theme" data-bs-toggle="dropdown" aria-expanded="false" aria-label="theme option light/dark">
+                                <svg class="theme-icon-active" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><use href="#sun-fill"></use></svg>
+                            </a>
+                            <ul class="dropdown-menu p-2 p-xl-3 language shadow-lg rounded-4 li_animate dropdown-menu-end" aria-labelledby="bd-theme">
+                                <li class="mb-1"><a class="dropdown-item rounded-pill active" href="#" data-bs-theme-value="light"><svg class="me-2" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><use href="#sun-fill"></use></svg> Light</a></li>
+                                <li class="mb-1"><a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="dark"><svg class="me-2" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><use href="#moon-stars-fill"></use></svg> Dark</a></li>
+                                <li class="mb-1"><a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="auto"><svg class="me-2" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><use href="#circle-half"></use></svg> Auto</a></li>
+                            </ul>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <symbol id="sun-fill" viewBox="0 0 24 24">
+                                    <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+                                </symbol>
+                                <symbol id="moon-stars-fill" viewBox="0 0 24 24">
+                                    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+                                    <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+                                    <path d="M19 11h2m-1 -1v2" />
+                                </symbol>
+                                <symbol id="circle-half" viewBox="0 0 24 24">
+                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                    <path d="M12 3l0 18" />
+                                    <path d="M12 9l4.65 -4.65" />
+                                    <path d="M12 14.3l7.37 -7.37" />
+                                    <path d="M12 19.6l8.85 -8.85" />
+                                </symbol>
+                            </svg>
+                        </div>
+                        <!-- Theme more setting -->
+                        <div>
+                            <a class="d-flex hover-svg" data-bs-toggle="offcanvas" href="#ThemeSettings" role="button" aria-controls="ThemeSettings" aria-label="thunder AI theme setting">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
+                                    <path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                    <path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                    <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                    <!-- Profile User Dropdown -->
+                    <li class="p-2 pe-0">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="profile-dropdown d-flex align-items-center">
+                                    <img class="rounded-circle border border-white shadow" src="{% static 'ogadmin/assets/images/profile-navbar.png' %}" width="30" height="30" alt="Profile">
+                                    <span class="h6 mb-0 ms-1 fw-normal nav-link p-0 d-none d-lg-block">Allie Grater</span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu rounded-4 shadow p-0 overflow-hidden">
+                                <div class="card border-0 w240 overflow-hidden">
+                                    <div class="card-body">
+                                        <h5 class="mb-1">Allie Grater</h5>
+                                        <p>allie.grater@gmail.com</p>
+                                        <a href="auth-signin.html" class="btn btn-primary text-uppercase w-100 rounded-pill">Sign out</a>
+                                    </div>
+                                    <div class="list-group m-2">
+                                        <a class="list-group-item rounded-pill list-group-item-action border-0" aria-label="Thunder Ai account Settings" href="account-settings.html">Settings</a>
+                                        <a class="list-group-item rounded-pill list-group-item-action border-0" aria-label="Thunder Ai my to list" href="todo.html">My Todo</a>
+                                        <a class="list-group-item rounded-pill list-group-item-action border-0" aria-label="Thunder Ai mu project" href="project.html">My Projects</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- End:: Header Right -->
+        </div>
+    </div>
+</header>
