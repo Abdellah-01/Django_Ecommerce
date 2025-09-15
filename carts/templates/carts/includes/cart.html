@@ -47,7 +47,7 @@
                 <!-- Decrease Quantity -->
                 <form action="{% url 'carts_urls:remove_cart_page' cart_item.id %}" method="POST" class="me-2">
                   {% csrf_token %}
-                  <button type="submit" class="qty-control__reduce btn btn-light">-</button>
+                  <button type="submit" class="qty-control__reduce btn">-</button>
                 </form>
 
                 <!-- Quantity Display (readonly) -->
@@ -63,16 +63,17 @@
 
                 <!-- Increase Quantity -->
                 <!-- increase -->
-    {% if cart_item.quantity < cart_item.available_stock %}
-      <form action="{% url 'carts_urls:add_cart_page' cart_item.product.id %}" method="POST" style="display:inline;">
-        {% csrf_token %}
-        <input type="hidden" name="size" value="{{ cart_item.size }}">
-        <input type="hidden" name="quantity" value="1">
-        <button type="submit" class="qty-control__increase" style="border: 0; background: transparent;">+</button>
-      </form>
-    {% else %}
-      <button class="qty-control__increase btn btn-light" disabled title="No more stock">+</button>
-    {% endif %}
+                {% if cart_item.quantity < cart_item.available_stock %}
+  <form action="{% url 'carts_urls:add_cart_page' cart_item.product.id %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <input type="hidden" name="size" value="{{ cart_item.size }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="qty-control__increase" style="border: 0; background: transparent;">+</button>
+  </form>
+{% else %}
+  <button class="qty-control__increase btn btn-light" disabled title="No more stock">+</button>
+{% endif %}
+
 
               </div>
               <!-- .qty-control -->

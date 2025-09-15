@@ -30,6 +30,12 @@ def cart_context(request):
         total += price * qty
         quantity += qty
 
+        # ✅ Attach available stock to each cart_item (Newly Added)
+        if item.size:
+            item.available_stock = item.product.stock_for_size(item.size)
+        else:
+            item.available_stock = 0
+
     return {
         "cart_items": cart_items,
         "total": total,
