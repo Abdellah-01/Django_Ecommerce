@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'carts',
     'pages',
     'orders',
+    'ogadmin',
 ]
 
 MIDDLEWARE = [

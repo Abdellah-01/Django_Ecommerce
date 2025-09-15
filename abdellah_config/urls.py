@@ -29,6 +29,6 @@ urlpatterns = [
     path('cart/', include('carts.urls')),
     path('pages/', include('pages.urls')),
     path('orders/', include('orders.urls')),
-    path('ogadmin/', include('admin.urls')),
+    path('ogadmin/', include('ogadmin.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
