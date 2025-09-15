@@ -165,21 +165,21 @@
                         <div class="dropdown">
                             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="profile-dropdown d-flex align-items-center">
-                                    <img class="rounded-circle border border-white shadow" src="{% static 'ogadmin/assets/images/profile-navbar.png' %}" width="30" height="30" alt="Profile">
-                                    <span class="h6 mb-0 ms-1 fw-normal nav-link p-0 d-none d-lg-block">Allie Grater</span>
+                                    <img class="rounded-circle border border-white shadow" src="{{ user.userprofile.profile_picture.url }}" width="30" height="30" alt="Profile">
+                                    <span class="h6 mb-0 ms-1 fw-normal nav-link p-0 d-none d-lg-block">{{user.username}}</span>
                                 </span>
                             </button>
                             <div class="dropdown-menu rounded-4 shadow p-0 overflow-hidden">
                                 <div class="card border-0 w240 overflow-hidden">
                                     <div class="card-body">
-                                        <h5 class="mb-1">Allie Grater</h5>
-                                        <p>allie.grater@gmail.com</p>
-                                        <a href="auth-signin.html" class="btn btn-primary text-uppercase w-100 rounded-pill">Sign out</a>
+                                        <h5 class="mb-1">{{user.full_name}}</h5>
+                                        <p>{{user.email}}</p>
+                                        <a href="{% url "ogadmin:logout_admin_page" %}" class="btn btn-primary text-uppercase w-100 rounded-0">Sign out</a>
                                     </div>
                                     <div class="list-group m-2">
-                                        <a class="list-group-item rounded-pill list-group-item-action border-0" aria-label="Thunder Ai account Settings" href="account-settings.html">Settings</a>
-                                        <a class="list-group-item rounded-pill list-group-item-action border-0" aria-label="Thunder Ai my to list" href="todo.html">My Todo</a>
-                                        <a class="list-group-item rounded-pill list-group-item-action border-0" aria-label="Thunder Ai mu project" href="project.html">My Projects</a>
+                                        <a class="list-group-item rounded-pill list-group-item-action border-0 rounded-0" aria-label="Thunder Ai account Settings" href="account-settings.html">Settings</a>
+                                        <a class="list-group-item rounded-pill list-group-item-action border-0 rounded-0" aria-label="Thunder Ai my to list" href="todo.html">My Todo</a>
+                                        <a class="list-group-item rounded-pill list-group-item-action border-0 rounded-0" aria-label="Thunder Ai mu project" href="project.html">My Projects</a>
                                     </div>
                                 </div>
                             </div>

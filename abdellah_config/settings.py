@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'abdellah_config.middleware.RedirectAuthenticatedUserMiddleware',
+    'abdellah_config.middleware.RedirectAuthenticatedAdminUserMiddleware',
     'abdellah_config.middleware.RestrictUnauthenticatedUserMiddleware'
 ]
 

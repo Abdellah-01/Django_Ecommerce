@@ -1,0 +1,38 @@
+{% extends "ogadmin/auth-base.html" %}
+{% load static %}
+
+{% block title %}<title>Abdellah Admin | Login</title>{% endblock title %}
+
+{% block content %}
+<!-- Left Side: Form -->
+<div class="col-lg-12 d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="w-100 px-lg-5 px-4 py-4" style="max-width: 420px;">
+        <h3 class="mb-3 fw-bold">Welcome Back 👋</h3>
+        {% for message in messages %}
+            <div class="rounded-0 alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        <!-- Login Form -->
+        <form action='{% url "ogadmin:login_admin_page" %}' method='POST' novalidate>
+            {% csrf_token %}
+            <div class="mb-3 control-group">
+                <label class="form-label">Email address</label>
+                <input type="email" class="form-control rounded-0" name="email" placeholder="you@example.com">
+            </div>
+            <div class="mb-3 control-group">
+                <div class="d-flex justify-content-between">
+                    <label class="form-label">Password</label>
+                    <a href="forgot-password.html" aria-label="Forgot password?"
+                        class="small text-primary">Forgot password?</a>
+                </div>
+                <input type="password" class="form-control rounded-0" name="password" placeholder="••••••••">
+            </div>
+            <div class="d-grid mt-4">
+                <input type='submit' class="btn btn-primary rounded-0" value='login'>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
