@@ -1,0 +1,67 @@
+{% extends "ogadmin/auth-base.html" %}
+{% load static %}
+{% block content %}
+    <section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <div class="card mb-0" style="background: transparent; box-shadow: none;">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-xxl-6 mx-auto">
+                                <div class="card mb-0 border-0 mb-0">
+                                    <div class="card-body p-sm-5 m-lg-4">
+                                        <div class="text-center mt-5">
+                                            <h5 class="fs-3xl">Welcome Back</h5>
+                                            <p class="text-muted">Sign in to continue to Steex.</p>
+                                        </div>
+                                        
+                                        <div class="p-2 mt-5">
+                                            {% for message in messages %}
+                                                <div class="rounded-0 alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                                                    {{ message }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            {% endfor %}
+                                            <form action="{% url "ogadmin:login_admin_page" %}" method="POST" class="row g-3 needs-validation" novalidate>
+                                                {% csrf_token %}
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                                    <div class="position-relative ">
+                                                        <input type="email" class="form-control  password-input" name="email" id="email" placeholder="Enter Your Email" required>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="mb-3">
+                                                    <div class="float-end">
+                                                        <a href="{% url "ogadmin:forget_password_admin_page" %}" class="text-muted">Forgot password?</a>
+                                                    </div>
+                                                    <label class="form-label" for="password-input">Password <span class="text-danger">*</span></label>
+                                                    <div class="position-relative auth-pass-inputgroup mb-3">
+                                                        <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" id="password-input" required>
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="mt-2">
+                                                    <button class="btn btn-primary w-100 rounded-0" type="submit" style="background: #28282b; border-color: #28282b;">Sign In</button>
+                                                </div>
+                        
+                                                
+                                            </form>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div><!-- end card -->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </section>
+{% endblock content %}
+        

@@ -1,0 +1,60 @@
+{% extends "ogadmin/auth-base.html" %}
+{% load static %}
+{% block content %}
+    <section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <div class="card mb-0" style="background: transparent; box-shadow: none;">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-xxl-6 mx-auto">
+                                <div class="card mb-0 border-0 shadow-none mb-0">
+                                    <div class="card-body p-sm-5 m-lg-4">
+                                        <div class="text-center mt-2">
+                                            <h5 class="fs-3xl">Forgot Password?</h5>
+                                            <p class="text-muted mb-4">Reset password with Steex</p>
+                                            <div class="pb-4">
+                                                <img src="{% static 'ogadmin/assets/images/auth/email.png' %}" alt="" class="avatar-md">
+                                            </div>
+                                        </div>
+
+                                        <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
+                                            Enter your email and instructions will be sent to you!
+                                        </div>
+                                        <div class="p-2">
+                                            {% for message in messages %}
+                                                <div class="rounded-0 alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                                                    {{ message }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            {% endfor %}
+                                            <form action="{% url "ogadmin:forget_password_admin_page" %}" method="POST" class="row g-3 needs-validation" novalidate>
+                                                {% csrf_token %}
+                                                <div class="mb-4">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="email" class="form-control password-input" name="email" id="email" placeholder="Enter Email" required >
+                                                </div>
+
+                                                <div class="text-center mt-4">
+                                                    <button class="btn btn-primary w-100 rounded-0" type="submit" style="background: #28282b; border-color: #28282b;">Send Reset Link</button>
+                                                </div>
+                                            </form><!-- end form -->
+                                        </div>
+                                        <div class="mt-4 text-center">
+                                            <p class="mb-0">Wait, I remember my password... <a href="auth-signin.html" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div><!-- end card -->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </section>
+{% endblock content %}

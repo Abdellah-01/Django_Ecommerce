@@ -39,7 +39,7 @@ def login(request):
     else:
         form = AdminLoginForm()
 
-    return render(request, 'ogadmin/auth-login.html', {'form': form})
+    return render(request, 'ogadmin/auth-signin.html', {'form': form})
 
 def forget_password(request):
     if request.method == 'POST':
@@ -49,7 +49,7 @@ def forget_password(request):
         except Account.DoesNotExist:
             user = None
 
-        if user:
+        if user is not None and getattr(user, 'is_superadmin', False):
             # Send reset email only to superadmin users
             current_site = get_current_site(request)
             mail_subject = "Reset Your Password (Super Admin)"
@@ -71,7 +71,7 @@ def forget_password(request):
         else:
             messages.error(request, "Super admin account with this email does not exist!")
 
-    return render(request, 'ogadmin/auth-forget-pwd.html')
+    return render(request, 'ogadmin/auth-pass-reset.html')
 
 @login_required(login_url='ogadmin:login_admin_page')
 def logout(request):
@@ -80,4 +80,7 @@ def logout(request):
 
 @login_required(login_url='ogadmin:login_admin_page')
 def overview(request):
-    return render(request, 'ogadmin/analytics.html')
+    return render(request, 'ogadmin/index.html')
+
+def products(request):
+    return render(request, 'ogadmin/product-list.html')
