@@ -1,52 +1,39 @@
 {% load static %}
-<!doctype html>
-<html lang="en" data-layout="vertical" data-sidebar="dark" data-sidebar-size="lg" data-preloader="disable" data-theme="default" data-topbar="light" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+    <meta charset="utf-8" />
+    <title>Log In | Boron - Responsive Neubrutalism Bootstrap 5 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
 
-        <meta charset="utf-8">
-        <title>Sign In | Steex - Admin & Dashboard Template</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="{% static 'ogadmin/assets/images/favicon.ico' %}">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'ogadmin/assets/images/favicon.ico' %}">
 
-        <!-- Fonts css load -->
-        <link rel="preconnect" href="https://fonts.googleapis.com/">
-        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-        <link id="fontsLink" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <!-- Theme Config Js -->
+    <script src="{% static 'ogadmin/assets/js/config.js' %}"></script>
 
-        <!-- Layout config Js -->
-        <script src="{% static 'ogadmin/assets/js/layout.js' %}"></script>
-        <!-- Bootstrap Css -->
-        <link href="{% static 'ogadmin/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-        <!-- Icons Css -->
-        <link href="{% static 'ogadmin/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css">
-        <!-- App Css-->
-        <link href="{% static 'ogadmin/assets/css/app.min.css' %}" rel="stylesheet" type="text/css">
-        <!-- custom Css-->
-        <link href="{% static 'ogadmin/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Vendor css -->
+    <link href="{% static 'ogadmin/assets/css/vendor.min.css' %}" rel="stylesheet" type="text/css" />
 
-    </head>
+    <!-- App css -->
+    <link href="{% static 'ogadmin/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" id="app-style" />
 
-    <body>
+    <!-- Icons css -->
+    <link href="{% static 'ogadmin/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+</head>
 
+<body>
 
-        {% block content %}{% endblock content %}
-        
-        <!-- JAVASCRIPT -->
-        <script src="{% static 'ogadmin/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'ogadmin/assets/libs/simplebar/simplebar.min.js' %}"></script>
-        <script src="{% static 'ogadmin/assets/js/plugins.js' %}"></script>
-        
+    {% block content %}{% endblock content %}
 
-        
-        <script src="{% static 'ogadmin/assets/js/pages/password-addon.init.js' %}"></script>
-        
-        <!--Swiper slider js-->
-        <script src="{% static 'ogadmin/assets/libs/swiper/swiper-bundle.min.js' %}"></script>
-        <script src="{% static 'ogadmin/assets/js/pages/form-validation.init.js' %}"></script>
-        
-        <!-- swiper.init js -->
-        <script src="{% static 'ogadmin/assets/js/pages/swiper.init.js' %}"></script>
+    <!-- Vendor js -->
+    <script src="{% static 'ogadmin/assets/js/vendor.min.js' %}"></script>
 
-    </body>
+    <!-- App js -->
+    <script src="{% static 'ogadmin/assets/js/app.js' %}"></script>
+
+</body>
 </html>

@@ -5,6 +5,9 @@ from django.contrib import messages
 
 from .forms import AdminLoginForm
 from accounts.models import Account
+from products.models import Product
+from abdellah_collections.models import Collection
+from category.models import Category
 
 # Authentication
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -31,7 +34,7 @@ def login(request):
             if user is not None and getattr(user, 'is_superadmin', False):
                 auth_login(request, user)
                 messages.success(request, "You are now logged in.")
-                return redirect('ogadmin:overview_admin_page')
+                return redirect('ogadmin:dashboard_admin_page')
             else:
                 messages.error(request, "Invalid email/password or not authorized.")
         else:
@@ -39,7 +42,7 @@ def login(request):
     else:
         form = AdminLoginForm()
 
-    return render(request, 'ogadmin/auth-signin.html', {'form': form})
+    return render(request, 'ogadmin/auth-login.html', {'form': form})
 
 def forget_password(request):
     if request.method == 'POST':
@@ -79,8 +82,29 @@ def logout(request):
     return redirect("ogadmin:login_admin_page")
 
 @login_required(login_url='ogadmin:login_admin_page')
-def overview(request):
-    return render(request, 'ogadmin/index.html')
+def dashboard(request):
+    active = 'active'
 
+    context = {
+        active : 'active'
+    }
+    return render(request, 'ogadmin/index.html', context)
+
+@login_required(login_url='ogadmin:login_admin_page')
 def products(request):
-    return render(request, 'ogadmin/product-list.html')
+    all_products = Product.objects.all().order_by("-created_at")
+    all_collections = Collection.objects.all()
+    all_categories = Category.objects.all()
+    product_count = all_products.count()
+
+    context = {
+        'all_products': all_products,
+        'product_count': product_count,
+        'all_collections': all_collections,
+        'all_categories': all_categories,
+    }
+
+    return render(request, 'ogadmin/product-list.html', context)
+
+def collections(request):
+    all_collections = Collection.objects.all().order_by('-created_at')

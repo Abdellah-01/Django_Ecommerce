@@ -1,1069 +1,896 @@
 {% extends "ogadmin/base.html" %}
 {% load static %}
+<!-- Start Page Content here -->
 {% block content %}
     <div class="page-content">
-        <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="card card-height-100 border-0 overflow-hidden">
-                        <div class="card-body p-0">
-                            <div class="row g-0">
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
-                                                    <i class="ph-wallet"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Total Revenue</p>
-                                                <h4 class="fw-semibold mb-3">$<span class="counter-value" data-target="750.36">0</span>M </h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i> +19.07 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-bottom rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
-                                                    <i class="ph-bag"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Orders</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value" data-target="684">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i> +8.13 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-end-md rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-light text-body rounded-circle fs-3">
-                                                    <i class="ph-eye"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Product Views</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value" data-target="113870">0</span></h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-danger fs-xs mb-0">
-                                                        <i class="ri-arrow-right-down-line fs-sm align-middle"></i> +2.01 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
+        <div class="page-container">
 
-                                <div class="col-md-6">
-                                    <!-- card -->
-                                    <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
-                                        <div class="card-body">
-                                            <div class="dropdown float-end">
-                                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Today</a>
-                                                    <a class="dropdown-item" href="#">Last Week</a>
-                                                    <a class="dropdown-item" href="#">Last Month</a>
-                                                    <a class="dropdown-item" href="#">Current Year</a>
-                                                </div>
-                                            </div>
-                                            <div class="avatar-sm">
-                                                <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-                                                    <i class="ph-users-three"></i>
-                                                </span>
-                                            </div>
-                                            <div class="mt-4">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Customers</p>
-                                                <h4 class="fw-semibold mb-3"><span class="counter-value" data-target="2500">0</span>k </h4>
-                                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                                    <h5 class="text-success fs-xs mb-0">
-                                                        <i class="ri-arrow-right-up-line fs-sm align-middle"></i> +10.42 %
-                                                    </h5>
-                                                    <p class="text-muted mb-0">than last week</p>
-                                                </div>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div><!-- end col -->
-                            </div> <!-- end row-->
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-8">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-xl-9">
-                                <div class="card-header border-0 align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            ALL
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            1M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-secondary btn-sm">
-                                            6M
-                                        </button>
-                                        <button type="button" class="btn btn-subtle-primary btn-sm">
-                                            1Y
-                                        </button>
-                                    </div>
-                                </div><!-- end card header -->
-                                <div class="card-body ps-0">
-                                    <div class="w-100">
-                                        <div id="market-overview" data-colors='["--tb-primary", "--tb-secondary"]' class="apex-charts" dir="ltr"></div>
-                                    </div>
-                                </div><!-- end card body -->
-                            </div>
-                            <div class="col-xl-3">
-                                <div class="card-body border-start-xl border-top border-top-xl-0 border-2 h-100">
-                                    <div>
-                                        <p class="text-muted mb-2">Budget (USD)</p>
-                                        <h4>$750.36M <small class="text-success fs-sm fw-normal"><i class="ph-arrow-up align-baseline"></i> 2.17%</small></h4>
-                                        <p class="text-muted text-truncate">Budget in than last years</p>
-                                        <div class="mx-3">
-                                            <div id="mini-chart-6" data-colors='["--tb-primary"]' class="apex-charts" dir="ltr"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <p class="text-muted mb-2">Payouts (USD)</p>
-                                        <h4>$7,45,123 <small class="text-danger fs-sm fw-normal"><i class="ph-arrow-down align-baseline"></i> -1.36%</small></h4>
-                                        <p class="text-muted text-truncate">Payouts in than last years</p>
-                                        <div class="mx-3">
-                                            <div id="mini-chart-7" data-colors='["--tb-info"]' class="apex-charts" dir="ltr"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addAmount">Add Amount</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card -->
-                </div><!-- end col -->
-            </div><!--end row-->
-
-            <div class="row">
-                <div class="col-xl-6">
-                    <!-- card -->
-                    <div class="card">
-                        <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Sales by Countries</h4>
-                            <div class="flex-shrink-0">
-                                <button type="button" class="btn btn-subtle-primary btn-sm">
-                                    Export Report
-                                </button>
-                            </div>
-                        </div><!-- end card header -->
-
-                        <!-- card body -->
-                        <div class="card-body">
-
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div id="world-map-line-markers" data-colors='["--tb-light"]' style="height: 340px"></div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-4">
-                                        <h6 class="text-muted mb-3 fw-medium fs-xs text-uppercase">Compared to last month</h6>
-                                        <h3><span class="counter-value" data-target="53736"></span> <small class="text-muted fw-normal fs-sm">Sales</small></h3>
-                                    </div>
-                                    <div>
-                                        <ul class="list-unstyled vstack gap-2">
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-primary align-bottom me-1"></i> United States <span class="float-end">15,364</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-secondary align-bottom me-1"></i> Greenland <span class="float-end">12,387</span>
-                                            </li>
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-info align-bottom me-1"></i> Serbia <span class="float-end">9,123</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-success align-bottom me-1"></i> Russia <span class="float-end">7,108</span>
-                                            </li>
-                                            <li class="p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-danger align-bottom me-1"></i> Brazil <span class="float-end">6,731</span>
-                                            </li>
-                                            <li class="bg-light-subtle p-2 rounded">
-                                                <i class="ri-checkbox-blank-circle-fill text-warning align-bottom me-1"></i> Sydney <span class="float-end">3,023</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card body -->
-                    </div>
-                    <!-- end card -->
+            
+            <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
+                <div class="flex-grow-1">
+                    <h4 class="fs-18 text-uppercase fw-bold mb-0">Full</h4>
                 </div>
-                <!-- end col -->
 
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Traffic Source</h4>
-                            <div class="dropdown card-header-dropdown float-end">
-                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="ph-dots-three-outline-vertical"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Today</a>
-                                    <a class="dropdown-item" href="#">Last Week</a>
-                                    <a class="dropdown-item" href="#">Last Month</a>
-                                    <a class="dropdown-item" href="#">Current Year</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="column_chart" data-colors='["--tb-primary", "--tb-light"]' class="apex-charts" dir="ltr"></div>
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Recent Sales</h4>
-                            <a href="#!" class="text-muted">View All <i class="ph-caret-right align-middle"></i></a>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 360px;">
-                                <table class="table mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-2.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Bethany Nienow</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$630.73</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-7.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Sonia Conn</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$1,452.64</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-4.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Talon Bradtke</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$478.87</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-5.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Tyrell Kerluke</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$82.14</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-6.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Ross Zieme</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$79.00</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-1.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Hollis Spencer</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$849.05</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{% static 'ogadmin/assets/images/users/48/avatar-8.jpg' %}" alt="" class="avatar-sm rounded-circle p-1">
-                                                    </div>
-                                                    <div class="flex-grow-1 overflow-hidden">
-                                                        <h6 class="fs-md mb-1">Cordia Grady</h6>
-                                                        <p class="text-muted text-truncate mb-0">03 Feb, 2023</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <h6 class="fs-md">$254.32</h6>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
-            </div><!--end row-->
+                <div class="text-end">
+                    <ol class="breadcrumb m-0 py-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Boron</a></li>
+                        
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Layout</a></li>
+                        
+                        <li class="breadcrumb-item active">Full</li>
+                    </ol>
+                </div>
+            </div>
+            
 
+            
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="card" id="contactList">
-                        <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Latest Orders</h4>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown sortble-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase fs-12">Sort by:
-                                        </span><span class="text-muted dropdown-title">Order Date</span> <i class="mdi mdi-chevron-down ms-1"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <button class="dropdown-item sort" data-sort="order_date">Order Date</button>
-                                        <button class="dropdown-item sort" data-sort="order_id">Order ID</button>
-                                        <button class="dropdown-item sort" data-sort="amount">Amount</button>
-                                        <button class="dropdown-item sort" data-sort="status">Status</button>
+                <div class="col">
+                    <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Orders</h5>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                        <div class="user-img fs-42 flex-shrink-0">
+                                            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                <iconify-icon icon="solar:case-round-minimalistic-bold-duotone"></iconify-icon>
+                                            </span>
+                                        </div>
+                                        <h3 class="mb-0 fw-bold">687.3k</h3>
                                     </div>
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 9.19%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
-                                    <thead class="text-muted table-light">
-                                        <tr>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="order_date">Order Date</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="order_id">Order ID</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="shop">Shop</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="customer">Customers</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="products">Products</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="amount">Amount</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="status">Status</th>
-                                            <th scope="col" class="sort cursor-pointer" data-sort="rating">Rating</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list">
-                                        <tr>
-                                            <td class="order_date">
-                                                15 Feb, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html" class="fw-medium link-primary">#TBS250011</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="{% static 'ogadmin/assets/images/companies/img-7.png' %}" alt="" class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Alex Smith
-                                            </td>
-                                            <td class="products">Clothes</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$109.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-secondary-subtle text-secondary">New</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0">-</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                14 Feb, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html" class="fw-medium link-primary">#TBS250010</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="{% static 'ogadmin/assets/images/companies/img-1.png' %}" alt="" class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Jansh Brown
-                                            </td>
-                                            <td class="products">Kitchen Storage</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$149.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i class="ph-star align-baseline text-warning"></i> 4.5</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                30 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html" class="fw-medium link-primary">#TBS250009</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="{% static 'ogadmin/assets/images/companies/img-2.png' %}" alt="" class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Ayaan Bowen
-                                            </td>
-                                            <td class="products">Bike Accessories</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$215.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-danger-subtle text-danger">Out of Delivered</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i class="ph-star align-baseline text-warning"></i> 4.9</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                25 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html" class="fw-medium link-primary">#TBS250008</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="{% static 'ogadmin/assets/images/companies/img-3.png' %}" alt="" class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Prezy Mark
-                                            </td>
-                                            <td class="products">Furniture</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$199.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-primary-subtle text-primary">Shipping</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i class="ph-star align-baseline text-warning"></i> 4.3</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                19 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html" class="fw-medium link-primary">#TBS250007</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="{% static 'ogadmin/assets/images/companies/img-4.png' %}" alt="" class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Vihan Hudda
-                                            </td>
-                                            <td class="products">Bags and Wallets</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$330.00</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-success-subtle text-success">Delivered</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i class="ph-star align-baseline text-warning"></i> 4.7</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td class="order_date">
-                                                16 Jan, 2023
-                                            </td>
-                                            <td class="order_id">
-                                                <a href="apps-ecommerce-order-overview.html" class="fw-medium link-primary">#TBS250006</a>
-                                            </td>
-                                            <td class="shop">
-                                                <img src="{% static 'ogadmin/assets/images/companies/img-5.png' %}" alt="" class="avatar-xxs rounded-circle">
-                                            </td>
-                                            <td class="customer">
-                                                Vihan Hudda
-                                            </td>
-                                            <td class="products">Bags and Wallets</td>
-                                            <td class="amount">
-                                                <span class="fw-medium">$745.11</span>
-                                            </td>
-                                            <td class="status">
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                            </td>
-                                            <td class="rating">
-                                                <h5 class="fs-md fw-medium mb-0"><i class="ph-star align-baseline text-warning"></i> 4.6</h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
-                                <div class="noresult" style="display: none">
-                                    <div class="text-center">
-                                        <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
-                                        <h5 class="mt-2">Sorry! No Result Found</h5>
-                                        <p class="text-muted mb-0">We've searched more than 150+ transactions We did not find any transactions for you search.</p>
+                        </div><!-- end col -->
+
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Returns</h5>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                        <div class="user-img fs-42 flex-shrink-0">
+                                            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
+                                            </span>
+                                        </div>
+                                        <h3 class="mb-0 fw-bold">9.62k</h3>
                                     </div>
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 26.87%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-lg-4">
+                        </div><!-- end col -->
+
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Avg. Sales Earnings</h5>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                        <div class="user-img fs-42 flex-shrink-0">
+                                            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
+                                            </span>
+                                        </div>
+                                        <h3 class="mb-0 fw-bold">$98.24 <small class="text-muted">USD</small></h3>
+                                    </div>
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 3.51%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div><!-- end col -->
+
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Number of Visits</h5>
+                                    <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                        <div class="user-img fs-42 flex-shrink-0">
+                                            <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                <iconify-icon icon="solar:eye-bold-duotone"></iconify-icon>
+                                            </span>
+                                        </div>
+                                        <h3 class="mb-0 fw-bold">87.94M</h3>
+                                    </div>
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 1.05%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center border-bottom border-dashed">
+                                    <h4 class="header-title">Top Traffic by Source</h4>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div id="multiple-radialbar" class="apex-charts" data-colors="#6ac75a,#313a46,#ce7e7e,#669776"></div>
+
+                                    <div class="row mt-2">
+                                        <div class="col">
+                                            <div class="d-flex justify-content-between align-items-center p-1">
+                                                <div>
+                                                    <i class="ti ti-circle-filled fs-12 align-middle me-1 text-primary"></i>
+                                                    <span class="align-middle fw-semibold">Direct</span>
+                                                </div>
+                                                <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 965</span>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between align-items-center p-1">
+                                                <div>
+                                                    <i class="ti ti-circle-filled fs-12 text-success align-middle me-1"></i>
+                                                    <span class="align-middle fw-semibold">Social</span>
+                                                </div>
+                                                <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 75</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex justify-content-between align-items-center p-1">
+                                                <div>
+                                                    <i class="ti ti-circle-filled fs-12 text-secondary align-middle me-1"></i>
+                                                    <span class="align-middle fw-semibold"> Marketing</span>
+                                                </div>
+                                                <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 102</span>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between align-items-center p-1">
+                                                <div>
+                                                    <i class="ti ti-circle-filled fs-12 text-danger align-middle me-1"></i>
+                                                    <span class="align-middle fw-semibold">Affiliates</span>
+                                                </div>
+                                                <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 96</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+
+                        <div class="col-xxl-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="header-title">Overview</h4>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle drop-arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-danger bg-opacity-10">
+                                    <div class="row text-center">
+                                        <div class="col-md-3 col-6">
+                                            <p class="text-muted mt-3 mb-1">Revenue</p>
+                                            <h4 class="mb-3">
+                                                <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
+                                                <span>$29.5k</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <p class="text-muted mt-3 mb-1">Expenses</p>
+                                            <h4 class="mb-3">
+                                                <span class="ti ti-square-rounded-arrow-up text-danger me-1"></span>
+                                                <span>$15.07k</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <p class="text-muted mt-3 mb-1">Investment</p>
+                                            <h4 class="mb-3">
+                                                <span class="ti ti-chart-infographic me-1"></span>
+                                                <span>$3.6k</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <p class="text-muted mt-3 mb-1">Savings</p>
+                                            <h4 class="mb-3">
+                                                <span class="ti ti-pig me-1"></span>
+                                                <span>$6.9k</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body pt-0">
+                                    <div dir="ltr">
+                                        <div id="revenue-chart" class="apex-charts" data-colors="#6ac75a,#313a46,#ce7e7e,#669776"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+
+                    <div class="row">
+                        <div class="col-xxl-6">
+                            <div class="card">
+                                <div class="d-flex card-header justify-content-between align-items-center">
+                                    <h4 class="header-title">Brands Listing</h4>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-secondary">Add Brand <i class="ti ti-plus ms-1"></i></a>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="bg-success bg-opacity-10 py-1 text-center">
+                                        <p class="m-0"><b>69</b> Active brands out of <span class="fw-medium">102</span></p>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-custom table-centered table-sm table-nowrap table-hover mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-md flex-shrink-0 me-2">
+                                                                <span class="avatar-title bg-primary-subtle rounded-circle">
+                                                                    <img src="{% static 'ogadmin/assets/images/products/logo/logo-1.svg' %}" alt="" height="22">
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-muted fs-12">Clothing</span> <br />
+                                                                <h5 class="fs-14 mt-1">Zaroan - Brazil</h5>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Established</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">Since 2020</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Stores</span> <br />
+                                                        <h5 class="fs-14 mt-1 fw-normal">1.5k</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Products</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">8,950</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Status</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
+                                                    </td>
+                                                    <td style="width: 30px;">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti ti-dots-vertical"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-md flex-shrink-0 me-2">
+                                                                <span class="avatar-title bg-info-subtle rounded-circle">
+                                                                    <img src="{% static 'ogadmin/assets/images/products/logo/logo-4.svg' %}" alt="" height="22">
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-muted fs-12">Clothing</span> <br />
+                                                                <h5 class="fs-14 mt-1">Jocky-Johns - USA</h5>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Established</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">Since 1985</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Stores</span> <br />
+                                                        <h5 class="fs-14 mt-1 fw-normal">205</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Products</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">1,258</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Status</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
+                                                    </td>
+                                                    <td style="width: 30px;">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti ti-dots-vertical"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-md flex-shrink-0 me-2">
+                                                                <span class="avatar-title bg-secondary-subtle rounded-circle">
+                                                                    <img src="{% static 'ogadmin/assets/images/products/logo/logo-5.svg' %}" alt="" height="22">
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-muted fs-12">Lifestyle</span> <br />
+                                                                <h5 class="fs-14 mt-1">Ginne - India</h5>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Established</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">Since 2001</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Stores</span> <br />
+                                                        <h5 class="fs-14 mt-1 fw-normal">89</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Products</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">338</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Status</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
+                                                    </td>
+                                                    <td style="width: 30px;">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti ti-dots-vertical"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-md flex-shrink-0 me-2">
+                                                                <span class="avatar-title bg-danger-subtle rounded-circle">
+                                                                    <img src="{% static 'ogadmin/assets/images/products/logo/logo-6.svg' %}" alt="" height="22">
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-muted fs-12">Fashion</span> <br />
+                                                                <h5 class="fs-14 mt-1">DDoen - Brazil</h5>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Established</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">Since 1995</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Stores</span> <br />
+                                                        <h5 class="fs-14 mt-1 fw-normal">650</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Products</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">6,842</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Status</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
+                                                    </td>
+                                                    <td style="width: 30px;">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti ti-dots-vertical"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-md flex-shrink-0 me-2">
+                                                                <span class="avatar-title bg-primary-subtle rounded-circle">
+                                                                    <img src="{% static 'ogadmin/assets/images/products/logo/logo-8.svg' %}" alt="" height="22">
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-muted fs-12">Manufacturing</span> <br />
+                                                                <h5 class="fs-14 mt-1">Zoddiak - Canada</h5>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Established</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">Since 1963</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Stores</span> <br />
+                                                        <h5 class="fs-14 mt-1 fw-normal">109</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Products</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal">952</h5>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted fs-12">Status</span>
+                                                        <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
+                                                    </td>
+                                                    <td style="width: 30px;">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti ti-dots-vertical"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end table-responsive-->
+                                </div> <!-- end card-body-->
+
+                                <div class="card-footer border-0">
+                                    <div class="align-items-center justify-content-between row text-center text-sm-start">
+                                        <div class="col-sm">
+                                            <div class="text-muted">
+                                                Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">15</span> Results
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-auto mt-3 mt-sm-0">
+                                            <ul class="pagination pagination-boxed pagination-sm mb-0 justify-content-center">
+                                                <li class="page-item disabled">
+                                                    <a href="#" class="page-link"><i class="ti ti-chevron-left"></i></a>
+                                                </li>
+                                                <li class="page-item active">
+                                                    <a href="#" class="page-link">1</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a href="#" class="page-link">2</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a href="#" class="page-link">3</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a href="#" class="page-link"><i class="ti ti-chevron-right"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> <!-- -->
+                                </div>
+
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+
+                        <div class="col-xxl-6">
+                            <div class="card">
+                                <div class="card-header d-flex flex-wrap align-items-center gap-2 border-bottom border-dashed">
+                                    <h4 class="header-title me-auto">Top Selling Products</h4>
+
+                                    <div class="d-flex gap-2 justify-content-end text-end">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-secondary">Import <i class="ti ti-download ms-1"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Export <i class="ti ti-file-export ms-1"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-custom align-middle table-nowrap table-hover mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="avatar-lg">
+                                                            <img src="{% static 'ogadmin/assets/images/products/p-1.png' %}" alt="Product-1" class="img-fluid rounded-2">
+                                                        </div>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">ASOS High Waist Tshirt</a></h5>
+                                                        <span class="text-muted fs-12">07 April 2024</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">$79.49</h5>
+                                                        <span class="text-muted fs-12">Price</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">82</h5>
+                                                        <span class="text-muted fs-12">Quantity</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center justify-content-end">
+                                                            <div class="me-2">
+                                                                <h5 class="fs-14 my-1">$6,518.18</h5>
+                                                                <span class="text-muted fs-12">Amount</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="avatar-lg">
+                                                            <img src="{% static 'ogadmin/assets/images/products/p-7.png' %}" alt="Product-1" class="img-fluid rounded-2">
+                                                        </div>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Marco Single Sofa</a></h5>
+                                                        <span class="text-muted fs-12">25 March 2024</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">$128.50</h5>
+                                                        <span class="text-muted fs-12">Price</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">37</h5>
+                                                        <span class="text-muted fs-12">Quantity</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center justify-content-end">
+                                                            <div class="me-2">
+                                                                <h5 class="fs-14 my-1">$4,754.50</h5>
+                                                                <span class="text-muted fs-12">Amount</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="avatar-lg">
+                                                            <img src="{% static 'ogadmin/assets/images/products/p-4.png' %}" alt="Product-1" class="img-fluid rounded-2">
+                                                        </div>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Smart Headphone </a></h5>
+                                                        <span class="text-muted fs-12">17 March 2024</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">$39.99</h5>
+                                                        <span class="text-muted fs-12">Price</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">64</h5>
+                                                        <span class="text-muted fs-12">Quantity</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center justify-content-end">
+                                                            <div class="me-2">
+                                                                <h5 class="fs-14 my-1">$2,559.36</h5>
+                                                                <span class="text-muted fs-12">Amount</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="avatar-lg">
+                                                            <img src="{% static 'ogadmin/assets/images/products/p-5.png' %}" alt="Product-1" class="img-fluid rounded-2">
+                                                        </div>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Lightweight Jacket</a></h5>
+                                                        <span class="text-muted fs-12">12 March 2024</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">$20.00</h5>
+                                                        <span class="text-muted fs-12">Price</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">184</h5>
+                                                        <span class="text-muted fs-12">Quantity</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center justify-content-end">
+                                                            <div class="me-2">
+                                                                <h5 class="fs-14 my-1">$3,680.00</h5>
+                                                                <span class="text-muted fs-12">Amount</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="avatar-lg">
+                                                            <img src="{% static 'ogadmin/assets/images/products/p-6.png' %}" alt="Product-1" class="img-fluid rounded-2">
+                                                        </div>
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Marco Shoes</a></h5>
+                                                        <span class="text-muted fs-12">05 March 2024</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">$28.49</h5>
+                                                        <span class="text-muted fs-12">Price</span>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1">69</h5>
+                                                        <span class="text-muted fs-12">Quantity</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center justify-content-end">
+                                                            <div class="me-2">
+                                                                <h5 class="fs-14 my-1">$1,965.81</h5>
+                                                                <span class="text-muted fs-12">Amount</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end table-responsive-->
+                                </div> <!-- end card-body-->
+
+                                <div class="card-footer border-0">
+                                    <div class="align-items-center justify-content-between row text-center text-sm-start">
+                                        <div class="col-sm">
+                                            <div class="text-muted">
+                                                Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">10</span> Results
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-auto mt-3 mt-sm-0">
+                                            <ul class="pagination pagination-boxed pagination-sm mb-0 justify-content-center">
+                                                <li class="page-item disabled">
+                                                    <a href="#" class="page-link"><i class="ti ti-chevron-left"></i></a>
+                                                </li>
+                                                <li class="page-item active">
+                                                    <a href="#" class="page-link">1</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a href="#" class="page-link">2</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a href="#" class="page-link"><i class="ti ti-chevron-right"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> <!-- -->
+                                </div>
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+
+                </div> <!-- end col-->
+
+                <div class="col-auto info-sidebar">
                     <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h4 class="card-title mb-0 flex-grow-1">Popular Products</h4>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="fw-semibold text-uppercase">Sort by:
-                                        </span><span class="text-muted">Today<i class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Today</a>
-                                        <a class="dropdown-item" href="#">Yesterday</a>
-                                        <a class="dropdown-item" href="#">Last 7 Days</a>
-                                        <a class="dropdown-item" href="#">Last 30 Days</a>
-                                        <a class="dropdown-item" href="#">This Month</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 333px;">
-                                <div class="vstack gap-2">
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="{% static 'ogadmin/assets/images/products/32/img-1.png' %}" alt="" class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Craft Women Black Sling Bag</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 487
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 936
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$15.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="{% static 'ogadmin/assets/images/products/32/img-2.png' %}" alt="" class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Unique Men's Wrist Watch</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 452
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1420
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$84.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="{% static 'ogadmin/assets/images/products/32/img-3.png' %}" alt="" class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Twiala Floral Dress</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 562
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1348
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$149.99</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="{% static 'ogadmin/assets/images/products/32/img-4.png' %}" alt="" class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Tokyo Fancy Bomber Jacket</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 644
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 1540
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$245.00</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="{% static 'ogadmin/assets/images/products/32/img-5.png' %}" alt="" class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Aster Dress 2XL / Royal Blue</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 841
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 985
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$74.63</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 border border-dashed">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <div class="avatar-title bg-light rounded">
-                                                    <img src="{% static 'ogadmin/assets/images/products/32/img-6.png' %}" alt="" class="avatar-xs">
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <a href="#!">
-                                                    <h6 class="fs-md mb-2">Craft Women Black Sling Bag</h6>
-                                                </a>
-                                                <ul class="hstack list-unstyled gap-2 mb-0 fs-sm fw-medium text-muted">
-                                                    <li>
-                                                        <i class="ph-star align-baseline"></i> 763
-                                                    </li>
-                                                    <li>
-                                                        <i class="ph-shopping-cart align-baseline"></i> 763
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-end">
-                                                <h5 class="fs-md text-primary mb-0">$245.74</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <button class="btn btn-secondary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#productModal"><i class="ph-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
-            </div><!--end row-->
-
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title mb-0 flex-grow-1">Orders Status</h5>
-                            <div class="dropdown card-header-dropdown">
-                                <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="ph-dots-three-outline-vertical"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="#">Current Years</a>
-                                    <a class="dropdown-item" href="#">Last Years</a>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
-                            <div class="mb-3 pb-1 text-center">
-                                <h6 class="mb-0">01 Jan, 2022 - 01 Jan, 2023</h6>
-                            </div>
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">New</p>
-                                        <h6 class="mb-0">307</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: 50%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Pending</p>
-                                        <h6 class="mb-0">177</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="width: 37%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Rejected</p>
-                                        <h6 class="mb-0">39</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width: 12%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Returns</p>
-                                        <h6 class="mb-0">17</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger bg-opacity-75" style="width: 3%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Dispatched</p>
-                                        <h6 class="mb-0">661</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: 57%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center mb-3">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Delivered</p>
-                                        <h6 class="mb-0">1320</h6>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 86%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <div class="row align-items-center">
-                                <div class="col-lg-4">
-                                    <div class="hstack gap-2">
-                                        <p class="mb-0 flex-grow-1">Cancelled</p>
-                                        <h6 class="mb-0">74</h6>
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-lg-8">
-                                    <div class="progress animated-progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width: 13%"></div>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-4 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex">
-                            <h5 class="card-title flex-grow-1 mb-0">Recent Activity</h5>
-                            <div class="flex-shrink-0">
-                                <a href="#!" class="btn btn-subtle-info btn-sm">View More <i class="ph-caret-right align-middle"></i></a>
-                            </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div data-simplebar class="px-3" style="max-height: 258px;">
-                                <div class="acitivity-timeline acitivity-main">
-                                    <div class="acitivity-item d-flex">
-                                        <div class="flex-shrink-0 avatar-xs acitivity-avatar">
-                                            <div class="avatar-title bg-success-subtle text-success rounded-circle">
-                                                <i class="ph-shopping-cart"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Purchased by James Price</h6>
-                                            <p class="text-muted mb-2">Product noise evolve smartwatch </p>
-                                            <small class="mb-0 text-muted">05:57 AM Today</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="{% static 'ogadmin/assets/images/users/32/avatar-2.jpg' %}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Natasha Carey have liked the products</h6>
-                                            <p class="text-muted mb-2">Allow users to like products in your WooCommerce store.</p>
-                                            <small class="mb-0 text-muted">25 Dec, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-secondary-subtle text-secondary">
-                                                    <i class="mdi mdi-sale fs-14"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Today offers by <a href="apps-ecommerce-seller-details.html" class="link-secondary">Digitech Galaxy</a></h6>
-                                            <p class="text-muted mb-2">Offer is valid on orders of $230 Or above for selected products only.</p>
-                                            <small class="mb-0 text-muted">12 Dec, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-warning-subtle text-warning">
-                                                    <i class="ri-bookmark-fill"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Favoried Product</h6>
-                                            <p class="text-muted mb-2">Esther James have favorited product.</p>
-                                            <small class="mb-0 text-muted">25 Nov, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item py-3 d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-secondary-subtle text-secondary">
-                                                    <i class="mdi mdi-sale fs-14"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Flash sale starting <span class="text-primary">Tomorrow.</span></h6>
-                                            <p class="text-muted mb-2">Flash sale by <a href="javascript:void(0);" class="link-secondary fw-medium">Zoetic Fashion</a></p>
-                                            <small class="mb-0 text-muted">22 Oct, 2022</small>
-                                        </div>
-                                    </div>
-                                    <div class="acitivity-item d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avatar-xs acitivity-avatar">
-                                                <div class="avatar-title rounded-circle bg-info-subtle text-info">
-                                                    <i class="ri-line-chart-line"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1 lh-base">Monthly sales report</h6>
-                                            <p class="text-muted mb-2"><span class="text-danger">2 days left</span> notification to submit the monthly sales report. <a href="javascript:void(0);" class="link-warning text-decoration-underline">Reports Builder</a></p>
-                                            <small class="mb-0 text-muted">15 Oct, 2022</small>
-                                        </div>
-                                    </div>
+                            <div class="d-flex mb-3 justify-content-between align-items-center">
+                                <h4 class="header-title">Recent Orders:</h4>
+                                <div>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-primary rounded-circle btn-icon"><i class="ti ti-plus"></i></a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div><!--end col-->
-                <div class="col-xl-4 col-lg-6">
-                    <div class="card card-height-100">
-                        <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title flex-grow-1 mb-0">Insight</h5>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown card-header-dropdown">
-                                    <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="text-muted">This Month<i class="mdi mdi-chevron-down ms-1"></i></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">This Month</a>
-                                        <a class="dropdown-item" href="#">Last Month</a>
-                                    </div>
+                            <div class="d-flex align-items-center gap-2 position-relative mb-2">
+                                <div class="avatar-md flex-shrink-0">
+                                    <img src="{% static 'ogadmin/assets/images/products/p-6.png' %}" alt="product-pic" height="36">
+                                </div>
+                                <div>
+                                    <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Marco Shoes</a></h5>
+                                    <span class="text-muted fs-12">$29.99 x 1 = $29.99</span>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="badge badge-soft-success px-2 py-1">Sold</span>
                                 </div>
                             </div>
+
+                            <div class="d-flex align-items-center gap-2 position-relative mb-2">
+                                <div class="avatar-md flex-shrink-0">
+                                    <img src="{% static 'ogadmin/assets/images/products/p-1.png' %}" alt="product-pic" height="36">
+                                </div>
+                                <div>
+                                    <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">High Waist Tshirt</a></h5>
+                                    <span class="text-muted fs-12">$9.99 x 3 = $29.97</span>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="badge badge-soft-success px-2 py-1">Sold</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 position-relative mb-2">
+                                <div class="avatar-md flex-shrink-0">
+                                    <img src="{% static 'ogadmin/assets/images/products/p-3.png' %}" alt="product-pic" height="36">
+                                </div>
+                                <div>
+                                    <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Comfirt Chair</a></h5>
+                                    <span class="text-muted fs-12">$49.99 x 1 = $49.99</span>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="badge badge-soft-danger px-2 py-1">Return</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 position-relative mb-2">
+                                <div class="avatar-md flex-shrink-0">
+                                    <img src="{% static 'ogadmin/assets/images/products/p-4.png' %}" alt="product-pic" height="36">
+                                </div>
+                                <div>
+                                    <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Smart Headphone</a></h5>
+                                    <span class="text-muted fs-12">$39.99 x 1 = $39.99</span>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="badge badge-soft-success px-2 py-1">Sold</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 position-relative">
+                                <div class="avatar-md flex-shrink-0">
+                                    <img src="{% static 'ogadmin/assets/images/products/p-2.png' %}" alt="product-pic" height="36">
+                                </div>
+                                <div>
+                                    <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Laptop Bag</a></h5>
+                                    <span class="text-muted fs-12">$12.99 x 4 = $51.96</span>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="badge badge-soft-success px-2 py-1">Sold</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 text-center">
+                                <a href="#!" class="text-decoration-underline fw-semibold ms-auto link-offset-2 link-dark">View All</a>
+                            </div>
                         </div>
+                        <div class="card-body p-0 border-top border-dashed">
+                            <h4 class="header-title px-3 mb-2 mt-3">Recent Activity:</h4>
+                            <div class="my-3 px-3" data-simplebar style="max-height: 370px;">
+                                <div class="timeline-alt py-0">
+                                    <div class="timeline-item">
+                                        <i class="ti ti-basket bg-info-subtle text-info timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">You sold an item</a>
+                                            <span class="mb-1">Paul Burgess just purchased “My - Admin Dashboard”!</span>
+                                            <p class="mb-0 pb-3">
+                                                <small class="text-muted">5 minutes ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <i class="ti ti-rocket bg-primary-subtle text-primary timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Product on the Theme Market</a>
+                                            <span class="mb-1">Reviewer added
+                                                <span class="fw-medium">Admin Dashboard</span>
+                                            </span>
+                                            <p class="mb-0 pb-3">
+                                                <small class="text-muted">30 minutes ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <i class="ti ti-message bg-info-subtle text-info timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Robert Delaney</a>
+                                            <span class="mb-1">Send you message
+                                                <span class="fw-medium">"Are you there?"</span>
+                                            </span>
+                                            <p class="mb-0 pb-3">
+                                                <small class="text-muted">2 hours ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <i class="ti ti-photo bg-primary-subtle text-primary timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Audrey Tobey</a>
+                                            <span class="mb-1">Uploaded a photo
+                                                <span class="fw-medium">"Error.jpg' %}"</span>
+                                            </span>
+                                            <p class="mb-0 pb-3">
+                                                <small class="text-muted">14 hours ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <i class="ti ti-basket bg-info-subtle text-info timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">You sold an item</a>
+                                            <span class="mb-1">Paul Burgess just purchased “My - Admin Dashboard”!</span>
+                                            <p class="mb-0 pb-3">
+                                                <small class="text-muted">16 hours ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <i class="ti ti-rocket bg-primary-subtle text-primary timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Product on the Bootstrap Market</a>
+                                            <span class="mb-1">Reviewer added
+                                                <span class="fw-medium">Admin Dashboard</span>
+                                            </span>
+                                            <p class="mb-0 pb-3">
+                                                <small class="text-muted">22 hours ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <i class="ti ti-message bg-info-subtle text-info timeline-icon"></i>
+                                        <div class="timeline-item-info">
+                                            <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Robert Delaney</a>
+                                            <span class="mb-1">Send you message
+                                                <span class="fw-medium">"Are you there?"</span>
+                                            </span>
+                                            <p class="mb-0 pb-2">
+                                                <small class="text-muted">2 days ago</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end timeline -->
+                            </div> <!-- end slimscroll -->
+                        </div>
+
                         <div class="card-body">
-                            <div class="vstack gap-2">
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">The recognition that one has a mental illness</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Review market characteristics and trends</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Digital analytics data including site analytics</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Check uikings theme and give customer support</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Success stories and case studies</h6>
-                                </div>
-                                <div class="border py-2 px-3 w-100 rounded d-flex align-items-center gap-2">
-                                    <i class="bi bi-check2-square text-primary"></i>
-                                    <h6 class="mb-0">Preferences & purchase activity</h6>
-                                </div>
-                            </div>
+                            <div class="card mb-0 bg-warning bg-opacity-25">
+                                <div class="card-body" style="background-image: url(assets/images/png/arrows.svg); background-size: contain; background-repeat: no-repeat; background-position: right bottom;">
+                                    <h1><i class="ti ti-receipt-tax text-warning"></i></h1>
+                                    <h4 class="text-warning">Estimated tax for this year</h4>
+                                    <p class="text-warning text-opacity-75">We kindly encourage you to review your recent transactions</p>
+                                    <a href="#!" class="btn btn-sm rounded-pill btn-info">Activate Now</a>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div>
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div> <!-- end row-->
+
+        </div> <!-- container -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="page-container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start">
+                        <script>document.write(new Date().getFullYear())</script> © Boron - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-end footer-links d-none d-md-block">
+                            <a href="javascript: void(0);">About</a>
+                            <a href="javascript: void(0);">Support</a>
+                            <a href="javascript: void(0);">Contact Us</a>
                         </div>
                     </div>
-                </div><!--end col-->
-            </div><!--end row-->
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
 
-        </div>
-        <!-- container-fluid -->
     </div>
-{% endblock %}
+{% endblock content %}
+<!-- End Page content -->

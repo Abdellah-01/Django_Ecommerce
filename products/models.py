@@ -175,6 +175,13 @@ class Product(models.Model):
         """Return first gallery image or fallback to main product image"""
         gallery = self.gallery.first()
         return gallery.image.url if gallery else None
+    
+    @property
+    def inventory_summary(self):
+        total_stock = sum(self.stock_for_size(size) for size in self.sizes)
+        num_variants = len(self.sizes)
+        return total_stock, num_variants  # return as tuple
+
 
     
 class ReviewRating(models.Model):

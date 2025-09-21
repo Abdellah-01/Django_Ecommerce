@@ -28,7 +28,7 @@ class RedirectAuthenticatedAdminUserMiddleware:
             path_to_redirect = [reverse('ogadmin:login_admin_page')]
 
             if request.path in path_to_redirect:
-                return redirect(reverse('ogadmin:overview_admin_page'))
+                return redirect(reverse('ogadmin:dashboard_admin_page'))
             
         response = self.get_response(request)
         return response
