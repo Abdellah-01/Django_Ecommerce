@@ -1,0 +1,308 @@
+{% extends "ogadmin/base.html" %}
+{% load static %}
+<!-- Start Page Content here -->
+{% block content %}
+    <div class="page-content">
+
+        <div class="page-container">
+
+            
+            <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
+                <div class="flex-grow-1">
+                    <h4 class="fs-18 text-uppercase fw-bold mb-0">Categories</h4>
+                </div>
+
+                <div class="text-end">
+                    <ol class="breadcrumb m-0 py-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Boron</a></li>
+                        
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
+                        
+                        <li class="breadcrumb-item active">Categories</li>
+                    </ol>
+                </div>
+            </div>
+            
+
+            
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header border-bottom border-light">
+                            <div class="row justify-content-between gy-2 position-relative">
+                                <div class="col-lg-3">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control ps-4" placeholder="Search Collection">
+                                        <i class="ti ti-search position-absolute top-50 translate-middle-y ms-2"></i>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-xl-4 col-xxl-3">
+                                    <div>
+                                        <div class="d-flex flex-wrap flex-lg-nowrap gap-2 justify-content-end">
+                                            <!-- 🗑️ Delete Button (hidden by default) -->
+                                            <button id="deleteBtn" class="btn btn-danger d-none">
+                                                <i class="ti ti-trash me-1"></i>Delete
+                                            </button>
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="ti ti-plus me-1"></i>Add Product
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover text-nowrap mb-0">
+                                <thead class="bg-light-subtle">
+                                    <tr>
+                                        <th class="ps-3" style="width: 50px;">
+                                            <input type="checkbox" class="form-check-input" id="customCheck1">
+                                        </th>
+                                        <th>Categories</th>
+                                        <th>Price Range</th>
+                                        <th>Total Products</th>
+                                        <th class="text-center" style="width: 120px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if categories %}
+                                        {% for category in categories %}
+                                            <tr>
+                                                <td class="ps-3">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-start align-items-center gap-3">
+                                                        <div class="avatar-md">
+                                                            <img src="{{category.category_image.url}}" alt="Product-1" class="img-fluid rounded-2">
+                                                        </div>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="fw-medium text-nowrap">{{ category.title }}</span>
+                                                            <span class="text-dark fw-semibold">
+                                                                Products: 
+                                                                <span class="fw-normal">
+                                                                    {% for product_name in category.my_products %}
+                                                                        {{ product_name }}{% if not forloop.last %} , {% endif %}
+                                                                    {% endfor %}..
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </td>
+                                                <td>₹{{category.starting_price}} - ₹{{category.max_price}}</td>
+                                                <td class="text-center">{{category.total_products}}</td>
+                                                <td class="pe-3">
+                                                    <div class="hstack gap-1 justify-content-end">
+                                                        <a href="javascript:void(0);" class="btn btn-soft-primary btn-icon btn-sm rounded-circle"> <i class="ti ti-eye"></i></a>
+                                                        <a href="javascript:void(0);" class="btn btn-soft-danger btn-icon btn-sm rounded-circle"> <i class="ti ti-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="9" class="text-center py-4">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <i class="ti ti-package-off text-muted fs-32 mb-2"></i>
+                                                    <span class="fw-semibold text-muted">No Collection Found</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-end">
+                                <ul class="pagination mb-0 justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a href="#" class="page-link"><i class="ti ti-chevrons-left"></i></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a href="#" class="page-link">1</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a href="#" class="page-link">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a href="#" class="page-link">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a href="#" class="page-link"><i class="ti ti-chevrons-right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> <!-- end card-->
+                </div><!-- end col -->
+            </div><!-- end row -->
+
+        </div> <!-- container -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="page-container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start">
+                        <script>document.write(new Date().getFullYear())</script> © Boron - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-end footer-links d-none d-md-block">
+                            <a href="javascript: void(0);">About</a>
+                            <a href="javascript: void(0);">Support</a>
+                            <a href="javascript: void(0);">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalBodyText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const table = document.querySelector('table tbody');
+    const selectAllCheckbox = document.getElementById('customCheck1'); // Top checkbox
+    const rowCheckboxes = table.querySelectorAll('input[type="checkbox"]');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    const modalBodyText = document.getElementById('modalBodyText');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+    // Toggle all checkboxes
+    selectAllCheckbox.addEventListener('change', function () {
+        rowCheckboxes.forEach(cb => cb.checked = selectAllCheckbox.checked);
+        toggleDeleteBtn();
+    });
+
+    // Toggle individual row checkboxes
+    rowCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function () {
+            // If any checkbox is unchecked, uncheck select all
+            if (!cb.checked) selectAllCheckbox.checked = false;
+            // If all checkboxes are checked, check select all
+            if ([...rowCheckboxes].every(c => c.checked)) selectAllCheckbox.checked = true;
+
+            toggleDeleteBtn();
+        });
+    });
+
+    // Show/hide delete button
+    function toggleDeleteBtn() {
+        const anyChecked = [...rowCheckboxes].some(c => c.checked);
+        deleteBtn.classList.toggle('d-none', !anyChecked);
+    }
+
+    deleteBtn.addEventListener('click', function () {
+        // Collect selected rows
+        const selectedRows = [...rowCheckboxes].filter(c => c.checked);
+        const selectedNames = selectedRows.map(row => 
+            row.closest('tr').querySelector('td:nth-child(2) .fw-medium').textContent
+        );
+
+        // Count of selected categories
+        const count = selectedRows.length;
+        const plural = count > 1 ? 'Categories' : 'Category';
+
+        // Display names and count in modal
+        modalBodyText.innerHTML = `
+            Are you sure you want to delete the following <b>${count} ${plural}</b>?<br>
+            <ul>${selectedNames.map(name => `<li>${name}</li>`).join('')}</ul>
+        `;
+
+        deleteModal.show();
+    });
+
+
+
+    // Confirm delete action
+    confirmDeleteBtn.addEventListener('click', function () {
+        // Here you can trigger your AJAX call or form submission
+        // For demo, just removing the rows from DOM
+        rowCheckboxes.forEach(cb => {
+            if (cb.checked) cb.closest('tr').remove();
+        });
+
+        selectAllCheckbox.checked = false;
+        toggleDeleteBtn();
+        deleteModal.hide();
+    });
+});
+</script>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.querySelector('input[placeholder="Search Collection"]');
+        const table = document.querySelector('table tbody');
+        const rows = table.querySelectorAll('tr');
+
+        searchInput.addEventListener('keyup', function () {
+            const filter = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const categoryName = row.querySelector('td:nth-child(2) .fw-medium')?.textContent.toLowerCase() || '';
+                const productNames = row.querySelector('td:nth-child(2) span.fw-normal')?.textContent.toLowerCase() || '';
+                
+                if (categoryName.includes(filter) || productNames.includes(filter)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Show "No Products Found" if nothing matches
+            const noDataRow = document.createElement('tr');
+            noDataRow.id = 'no-data-row';
+            noDataRow.innerHTML = `
+                <td colspan="9" class="text-center py-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="ti ti-package-off text-muted fs-32 mb-2"></i>
+                        <span class="fw-semibold text-muted">No Collection Found</span>
+                    </div>
+                </td>
+            `;
+            
+            if (visibleCount === 0) {
+                if (!document.querySelector('#no-data-row')) {
+                    table.appendChild(noDataRow);
+                }
+            } else {
+                const existingNoData = document.querySelector('#no-data-row');
+                if (existingNoData) existingNoData.remove();
+            }
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
 
 from .forms import AdminLoginForm
@@ -106,5 +106,37 @@ def products(request):
 
     return render(request, 'ogadmin/product-list.html', context)
 
+@login_required(login_url='ogadmin:login_admin_page')
+def view_product(request, product_slug):
+    # Fetch product by slug or return 404
+    product = get_object_or_404(Product, slug=product_slug)
+
+    # Optional: if you want related collections/categories
+    collections = Collection.objects.all()
+    categories = Category.objects.all()
+
+    context = {
+        'product': product,
+        'collections': collections,
+        'categories': categories,
+    }
+
+    return render(request, 'ogadmin/product-details.html', context)
+
+
 def collections(request):
-    all_collections = Collection.objects.all().order_by('-created_at')
+    collections = Collection.objects.all().order_by('-id')
+
+    context = {
+        'collections': collections,
+    }
+    return render(request, 'ogadmin/collection.html', context)
+
+def categories(request):
+    categories = Category.objects.all().order_by('-id')
+
+    context = {
+        'categories': categories,
+    }
+
+    return render(request, 'ogadmin/categories.html', context)

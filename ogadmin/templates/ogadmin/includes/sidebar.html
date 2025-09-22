@@ -2,7 +2,7 @@
 <div class="sidenav-menu">
 
     <!-- Brand Logo -->
-    <a href="index.html" class="logo">
+    <a href="{% url "ogadmin:dashboard_admin_page" %}" class="logo">
         <span class="logo-light">
             <span class="logo-lg"><img src="{% static 'ogadmin/assets/images/logo.png' %}" alt="logo"></span>
             <span class="logo-sm text-center"><img src="{% static 'ogadmin/assets/images/logo-sm.png' %}" alt="small logo"></span>
@@ -30,7 +30,7 @@
         <ul class="side-nav">
 
             <li class="side-nav-item">
-                <a href="index.html" class="side-nav-link">
+                <a href="{% url "ogadmin:dashboard_admin_page" %}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
                     <span class="menu-text"> Dashboard </span>
                     <span class="badge bg-success rounded-pill">5</span>
@@ -47,14 +47,37 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="apps-email.html" class="side-nav-link">
+                <a href="{% url "ogadmin:collections_admin_page" %}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-table-filled"></i></span>
                     <span class="menu-text"> Collections </span>
                 </a>
             </li>
 
             <li class="side-nav-item">
-                <a href="apps-email.html" class="side-nav-link">
+                <a href="{% url "ogadmin:categories_admin_page" %}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-tag"></i></span>
+                    <span class="menu-text"> Categories </span>
+                </a>
+            </li>
+
+            <li class="side-nav-title mt-2">Orders</li>
+
+            <li class="side-nav-item">
+                <a href="all.hml" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-package"></i></span>
+                    <span class="menu-text"> All Orders </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="check.html" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-table-filled"></i></span>
+                    <span class="menu-text"> Abondent Checkouts </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="indes.html" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-tag"></i></span>
                     <span class="menu-text"> Categories </span>
                 </a>

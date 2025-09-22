@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from django.db.models import Min
+from django.db.models import Min, Max
 
 
 class Category(models.Model):
@@ -40,3 +40,27 @@ class Category(models.Model):
         min_price = Product.objects.filter(category=self, is_available=True).aggregate(Min('price'))['price__min']
         return min_price
 
+    @property
+    def max_price(self):
+        """Return the maximum product price in this collection"""
+        from products.models import Product
+        max_price = Product.objects.filter(category=self, is_available=True).aggregate(Max('price'))['price__max']
+        return max_price
+    
+    @property
+    def total_products(self):
+        """Return the total number of available products in this category"""
+        from products.models import Product
+        return Product.objects.filter(category=self, is_available=True).count()
+    
+    @property
+    def my_products(self):
+        """
+        Returns a list of the first three product names associated with this category.
+        """
+        from products.models import Product
+        return list(
+            Product.objects.filter(category=self, is_available=True)
+            .order_by('id')[:2]
+            .values_list('product_name', flat=True)
+        )

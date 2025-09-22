@@ -24,28 +24,29 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <div class="d-flex flex-wrap justify-content-between gap-2">
-                            <!-- 🔍 Search Input + Delete Button -->
-                            <div class="d-flex align-items-center gap-2">
+                        <div class="row justify-content-between gy-2 position-relative">
+                            <div class="col-lg-3">
                                 <div class="position-relative">
                                     <input type="text" id="searchInput" class="form-control ps-4" placeholder="Search products">
                                     <i class="ti ti-search position-absolute top-50 translate-middle-y ms-2"></i>
                                 </div>
-
-                                <!-- 🗑️ Delete Button (hidden by default) -->
-                                <button id="deleteBtn" class="btn btn-danger d-none">
-                                    <i class="ti ti-trash me-1"></i>Delete
-                                </button>
                             </div>
 
-
-                            <!-- ➕ Add Product Button -->
-                            <div>
-                                <a href="apps-ecommerce-products-add.html" class="btn btn-primary">
-                                    <i class="ti ti-plus me-1"></i>Add Products
-                                </a>
+                            <div class="col-sm-6 col-xl-4 col-xxl-3">
+                                <div>
+                                    <div class="d-flex flex-wrap flex-lg-nowrap gap-2 justify-content-end">
+                                        <!-- 🗑️ Delete Button (hidden by default) -->
+                                        <button id="deleteBtn" class="btn btn-danger d-none">
+                                            <i class="ti ti-trash me-1"></i>Delete
+                                        </button>
+                                        <button type="button" class="btn btn-primary">
+                                            <i class="ti ti-plus me-1"></i>Add Product
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
 
                         
                     </div>
@@ -104,7 +105,7 @@
                                             {% endif %}
                                             <td class="pe-3">
                                                 <div class="hstack gap-1 justify-content-end">
-                                                    <a href="javascript:void(0);" class="btn btn-soft-primary btn-icon btn-sm rounded-circle"><i class="ti ti-eye"></i></a>
+                                                    <a href="{% url 'ogadmin:view_products_admin_page' product.slug %}" class="btn btn-soft-primary btn-icon btn-sm rounded-circle"><i class="ti ti-eye"></i></a>
                                                     <a href="javascript:void(0);" class="btn btn-soft-success btn-icon btn-sm rounded-circle"><i class="ti ti-edit fs-16"></i></a>
                                                     <a href="javascript:void(0);" class="btn btn-soft-danger btn-icon btn-sm rounded-circle"><i class="ti ti-trash"></i></a>
                                                 </div>
@@ -267,9 +268,14 @@ document.addEventListener("DOMContentLoaded", function () {
     deleteBtn.addEventListener("click", function () {
         const selectedProducts = [...checkboxes].filter(cb => cb.checked);
         const productNames = selectedProducts.map(cb => cb.closest("tr").querySelector("td:nth-child(3)").innerText.trim());
-        modalBodyText.innerHTML = `Are you sure you want to delete <strong>${productNames.length} product(s)</strong>?<br>${productNames.join(", ")}`;
+
+        // Create bullet points
+        const listItems = productNames.map(name => `<li>${name}</li>`).join("");
+        modalBodyText.innerHTML = `Are you sure you want to delete <strong>${productNames.length} product(s)</strong>?<br><ul>${listItems}</ul>`;
+
         deleteModal.show();
     });
+
 
     // Confirm deletion
     confirmDeleteBtn.addEventListener("click", function () {
