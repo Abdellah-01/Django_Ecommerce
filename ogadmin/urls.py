@@ -17,4 +17,8 @@ urlpatterns = [
     path('products/<str:product_slug>', views.view_product, name='view_products_admin_page'),
     path('collections', views.collections, name='collections_admin_page'),
     path('categories', views.categories, name='categories_admin_page'),
+
+    # Orders
+    path('orders', views.orders, name='orders_admin_page'),
+    path('abandoned_checkouts', views.abandoned_checkouts, name='abandoned_checkouts_admin_page')
 ]

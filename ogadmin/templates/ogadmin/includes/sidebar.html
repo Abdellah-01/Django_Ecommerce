@@ -63,16 +63,16 @@
             <li class="side-nav-title mt-2">Orders</li>
 
             <li class="side-nav-item">
-                <a href="all.hml" class="side-nav-link">
+                <a href="{% url "ogadmin:orders_admin_page" %}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-package"></i></span>
                     <span class="menu-text"> All Orders </span>
                 </a>
             </li>
 
             <li class="side-nav-item">
-                <a href="check.html" class="side-nav-link">
+                <a href="{% url "ogadmin:abandoned_checkouts_admin_page" %}" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-table-filled"></i></span>
-                    <span class="menu-text"> Abondent Checkouts </span>
+                    <span class="menu-text"> Abandoned Checkouts </span>
                 </a>
             </li>
 

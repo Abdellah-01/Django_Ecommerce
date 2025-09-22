@@ -2,12 +2,15 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from .forms import AdminLoginForm
 from accounts.models import Account
 from products.models import Product
 from abdellah_collections.models import Collection
 from category.models import Category
+from orders.models import Order
+from carts.models import Cart, CartItem
 
 # Authentication
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -140,3 +143,38 @@ def categories(request):
     }
 
     return render(request, 'ogadmin/categories.html', context)
+
+def orders(request):
+    status = request.GET.get('status')  # Get status from query params
+    orders = Order.objects.filter(is_ordered=True).order_by('-created_at')
+
+    if status and status != "all":
+        orders = orders.filter(status=status)
+
+    # Pagination: 20 orders per page
+    paginator = Paginator(orders, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'orders': page_obj,  # paginated orders
+        'status_choices': Order.STATUS,
+    }
+
+    return render(request, 'ogadmin/orders.html', context)
+
+def abandoned_checkouts(request):
+    status = request.GET.get('status')
+    
+    # Orders that were started but not completed
+    orders = Order.objects.filter(is_ordered=False).order_by('-created_at')
+
+    # For users with no abandoned Order, also check carts
+    carts = CartItem.objects.filter(is_active=True).select_related("product", "user")
+
+    context = {
+        'orders': orders,
+        'carts': carts,  # add carts separately
+        'status_choices': Order.STATUS,
+    }
+    return render(request, 'ogadmin/abandoned-checkouts.html', context)

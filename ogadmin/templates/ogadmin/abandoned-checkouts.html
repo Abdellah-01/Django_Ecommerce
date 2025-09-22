@@ -1,0 +1,406 @@
+{% extends "ogadmin/base.html" %}
+{% load custom_filters %}
+{% load static %}
+<!-- Start Page Content here -->
+{% block content %}
+    <div class="page-content">
+
+        <!-- Start Content-->
+        <div class="page-container">
+
+            
+            <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
+                <div class="flex-grow-1">
+                    <h4 class="fs-18 text-uppercase fw-bold mb-0">Orders</h4>
+                </div>
+
+                <div class="text-end">
+                    <ol class="breadcrumb m-0 py-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Boron</a></li>
+                        
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
+                        
+                        <li class="breadcrumb-item active">Orders</li>
+                    </ol>
+                </div>
+            </div>
+            
+
+            
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header border-bottom border-light">
+                            <div class="row justify-content-between g-3">
+                                <div class="col-lg-6">
+                                    <div class="row g-3">
+                                        <div class="col-lg-4">
+                                            <div class="position-relative">
+                                                <input type="text" id="orderSearch" class="form-control ps-4" placeholder="Search Order">
+                                                <i class="ti ti-search position-absolute top-50 translate-middle-y ms-2"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="flex-grow-1 d-flex align-items-center">
+
+                                                <div class="flex-grow-1">
+                                                    <select class="form-select my-1 my-md-0" id="status-select">
+                                                        <option value="">Select</option>
+                                                        <option value="all" {% if request.GET.status == "all" %}selected{% endif %}>All</option>
+                                                        {% for value, label in status_choices %}
+                                                            <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                                                                {{ label }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="monthRange" 
+                                                    data-provider="flatpickr" data-date-format="d M" data-range-date="true"
+                                                    value="{{ selected_date_range }}">
+                                                <span class="input-group-text bg-primary border-primary text-white">
+                                                    <i class="ti ti-calendar fs-15"></i>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="text-md-end mt-3 mt-md-0">
+                                        <button type="button" class="btn btn-success waves-effect waves-light me-1"><i class="ti ti-settings me-1"></i>More Setting</button>
+                                        <button type="button" class="btn btn-dark waves-effect waves-light"><i class="ti ti-filter me-1"></i> Filters</button>
+                                    </div>
+                                </div><!-- end col-->
+                            </div>
+                        </div> <!-- end card-body-->
+
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <thead class="bg-light-subtle">
+                                    <tr>
+                                        <th class="ps-3" style="width: 50px;">
+                                            <input type="checkbox" class="form-check-input" id="customCheck1">
+                                        </th>
+                                        <th>Order ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th>Order Date</th>
+                                        <th>Payment Status</th>
+                                        <th>Order Status</th>
+                                        <th class="text-center" style="width: 120px;">Action</th>
+                                    </tr>
+                                </thead><!-- end thead -->
+                                <tbody>
+                                    {% if orders %}
+                                        {% for order in orders %}
+                                            <tr>
+                                                <!-- Checkbox -->
+                                                <td class="ps-3">
+                                                    <input type="checkbox" class="form-check-input" id="order-{{ order.id }}">
+                                                </td>
+
+                                                <!-- Order Number -->
+                                                <td>
+                                                    <a href="" class="text-muted fw-medium">
+                                                        #{{ order.order_number }}
+                                                    </a>
+                                                </td>
+
+                                                <!-- Customer Name -->
+                                                <td>
+                                                    <h5 class="mb-0 text-dark">
+                                                        <img src="{{ order.user.userprofile.profile_picture.url|default:'assets/images/users/default-avatar.jpg' }}" 
+                                                            alt="" 
+                                                            class="rounded-circle avatar-xs me-1">
+                                                        <a href="#!" class="text-dark">{{ order.full_name }}</a>
+                                                    </h5>
+                                                </td>
+
+                                                <!-- Ordered Products -->
+                                                <td>
+                                                    {% if order.orderproduct_set.exists %}
+                                                        {% for item in order.orderproduct_set.all %}
+                                                            {% if forloop.counter <= 2 %}
+                                                                <p class="mb-1">
+                                                                    <span class="text-dark fw-semibold">P{{ forloop.counter }} -</span> 
+                                                                    {{ item.product.product_name }} ({{ item.size|upper|default:"-" }})
+                                                                </p>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if order.orderproduct_set.count > 2 %}
+                                                            <p class="mb-0 text-muted">+{{ order.orderproduct_set.count|add:"-2" }} more products</p>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% for cart_item in carts %}
+                                                            {% if cart_item.user == order.user %}
+                                                                <p class="mb-1">
+                                                                    {{ cart_item.product.product_name }} ({{ cart_item.size|upper|default:"-" }})
+                                                                </p>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </td>
+
+
+                                                <!-- Quantities -->
+                                                <td>
+                                                    {% if order.orderproduct_set.exists %}
+                                                        {% for item in order.orderproduct_set.all %}
+                                                            {% if forloop.counter <= 2 %}
+                                                                <p class="mb-1">{{ item.quantity }} Piece{% if item.quantity > 1 %}s{% endif %}</p>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if order.orderproduct_set.count > 2 %}
+                                                            <p class="mb-0 text-muted">+{{ order.orderproduct_set.count|add:"-2" }} more items</p>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% for cart_item in carts %}
+                                                            {% if cart_item.user == order.user %}
+                                                                <p class="mb-1">{{ cart_item.quantity }} Piece{% if cart_item.quantity > 1 %}s{% endif %}</p>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </td>
+
+
+                                                <!-- Order Total -->
+                                                <td>
+                                                    ${{ order.order_total }}
+                                                </td>
+
+                                                <!-- Order Date -->
+                                                <td>
+                                                    {{ order.created_at|human_time }}
+                                                </td>
+
+
+                                                <!-- Payment Status -->
+                                                <td>
+                                                    <h5 class="mb-0">
+                                                        {% if order.payment %}
+                                                            <span class="badge text-success border border-success-subtle fs-11 p-1">
+                                                                {{ order.payment.status }}
+                                                            </span>
+                                                        {% else %}
+                                                            <span class="badge text-warning border border-warning-subtle fs-11 p-1">Pending</span>
+                                                        {% endif %}
+                                                    </h5>
+                                                </td>
+
+                                                <!-- Order Status -->
+                                                <td>
+                                                    <h5 class="mb-0">
+                                                        <span class="badge badge-soft-danger fs-11 p-1">
+                                                                <i class="ti ti-x me-1 align-middle"></i>
+                                                                Not Recovered
+                                                            </span>
+                                                    </h5>
+                                                </td>
+
+
+                                                <!-- Actions -->
+                                                <td class="pe-3">
+                                                    <div class="hstack gap-1 justify-content-end">
+                                                        <a href="" class="btn btn-soft-primary btn-icon btn-sm rounded-circle">
+                                                            <i class="ti ti-eye"></i>
+                                                        </a>
+                                                        <a href="" class="btn btn-soft-danger btn-icon btn-sm rounded-circle">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10" class="text-center py-4">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <i class="ti ti-package-off text-muted fs-32 mb-2"></i>
+                                                    <span class="fw-semibold text-muted">No Orders Found</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr id="noOrdersRow" class="no-orders" style="display: none;">
+                                        <td colspan="10" class="text-center py-4">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <i class="ti ti-package-off text-muted fs-32 mb-2"></i>
+                                                <span class="fw-semibold text-muted">No Orders Found</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table><!-- end table -->
+                        </div>
+
+                        <div class="card-footer d-flex align-items-center justify-content-end">
+                            <ul class="pagination justify-content-center mb-0">
+                                {% if orders.has_previous %}
+                                    <li class="page-item">
+                                        <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ orders.previous_page_number }}" class="page-link"><i class="ti ti-chevrons-left"></i></a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link"><i class="ti ti-chevrons-left"></i></a>
+                                    </li>
+                                {% endif %}
+
+                                {% for num in orders.paginator.page_range %}
+                                    {% if orders.number == num %}
+                                        <li class="page-item active"><a class="page-link">{{ num }}</a></li>
+                                    {% elif num >= orders.number|add:"-2" and num <= orders.number|add:"2" %}
+                                        <li class="page-item">
+                                            <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ num }}" class="page-link">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if orders.has_next %}
+                                    <li class="page-item">
+                                        <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ orders.next_page_number }}" class="page-link"><i class="ti ti-chevrons-right"></i></a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link"><i class="ti ti-chevrons-right"></i></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+
+        </div> <!-- container -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="page-container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start">
+                        <script>document.write(new Date().getFullYear())</script> © Boron - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-end footer-links d-none d-md-block">
+                            <a href="javascript: void(0);">About</a>
+                            <a href="javascript: void(0);">Support</a>
+                            <a href="javascript: void(0);">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    
+
+
+    <!-- Current Month -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date();
+
+            // First day of current month
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            // Last day of current month
+            const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+            flatpickr("#monthRange", {
+                mode: "range",
+                dateFormat: "d M",
+                defaultDate: [firstDay, lastDay]  // ✅ sets current month
+            });
+        });
+
+    </script>
+
+    <!-- Search And Select Orders -->
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // ====== SEARCH FUNCTIONALITY ======
+            const searchInput = document.getElementById("orderSearch");
+            const tableRows = document.querySelectorAll("tbody tr:not(.no-orders)"); // exclude "no orders" row
+            const noOrdersRow = document.getElementById("noOrdersRow"); // special row
+
+            searchInput.addEventListener("keyup", function () {
+                const searchTerm = this.value.toLowerCase();
+                let matchFound = false;
+
+                tableRows.forEach(row => {
+                    const orderNumber = row.querySelector("td:nth-child(2)")?.innerText.toLowerCase() || "";
+                    const customerName = row.querySelector("td:nth-child(3)")?.innerText.toLowerCase() || "";
+                    const productNames = row.querySelector("td:nth-child(4)")?.innerText.toLowerCase() || "";
+
+                    if (
+                        orderNumber.includes(searchTerm) ||
+                        customerName.includes(searchTerm) ||
+                        productNames.includes(searchTerm)
+                    ) {
+                        row.style.display = "";
+                        matchFound = true;
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+
+                // toggle no orders row
+                noOrdersRow.style.display = matchFound ? "none" : "";
+            });
+
+
+            // ====== SELECT FUNCTIONALITY ======
+            const selectAllCheckbox = document.getElementById("customCheck1");
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']:not(#customCheck1)");
+
+            selectAllCheckbox.addEventListener("change", function () {
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener("change", function () {
+                    if (!this.checked) {
+                        selectAllCheckbox.checked = false;
+                    } else if (document.querySelectorAll("tbody input[type='checkbox']:checked").length === checkboxes.length) {
+                        selectAllCheckbox.checked = true;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const statusSelect = document.getElementById("status-select");
+
+            statusSelect.addEventListener("change", function () {
+                const selectedStatus = this.value;
+                const url = new URL(window.location.href);
+                if (selectedStatus === "all" || selectedStatus === "") {
+                    url.searchParams.delete("status");
+                } else {
+                    url.searchParams.set("status", selectedStatus);
+                }
+                url.searchParams.delete("page"); // reset page when filtering
+                window.location.href = url.toString();
+            });
+        });
+    </script>
+
+
+    
+    
+{% endblock %}
