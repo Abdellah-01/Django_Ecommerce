@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'carts',
     'pages',
     'orders',
-    'ogadmin',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'abdellah_config.middleware.RedirectAuthenticatedUserMiddleware',
-    'abdellah_config.middleware.RedirectAuthenticatedAdminUserMiddleware',
     'abdellah_config.middleware.RestrictUnauthenticatedUserMiddleware'
 ]
 

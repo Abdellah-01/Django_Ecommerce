@@ -58,6 +58,19 @@ class Order(models.Model):
     
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+    
+    def full_address(self):
+        """Return a clean full address string"""
+        parts = [
+            self.address_line_1,
+            self.address_line_2 if self.address_line_2 else "",
+            self.city,
+            self.state,
+            self.country,
+            f"PIN: {self.pincode}"
+        ]
+        # Remove empty parts and join with commas
+        return ", ".join([part for part in parts if part])
 
 
     
